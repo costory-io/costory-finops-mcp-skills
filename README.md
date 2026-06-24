@@ -48,7 +48,7 @@ Easily trigger built-in FinOps automation skills:
 
 ## 💡 Real-World Examples
 
-The true power of this **FinOps MCP** lies in natively bringing **AWS costs to Claude** and enabling seamless **Automation FinOps** workflows. Here is how it looks in practice using the core `query` tool:
+The true power of this **FinOps MCP** lies in natively bringing **AWS costs to Claude** and enabling seamless **Automation FinOps** workflows. Here is how it looks in practice:
 
 ### 1. Analyze AWS Costs with Period Comparisons
 Stop logging into billing consoles. Ask Claude to query exactly what you need:
@@ -64,20 +64,37 @@ Stop logging into billing consoles. Ask Claude to query exactly what you need:
 }
 ```
 
-### 2. Automation FinOps: Business Metric Correlation
-Combine infrastructure costs with product analytics:
-> *"What is our cost per request?"*
+### 2. Automation FinOps: Advanced Smart Alerts
+Set up complex anomaly detection natively within your chat using CEL expressions:
+> *"Create a Slack alert if our 7-day rolling AWS cost exceeds $1,000 AND has spiked by more than $1,000 compared to the previous week."*
 
-**How the MCP handles it:**
+**How the MCP handles it (`create_alert`):**
 ```json
 {
-  "queries": [
-    { "type": "cost", "name": "a", "metricId": "cost", "currency": "USD" },
-    { "type": "metric", "name": "b", "metricId": "<requests-metric-id>" },
-    { "type": "formula", "name": "c", "formula": "a / b" }
-  ],
-  "from": "2026-03-01",
-  "to": "2026-03-31"
+  "name": "7-Day Cost Spike Alert",
+  "queries": [{ "type": "cost", "name": "a", "metricId": "cost", "currency": "USD", "filterCel": "cos_provider in [\"AWS\"]" }],
+  "condition": "rollingSum(a, 7, DAY) > 1000 && (rollingSum(a, 7, DAY) - timeShift(rollingSum(a, 7, DAY), 7, DAY)) > 1000",
+  "dedup": { "kind": "CALENDAR", "calendarUnit": "WEEK" },
+  "notificationChannel": "SLACK",
+  "slackChannelId": "C01ABC"
+}
+```
+
+### 3. Automated Cost Reports via Slack
+Put your FinOps reporting on autopilot with scheduled Top/Flop movers:
+> *"Send a weekly Slack digest showing our top 10 and bottom 5 cost movers by service, comparing this week to last week."*
+
+**How the MCP handles it (`create_report`):**
+```json
+{
+  "scheduledPeriod": "WEEKLY",
+  "widget": {
+    "type": "TOP_FLOP",
+    "queries": [{ "type": "cost", "name": "a", "metricId": "cost", "currency": "USD", "groupBy": "cos_service_name" }],
+    "topN": 10,
+    "flopN": 5
+  },
+  "destinations": [{ "destinationType": "SLACK", "channelId": "C01ABC" }]
 }
 ```
 
