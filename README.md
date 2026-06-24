@@ -129,7 +129,7 @@ This plugin connects to the Costory MCP server, exposing a rich suite of up-to-d
 
 ### 📅 Events
 - `list_events` — correlate cost changes with tracked infrastructure events
-- `create_event` — annotate cost changes automatically and tie them to widgets
+- `create_event` — annotate cost changes and attach them to a context. *Example: You detect a large spike with your MCP and learn from the data team it was a one-time mislabeled backfill. Attach an event to the cost to remember what happened and add this context to your FinOps memory.*
 
 ### 📢 Reports & Notifications
 - `list_available_destinations` — discover available Slack channels, Teams channels, and email destinations
