@@ -48,30 +48,49 @@ Easily trigger built-in FinOps automation skills:
 
 ## 🛠️ MCP Tools Reference
 
-This plugin connects to the Costory MCP server, exposing a rich suite of FinOps and Automation MCP tools organized by workflow:
+This plugin connects to the Costory MCP server, exposing a rich suite of up-to-date FinOps and Automation MCP tools organized by workflow:
 
-### 🔍 Discovery & Context (FinOps MCP Core)
-- `search` — discover dimensions, dashboards, views, events, and metrics
-- `list_metrics` — list available metric datasources
-- `get` — fetch dashboard, view, and explorer configurations
+### 🔍 Discovery & Context
+- `get_context` — fetch the active operational context
 - `list_organizations` — list accessible organizations
+- `search` — discover dimension values, events, alerts, dashboards, and virtual dimensions
 
 ### 📊 Query & Data
-- `query_costs` — query cost data dynamically grouped by dimensions
-- `query_metric` — query custom business metrics to correlate spend with growth
-- `get_cost_diff` — compare costs between historical periods
+- `query` — core data tool for running unified queries for cloud costs, business metrics, usage metrics, budgets, and formulas
 - `suggest_groupby` — find the most impactful dimension to split costs by
+- `list_metrics` — list available business metric datasources
+- `suggest_usage_metrics` — suggests infrastructure usage metric units relevant to a billing scope
+- `get` — fetch full resource data by ID (dashboards, budgets, or cost alerts)
 
-### 🚨 Automation & Alerts (Automation MCP)
+### 📈 Dashboards
+- `get_dashboard_widget_data` — run a saved dashboard widget and return its data
+- `get_dashboard_widget_image` — retrieve a visual image snapshot of a widget
+- `create_dashboard` — create a new dashboard with specific widgets and context
+- `update_dashboard` — append, replace, or remove widgets on an existing dashboard
+- `set_dashboard_tags` — assign descriptive tags to dashboards
+- `set_dashboard_team` — assign a dashboard to a specific team
+
+### 🚨 Automation & Alerts
+- `list_alerts` — view and manage existing active cost and budget alerts
+- `preview_alert` — test alerting conditions on historical data
 - `create_alert` — set up FinOps automation alerts for spending thresholds
-- `list_alerts` — view and manage existing active alerts
-- `create_event` — annotate cost changes automatically
+
+### 📅 Events
 - `list_events` — correlate cost changes with tracked infrastructure events
+- `create_event` — annotate cost changes automatically and tie them to widgets
 
 ### 📢 Reports & Notifications
-- `send_to_slack` — autonomously generate and send rich cost reports to Slack
-- `list_slack_channels` — discover available Slack channels for automated reporting
+- `list_available_destinations` — discover available Slack channels, Teams channels, and email destinations
+- `create_report` — autonomously generate and schedule rich cost reports (daily, weekly, monthly)
+
+### 🏢 Organization Metadata
+- `list_teams` — list teams the current user belongs to
+- `list_tags` — view all available organization tags
+- `delete_tag` — remove a specific tag
+
+### 📚 Documentation
+- `search_documentation` — query the internal FinOps knowledge base
+- `get_documentation_page` — fetch the full content of a documentation page
 
 ### 🧠 Agent Helpers
-- `suggest_actions` — receive context-aware follow-up FinOps suggestions based on current context
-- `create_saved_view` — persist valuable queries as reusable platform views
+- `suggest_actions` — receive context-aware follow-up FinOps suggestions based on current investigation context
