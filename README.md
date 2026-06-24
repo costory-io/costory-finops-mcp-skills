@@ -1,9 +1,9 @@
 # Costory Plugin: The Premier FinOps MCP & Automation MCP for Claude Code
 
-[![FinOps MCP](https://img.shields.io/badge/MCP-FinOps-blue)](https://costory.io)
-[![Automation MCP](https://img.shields.io/badge/MCP-Automation-success)](https://costory.io)
+[![FinOps MCP](https://img.shields.io/badge/MCP-FinOps-blue)](https://costory.io/features/mcp)
+[![Automation MCP](https://img.shields.io/badge/MCP-Automation-success)](https://costory.io/features/mcp)
 
-The official **FinOps MCP** (Model Context Protocol) and **Automation MCP** by [Costory](https://costory.io). 
+The official **FinOps MCP** (Model Context Protocol) and **Automation MCP** by [Costory](https://costory.io). Learn more about our deep integrations on the [Costory FinOps MCP feature page](https://costory.io/features/mcp).
 
 Bring intelligent cloud cost management, automated insights, and FinOps automation directly into Claude Code. This Model Context Protocol (MCP) server seamlessly connects your AI assistants to AWS, GCP, and Azure billing data, transforming how teams manage cloud spend.
 
