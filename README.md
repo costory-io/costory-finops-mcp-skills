@@ -3,17 +3,13 @@
 [![FinOps MCP](https://img.shields.io/badge/MCP-FinOps-blue)](https://costory.io/features/mcp)
 [![Automation MCP](https://img.shields.io/badge/MCP-Automation-success)](https://costory.io/features/mcp)
 
-The official **FinOps MCP** (Model Context Protocol) and **Automation MCP** by [Costory](https://costory.io). Learn more about our deep integrations on the [Costory FinOps MCP feature page](https://costory.io/features/mcp).
+The official **FinOps MCP** (Model Context Protocol) and **Automation MCP** by [Costory](https://costory.io). Learn more on the [Costory FinOps MCP feature page](https://costory.io/features/mcp).
 
-You're likely tired of jumping between Claude and your cloud billing console just to answer basic cost questions. From what I've observed working with engineering teams, context switching kills momentum. That's why we built this Model Context Protocol (MCP) server. It connects your AI assistants directly to AWS, GCP, and Azure billing data.
+Connect Claude, Cursor, or any MCP-compatible AI assistant directly to your AWS, Azure, or GCP billing data.
 
-If you need a FinOps MCP to query real-time infrastructure costs or an Automation MCP to autonomously investigate spending spikes and set up Slack alerts, the Costory plugin equips your AI with the exact financial context it needs.
+## Why Costory MCP?
 
-## Why I recommend this FinOps MCP
-
-- **FinOps Automation at your Fingertips**: Ask your AI to investigate cost spikes, compare historical periods, or configure budget alerts without writing scripts.
-- **Context-Aware AI**: As an advanced Automation MCP, it connects LLMs to your business metrics (DAU, requests/day), correlating infrastructure costs directly with business unit economics.
-- **Multi-Cloud Support**: I verified native support for AWS, GCP, and Azure cost data.
+Feeding raw AWS or GCP billing lines into a prompt doesn't work. The Costory FinOps MCP acts as a context layer, delivering normalized cost data that is already allocated and correlated with your infrastructure events. It turns your AI assistant into a FinOps practitioner that understands how deploys, traffic, and pricing shifts actually impact your bill.
 
 ## Installation
 
@@ -48,7 +44,7 @@ Easily trigger built-in FinOps automation skills:
 
 ## Real-World Examples
 
-The true value of this FinOps MCP is natively bringing AWS costs to Claude and enabling seamless Automation FinOps workflows. Based on my testing, here is how it performs in practice:
+Here is what it looks like when you bring AWS costs directly into Claude and automate your FinOps workflows:
 
 ### 1. Analyze AWS Costs with Period Comparisons
 Stop logging into billing consoles. Ask Claude to query exactly what you need:
@@ -105,11 +101,11 @@ This plugin connects to the Costory MCP server, exposing a suite of FinOps and A
 ### Discovery & Context
 - `get_context` : Fetch the active operational context
 - `list_organizations` : List accessible organizations
-- `search` : Discover dimension values, events, alerts, dashboards, and virtual dimensions. *From what I learned, if a developer asks about "Project Phoenix", you can use search to instantly find all associated AWS tags, dashboards, and historical cost events for that specific project.*
+- `search` : Discover dimension values, events, alerts, dashboards, and virtual dimensions. *Example: A developer asks about "Project Phoenix". Use search to instantly find all associated AWS tags, dashboards, and historical cost events for that specific project.*
 
 ### Query & Data
 - `query` : Core data tool for running unified queries for cloud costs, business metrics, usage metrics, budgets, and formulas
-- `suggest_groupby` : Find the most impactful dimension to split costs by. *For example, I found a cost spike but had no idea what labels or tags were available to drill down. I used `suggest_groupby` to automatically find the correct axes (like team, service, or environment) to guide my investigation.*
+- `suggest_groupby` : Find the most impactful dimension to split costs by. *Example: You find a cost spike but have no idea what labels or tags are available to drill down. Use `suggest_groupby` to automatically find the correct axes (like team, service, or environment) to guide your investigation.*
 - `list_metrics` : List available business metric datasources
 - `suggest_usage_metrics` : Suggest infrastructure usage metric units relevant to a billing scope
 - `get` : Fetch full resource data by ID (dashboards, budgets, or cost alerts)
@@ -125,15 +121,15 @@ This plugin connects to the Costory MCP server, exposing a suite of FinOps and A
 ### Automation & Alerts
 - `list_alerts` : View and manage existing active cost and budget alerts
 - `preview_alert` : Test alerting conditions on historical data
-- `create_alert` : Set up FinOps automation alerts for spending thresholds. *For instance, I noticed a database's cost slowly creeping up over time. I set a smart alert: "Warn me when the 7-day rolling cost for this database exceeds $1,000 so I can investigate before it gets out of hand."*
+- `create_alert` : Set up FinOps automation alerts for spending thresholds. *Example: You notice a database's cost slowly creeping up over time. Set a smart alert: "Warn me when the 7-day rolling cost for this database exceeds $1,000 so I can investigate before it gets out of hand."*
 
 ### Events
 - `list_events` : Correlate cost changes with tracked infrastructure events
-- `create_event` : Annotate cost changes and attach them to a context. *When I detected a large spike with the MCP, I learned from the data team it was a one-time mislabeled backfill. I attached an event to the cost to remember what happened and add this context to the FinOps memory.*
+- `create_event` : Annotate cost changes and attach them to a context. *Example: You detect a large spike and learn from the data team it was a one-time mislabeled backfill. Attach an event to the cost to remember what happened and add this context to your FinOps memory.*
 
 ### Reports & Notifications
 - `list_available_destinations` : Discover available Slack channels, Teams channels, and email destinations
-- `create_report` : Autonomously generate and schedule rich cost reports. *When I was working on deprecating a legacy Terraform module, I created a weekly report that sent a chart showing the top cost decreases directly to my Slack so I could track the savings progress.*
+- `create_report` : Autonomously generate and schedule rich cost reports. *Example: You are working on deprecating a legacy Terraform module. Create a weekly report that sends a chart showing the top cost decreases directly to your Slack so you can track the savings progress.*
 
 ### Organization Metadata
 - `list_teams` : List teams the current user belongs to
