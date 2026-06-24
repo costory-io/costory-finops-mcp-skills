@@ -48,22 +48,38 @@ Easily trigger built-in FinOps automation skills:
 
 ## 💡 Real-World Examples
 
-The true power of this **FinOps MCP** lies in natively bringing **AWS costs to Claude** and enabling seamless **Automation FinOps** workflows. Here is how it looks in practice:
+The true power of this **FinOps MCP** lies in natively bringing **AWS costs to Claude** and enabling seamless **Automation FinOps** workflows. Here is how it looks in practice using the core `query` tool:
 
-### 1. Analyze AWS Costs in Claude
-Stop logging into billing consoles. Just ask Claude:
-> *"What were our AWS costs for the production EKS clusters last week compared to the week before?"*
-**How it works:** The MCP dynamically queries cloud billing data, returning exact cost fluctuations and identifying which specific AWS services (EC2, Data Transfer) caused the spike.
+### 1. Analyze AWS Costs with Period Comparisons
+Stop logging into billing consoles. Ask Claude to query exactly what you need:
+> *"How did our AWS costs change vs last month?"*
 
-### 2. Automation FinOps: Smart Alerts
-Set up anomaly detection natively within your chat:
-> *"Create an alert if our daily AWS CloudFront costs exceed $500, and send a notification to the #engineering Slack channel."*
-**How it works:** The **Automation MCP** triggers the `create_alert` tool, instantly configuring a FinOps automation rule that monitors your live billing data.
+**How the MCP responds:**
+```json
+{
+  "queries": [{ "type": "cost", "name": "a", "metricId": "cost", "currency": "USD" }],
+  "from": "2026-03-01",
+  "to": "2026-03-31",
+  "compare": { "from": "2026-02-01", "to": "2026-02-28" }
+}
+```
 
-### 3. Automated Cost Reports
-Automate your team's financial awareness:
-> *"Schedule a weekly cost report for the 'Frontend' team's AWS costs and send it to their Slack channel every Monday."*
-**How it works:** The MCP invokes the `create_report` tool to automatically generate and distribute rich graphical reports, putting your FinOps reporting on autopilot.
+### 2. Automation FinOps: Business Metric Correlation
+Combine infrastructure costs with product analytics:
+> *"What is our cost per request?"*
+
+**How the MCP handles it:**
+```json
+{
+  "queries": [
+    { "type": "cost", "name": "a", "metricId": "cost", "currency": "USD" },
+    { "type": "metric", "name": "b", "metricId": "<requests-metric-id>" },
+    { "type": "formula", "name": "c", "formula": "a / b" }
+  ],
+  "from": "2026-03-01",
+  "to": "2026-03-31"
+}
+```
 
 ## 🛠️ MCP Tools Reference
 
