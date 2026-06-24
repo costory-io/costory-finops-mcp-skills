@@ -105,11 +105,11 @@ This plugin connects to the Costory MCP server, exposing a rich suite of up-to-d
 ### 🔍 Discovery & Context
 - `get_context` — fetch the active operational context
 - `list_organizations` — list accessible organizations
-- `search` — discover dimension values, events, alerts, dashboards, and virtual dimensions
+- `search` — discover dimension values, events, alerts, dashboards, and virtual dimensions. *Example: A developer asks about "Project Phoenix". Use search to instantly find all associated AWS tags, dashboards, and historical cost events for that specific project.*
 
 ### 📊 Query & Data
 - `query` — core data tool for running unified queries for cloud costs, business metrics, usage metrics, budgets, and formulas
-- `suggest_groupby` — find the most impactful dimension to split costs by
+- `suggest_groupby` — find the most impactful dimension to split costs by. *Example: You see a 20% spike in overall AWS costs but don't know why. Use this tool to automatically determine that the 'DataTransfer' service is the root cause.*
 - `list_metrics` — list available business metric datasources
 - `suggest_usage_metrics` — suggests infrastructure usage metric units relevant to a billing scope
 - `get` — fetch full resource data by ID (dashboards, budgets, or cost alerts)
@@ -125,7 +125,7 @@ This plugin connects to the Costory MCP server, exposing a rich suite of up-to-d
 ### 🚨 Automation & Alerts
 - `list_alerts` — view and manage existing active cost and budget alerts
 - `preview_alert` — test alerting conditions on historical data
-- `create_alert` — set up FinOps automation alerts for spending thresholds
+- `create_alert` — set up FinOps automation alerts for spending thresholds. *Example: You want to sleep well knowing your new Kubernetes deployment won't bankrupt you. Set an automated alert to ping the #engineering Slack if daily spend exceeds $500.*
 
 ### 📅 Events
 - `list_events` — correlate cost changes with tracked infrastructure events
@@ -133,7 +133,7 @@ This plugin connects to the Costory MCP server, exposing a rich suite of up-to-d
 
 ### 📢 Reports & Notifications
 - `list_available_destinations` — discover available Slack channels, Teams channels, and email destinations
-- `create_report` — autonomously generate and schedule rich cost reports (daily, weekly, monthly)
+- `create_report` — autonomously generate and schedule rich cost reports. *Example: Stop manually screenshotting charts for the weekly engineering sync. Automate a scheduled Slack report that sends the Top 5 cost movers every Monday morning.*
 
 ### 🏢 Organization Metadata
 - `list_teams` — list teams the current user belongs to
