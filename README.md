@@ -46,23 +46,32 @@ Easily trigger built-in FinOps automation skills:
 |-------|-------------|
 | `cost-investigator` | Autonomous deep-dive Automation MCP agent — drills down across dimensions to find root causes of cost changes |
 
-## MCP Tools Reference
+## 🛠️ MCP Tools Reference
 
-This plugin connects to the Costory MCP server, exposing the following FinOps and Automation MCP tools to Claude and other LLMs:
+This plugin connects to the Costory MCP server, exposing a rich suite of FinOps and Automation MCP tools organized by workflow:
 
-- `search` — discover dimensions, dashboards, views, events, metrics
-- `query_costs` — query cost data grouped by dimensions
-- `query_metric` — query custom business metrics
+### 🔍 Discovery & Context (FinOps MCP Core)
+- `search` — discover dimensions, dashboards, views, events, and metrics
 - `list_metrics` — list available metric datasources
-- `get_cost_diff` — compare costs between periods
-- `get` — fetch dashboard/view/explorer configs
-- `suggest_groupby` — find the best dimension to split by
-- `list_events` — correlate cost changes with events
-- `create_event` — annotate cost changes
-- `create_saved_view` — persist queries as reusable views
-- `create_alert` — set up FinOps automation alerts
-- `list_alerts` — view existing alerts
-- `list_slack_channels` — discover Slack channels for reporting
-- `send_to_slack` — send rich cost reports to Slack
-- `suggest_actions` — get context-aware follow-up FinOps suggestions
+- `get` — fetch dashboard, view, and explorer configurations
 - `list_organizations` — list accessible organizations
+
+### 📊 Query & Data
+- `query_costs` — query cost data dynamically grouped by dimensions
+- `query_metric` — query custom business metrics to correlate spend with growth
+- `get_cost_diff` — compare costs between historical periods
+- `suggest_groupby` — find the most impactful dimension to split costs by
+
+### 🚨 Automation & Alerts (Automation MCP)
+- `create_alert` — set up FinOps automation alerts for spending thresholds
+- `list_alerts` — view and manage existing active alerts
+- `create_event` — annotate cost changes automatically
+- `list_events` — correlate cost changes with tracked infrastructure events
+
+### 📢 Reports & Notifications
+- `send_to_slack` — autonomously generate and send rich cost reports to Slack
+- `list_slack_channels` — discover available Slack channels for automated reporting
+
+### 🧠 Agent Helpers
+- `suggest_actions` — receive context-aware follow-up FinOps suggestions based on current context
+- `create_saved_view` — persist valuable queries as reusable platform views
