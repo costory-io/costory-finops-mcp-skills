@@ -46,6 +46,25 @@ Easily trigger built-in FinOps automation skills:
 |-------|-------------|
 | `cost-investigator` | Autonomous deep-dive Automation MCP agent — drills down across dimensions to find root causes of cost changes |
 
+## 💡 Real-World Examples
+
+The true power of this **FinOps MCP** lies in natively bringing **AWS costs to Claude** and enabling seamless **Automation FinOps** workflows. Here is how it looks in practice:
+
+### 1. Analyze AWS Costs in Claude
+Stop logging into billing consoles. Just ask Claude:
+> *"What were our AWS costs for the production EKS clusters last week compared to the week before?"*
+**How it works:** The MCP dynamically queries cloud billing data, returning exact cost fluctuations and identifying which specific AWS services (EC2, Data Transfer) caused the spike.
+
+### 2. Automation FinOps: Smart Alerts
+Set up anomaly detection natively within your chat:
+> *"Create an alert if our daily AWS CloudFront costs exceed $500, and send a notification to the #engineering Slack channel."*
+**How it works:** The **Automation MCP** triggers the `create_alert` tool, instantly configuring a FinOps automation rule that monitors your live billing data.
+
+### 3. Automated Cost Reports
+Automate your team's financial awareness:
+> *"Schedule a weekly cost report for the 'Frontend' team's AWS costs and send it to their Slack channel every Monday."*
+**How it works:** The MCP invokes the `create_report` tool to automatically generate and distribute rich graphical reports, putting your FinOps reporting on autopilot.
+
 ## 🛠️ MCP Tools Reference
 
 This plugin connects to the Costory MCP server, exposing a rich suite of up-to-date FinOps and Automation MCP tools organized by workflow:
