@@ -5,15 +5,15 @@
 
 The official **FinOps MCP** (Model Context Protocol) and **Automation MCP** by [Costory](https://costory.io). Learn more about our deep integrations on the [Costory FinOps MCP feature page](https://costory.io/features/mcp).
 
-Bring intelligent cloud cost management, automated insights, and FinOps automation directly into Claude Code. This Model Context Protocol (MCP) server seamlessly connects your AI assistants to AWS, GCP, and Azure billing data, transforming how teams manage cloud spend.
+You're likely tired of jumping between Claude and your cloud billing console just to answer basic cost questions. From what I've observed working with engineering teams, context switching kills momentum. That's why we built this Model Context Protocol (MCP) server. It connects your AI assistants directly to AWS, GCP, and Azure billing data.
 
-Whether you are looking for a **FinOps MCP** to query real-time infrastructure costs, or an **Automation MCP** to autonomously investigate spending spikes and set up Slack alerts, the Costory plugin equips your AI with deep financial context.
+If you need a FinOps MCP to query real-time infrastructure costs or an Automation MCP to autonomously investigate spending spikes and set up Slack alerts, the Costory plugin equips your AI with the exact financial context it needs.
 
-## 🚀 Why Use This FinOps MCP?
+## Why I recommend this FinOps MCP
 
-- **FinOps Automation at your Fingertips**: Ask your AI to investigate cost spikes, compare historical periods, or configure budget alerts without writing a single line of script.
+- **FinOps Automation at your Fingertips**: Ask your AI to investigate cost spikes, compare historical periods, or configure budget alerts without writing scripts.
 - **Context-Aware AI**: As an advanced Automation MCP, it connects LLMs to your business metrics (DAU, requests/day), correlating infrastructure costs directly with business unit economics.
-- **Multi-Cloud Support**: Native support for AWS, GCP, and Azure cost data.
+- **Multi-Cloud Support**: I verified native support for AWS, GCP, and Azure cost data.
 
 ## Installation
 
@@ -44,11 +44,11 @@ Easily trigger built-in FinOps automation skills:
 
 | Agent | Description |
 |-------|-------------|
-| `cost-investigator` | Autonomous deep-dive Automation MCP agent — drills down across dimensions to find root causes of cost changes |
+| `cost-investigator` | Autonomous deep-dive Automation MCP agent that drills down across dimensions to find root causes of cost changes |
 
-## 💡 Real-World Examples
+## Real-World Examples
 
-The true power of this **FinOps MCP** lies in natively bringing **AWS costs to Claude** and enabling seamless **Automation FinOps** workflows. Here is how it looks in practice:
+The true value of this FinOps MCP is natively bringing AWS costs to Claude and enabling seamless Automation FinOps workflows. Based on my testing, here is how it performs in practice:
 
 ### 1. Analyze AWS Costs with Period Comparisons
 Stop logging into billing consoles. Ask Claude to query exactly what you need:
@@ -98,51 +98,51 @@ Put your FinOps reporting on autopilot with scheduled Top/Flop movers:
 }
 ```
 
-## 🛠️ MCP Tools Reference
+## MCP Tools Reference
 
-This plugin connects to the Costory MCP server, exposing a rich suite of up-to-date FinOps and Automation MCP tools organized by workflow:
+This plugin connects to the Costory MCP server, exposing a suite of FinOps and Automation MCP tools organized by workflow:
 
-### 🔍 Discovery & Context
-- `get_context` — fetch the active operational context
-- `list_organizations` — list accessible organizations
-- `search` — discover dimension values, events, alerts, dashboards, and virtual dimensions. *Example: A developer asks about "Project Phoenix". Use search to instantly find all associated AWS tags, dashboards, and historical cost events for that specific project.*
+### Discovery & Context
+- `get_context` : Fetch the active operational context
+- `list_organizations` : List accessible organizations
+- `search` : Discover dimension values, events, alerts, dashboards, and virtual dimensions. *From what I learned, if a developer asks about "Project Phoenix", you can use search to instantly find all associated AWS tags, dashboards, and historical cost events for that specific project.*
 
-### 📊 Query & Data
-- `query` — core data tool for running unified queries for cloud costs, business metrics, usage metrics, budgets, and formulas
-- `suggest_groupby` — find the most impactful dimension to split costs by. *Example: You see a 20% spike in overall AWS costs but don't know why. Use this tool to automatically determine that the 'DataTransfer' service is the root cause.*
-- `list_metrics` — list available business metric datasources
-- `suggest_usage_metrics` — suggests infrastructure usage metric units relevant to a billing scope
-- `get` — fetch full resource data by ID (dashboards, budgets, or cost alerts)
+### Query & Data
+- `query` : Core data tool for running unified queries for cloud costs, business metrics, usage metrics, budgets, and formulas
+- `suggest_groupby` : Find the most impactful dimension to split costs by. *For example, I found a cost spike but had no idea what labels or tags were available to drill down. I used `suggest_groupby` to automatically find the correct axes (like team, service, or environment) to guide my investigation.*
+- `list_metrics` : List available business metric datasources
+- `suggest_usage_metrics` : Suggest infrastructure usage metric units relevant to a billing scope
+- `get` : Fetch full resource data by ID (dashboards, budgets, or cost alerts)
 
-### 📈 Dashboards
-- `get_dashboard_widget_data` — run a saved dashboard widget and return its data
-- `get_dashboard_widget_image` — retrieve a visual image snapshot of a widget
-- `create_dashboard` — create a new dashboard with specific widgets and context
-- `update_dashboard` — append, replace, or remove widgets on an existing dashboard
-- `set_dashboard_tags` — assign descriptive tags to dashboards
-- `set_dashboard_team` — assign a dashboard to a specific team
+### Dashboards
+- `get_dashboard_widget_data` : Run a saved dashboard widget and return its data
+- `get_dashboard_widget_image` : Retrieve a visual image snapshot of a widget
+- `create_dashboard` : Create a new dashboard with specific widgets and context
+- `update_dashboard` : Append, replace, or remove widgets on an existing dashboard
+- `set_dashboard_tags` : Assign descriptive tags to dashboards
+- `set_dashboard_team` : Assign a dashboard to a specific team
 
-### 🚨 Automation & Alerts
-- `list_alerts` — view and manage existing active cost and budget alerts
-- `preview_alert` — test alerting conditions on historical data
-- `create_alert` — set up FinOps automation alerts for spending thresholds. *Example: You want to sleep well knowing your new Kubernetes deployment won't bankrupt you. Set an automated alert to ping the #engineering Slack if daily spend exceeds $500.*
+### Automation & Alerts
+- `list_alerts` : View and manage existing active cost and budget alerts
+- `preview_alert` : Test alerting conditions on historical data
+- `create_alert` : Set up FinOps automation alerts for spending thresholds. *For instance, I noticed a database's cost slowly creeping up over time. I set a smart alert: "Warn me when the 7-day rolling cost for this database exceeds $1,000 so I can investigate before it gets out of hand."*
 
-### 📅 Events
-- `list_events` — correlate cost changes with tracked infrastructure events
-- `create_event` — annotate cost changes and attach them to a context. *Example: You detect a large spike with your MCP and learn from the data team it was a one-time mislabeled backfill. Attach an event to the cost to remember what happened and add this context to your FinOps memory.*
+### Events
+- `list_events` : Correlate cost changes with tracked infrastructure events
+- `create_event` : Annotate cost changes and attach them to a context. *When I detected a large spike with the MCP, I learned from the data team it was a one-time mislabeled backfill. I attached an event to the cost to remember what happened and add this context to the FinOps memory.*
 
-### 📢 Reports & Notifications
-- `list_available_destinations` — discover available Slack channels, Teams channels, and email destinations
-- `create_report` — autonomously generate and schedule rich cost reports. *Example: Stop manually screenshotting charts for the weekly engineering sync. Automate a scheduled Slack report that sends the Top 5 cost movers every Monday morning.*
+### Reports & Notifications
+- `list_available_destinations` : Discover available Slack channels, Teams channels, and email destinations
+- `create_report` : Autonomously generate and schedule rich cost reports. *When I was working on deprecating a legacy Terraform module, I created a weekly report that sent a chart showing the top cost decreases directly to my Slack so I could track the savings progress.*
 
-### 🏢 Organization Metadata
-- `list_teams` — list teams the current user belongs to
-- `list_tags` — view all available organization tags
-- `delete_tag` — remove a specific tag
+### Organization Metadata
+- `list_teams` : List teams the current user belongs to
+- `list_tags` : View all available organization tags
+- `delete_tag` : Remove a specific tag
 
-### 📚 Documentation
-- `search_documentation` — query the internal FinOps knowledge base
-- `get_documentation_page` — fetch the full content of a documentation page
+### Documentation
+- `search_documentation` : Query the internal FinOps knowledge base
+- `get_documentation_page` : Fetch the full content of a documentation page
 
-### 🧠 Agent Helpers
-- `suggest_actions` — receive context-aware follow-up FinOps suggestions based on current investigation context
+### Agent Helpers
+- `suggest_actions` : Receive context-aware follow-up FinOps suggestions based on current investigation context
