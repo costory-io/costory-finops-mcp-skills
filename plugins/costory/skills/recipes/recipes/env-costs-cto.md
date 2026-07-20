@@ -53,8 +53,8 @@
     }
   ],
   "destinations": [{
-    "destinationType": "[SLACK|TEAMS|EMAIL]",
-    "channelId": "[DESTINATION_ID]"
+    "destinationType": "SLACK",
+    "channelId": "[CHANNEL_ID]"
   }]
 }
 ```
@@ -72,6 +72,7 @@ Frozen: `groupBy` = published `env` **`bqName`** (never draft display name); TOP
 
 ## Gotchas
 
+- Destinations: SLACK/TEAMS use `channelId`; EMAIL uses `{ "destinationType": "EMAIL", "email": "[ADDRESS]" }` — never put an email in `channelId`.
 - Exec cousin of `service-cost-weekly` — keep it simple; no service drill-down unless they ask.
 - Always groupBy the published `bqName`.
 

@@ -52,7 +52,8 @@
       "additionalGroupBy": ["cos_service_name"],
       "minAbsoluteDiff": 100,
       "minRelativeDiff": 5,
-      "topLargestAbsoluteChange": 20
+      "topLargestAbsoluteChange": 20,
+      "display": "summary"
     }
   ],
   "destinations": [{
@@ -62,7 +63,7 @@
 }
 ```
 
-Frozen: shared `LAST_WEEK` (GRAPH overrides to `TRAILING_14_WEEKS` for the trend — without it the graph inherits `LAST_WEEK` and renders a single point); deeper split always `cos_service_name`; DIGEST thresholds **100 / 5% / 20**; **AI summary ON** (exception — call out when confirming; if the live DIGEST widget schema exposes no summary-enable field, say so and deliver tree-only, pointing the user to the web app for the AI narrative). `[ROOT_GROUPBY]` = published `env` `bqName` if available, else `cos_sub_account_id`. Default delivery type Slack — still resolve the concrete channel after type is known.
+Frozen: shared `LAST_WEEK` (GRAPH overrides to `TRAILING_14_WEEKS` for the trend — without it the graph inherits `LAST_WEEK` and renders a single point); deeper split always `cos_service_name`; DIGEST thresholds **100 / 5% / 20**; **AI summary ON** via `display: "summary"` (call out when confirming — slower preview/delivery). Do not set `enableAiInvestigation` unless the user also wants deep per-node analysis. `[ROOT_GROUPBY]` = published `env` `bqName` if available, else `cos_sub_account_id`. Default delivery type Slack — still resolve the concrete channel after type is known.
 
 ## Confirm before build
 

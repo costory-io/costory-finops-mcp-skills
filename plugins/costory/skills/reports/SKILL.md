@@ -220,11 +220,12 @@ DIGEST always delivers the change tree. The AI executive summary (`summaryMarkdo
 
 - **Offer it when** they want a written narrative of what changed and why (exec / stakeholder read).
 - **Say the trade-off out loud:** richer narrative, but noticeably slower to preview and to deliver. Ask plainly: *"Do you want the optional AI summary? Useful for exec readouts, but slower to generate."*
-- **Default to tree-only** (faster) unless they opt in.
-- **Check the live DIGEST widget / preview schema for an enable flag.** If the schema exposes no summary-enable field, the summary **cannot be toggled via MCP** — say so, deliver tree-only, and point the user to the Costory web app for the AI narrative. Never invent a field, a separate AI widget, or a fake summary via TEXT.
+- **Default to tree-only** (faster) unless they opt in — omit `display` or set `display: "tree"`.
+- **Opt in via MCP:** set `display: "summary"` on the DIGEST widget (preview + create). That is the executive narrative flag. Separately, `enableAiInvestigation: true` runs deep per-node analysis before delivery (even slower) — only when the user asks for that, not for a normal AI summary.
+- Never invent a field, a separate AI widget, or a fake summary via TEXT.
 - Only DIGEST produces `summaryMarkdown` — never claim one from GRAPH_SNAPSHOT, TOP_FLOP, TEXT, or DASHBOARD_PDF.
 
-Pairings: tree is enough → DIGEST alone. Narrative + tree → DIGEST with summary. Trend or movers only → GRAPH_SNAPSHOT / TOP_FLOP. Static intro → TEXT. Narrative + trend → DIGEST plus GRAPH_SNAPSHOT / TOP_FLOP.
+Pairings: tree is enough → DIGEST alone. Narrative + tree → DIGEST with `display: "summary"`. Trend or movers only → GRAPH_SNAPSHOT / TOP_FLOP. Static intro → TEXT. Narrative + trend → DIGEST (`display: "summary"`) plus GRAPH_SNAPSHOT / TOP_FLOP.
 
 ## DIGEST hierarchy
 

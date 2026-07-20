@@ -51,8 +51,8 @@
     }
   ],
   "destinations": [{
-    "destinationType": "[SLACK|TEAMS|EMAIL]",
-    "channelId": "[DESTINATION_ID]"
+    "destinationType": "SLACK",
+    "channelId": "[CHANNEL_ID]"
   }]
 }
 ```
@@ -67,6 +67,7 @@ Frozen: `groupBy` = `cos_charge_category`; TOP_FLOP `topN`/`flopN` **10**; share
 
 ## Gotchas
 
+- Destinations: SLACK/TEAMS use `channelId`; EMAIL uses `{ "destinationType": "EMAIL", "email": "[ADDRESS]" }` — never put an email in `channelId`.
 - Charge category is the point — don't re-split by service and lose the credit signal.
 - Negative / credit lines can look "weird" in TOP_FLOP; that's expected — explain it.
 

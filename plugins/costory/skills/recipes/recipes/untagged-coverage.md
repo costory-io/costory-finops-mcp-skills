@@ -125,8 +125,8 @@ Adjust tagged leg if "tagged" means a specific value (`[TAG_FIELD] == "[EXPECTED
     }
   ],
   "destinations": [{
-    "destinationType": "[SLACK|TEAMS|EMAIL]",
-    "channelId": "[DESTINATION_ID]"
+    "destinationType": "SLACK",
+    "channelId": "[CHANNEL_ID]"
   }]
 }
 ```
@@ -143,6 +143,7 @@ Frozen: metric is formula `a / b` (not raw `cost`); `groupBy` = `cos_service_nam
 
 ## Gotchas
 
+- Destinations: SLACK/TEAMS use `channelId`; EMAIL uses `{ "destinationType": "EMAIL", "email": "[ADDRESS]" }` — never put an email in `channelId`.
 - Measure a **ratio**, not "we spent $2M".
 - Don't include structurally un-taggable spend in the denominator without calling it out — it permanently caps the ratio.
 - Null labels: CEL `== null` / `!= null`, never `is_null` or `"null"`.

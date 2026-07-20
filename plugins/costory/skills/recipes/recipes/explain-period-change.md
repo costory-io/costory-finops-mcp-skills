@@ -36,7 +36,7 @@
 }
 ```
 
-Frozen: DIGEST-only; thresholds **100 / 5% / 20**; AI summary **off** unless they ask (warn slower; if the live DIGEST widget schema exposes no summary-enable field, say it cannot be toggled via MCP and point to the web app). Period default `LAST_MONTH`; use `LAST_INVOICE_MONTH` if they mean invoice close. Comparison auto-derived — do not invent a second range.
+Frozen: DIGEST-only; thresholds **100 / 5% / 20**; AI summary **off** by default (`display` omit/`"tree"`). If they opt in, set `display: "summary"` (warn slower). Period default `LAST_MONTH`; use `LAST_INVOICE_MONTH` if they mean invoice close. Comparison auto-derived — do not invent a second range.
 
 ## Confirm before build
 

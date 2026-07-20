@@ -50,8 +50,8 @@
     }
   ],
   "destinations": [{
-    "destinationType": "[SLACK|TEAMS|EMAIL]",
-    "channelId": "[DESTINATION_ID]"
+    "destinationType": "SLACK",
+    "channelId": "[CHANNEL_ID]"
   }]
 }
 ```
@@ -66,6 +66,7 @@ Frozen: `conditionsCel` = `cos_marketplace_purchase == true` (non-negotiable); `
 
 ## Gotchas
 
+- Destinations: SLACK/TEAMS use `channelId`; EMAIL uses `{ "destinationType": "EMAIL", "email": "[ADDRESS]" }` — never put an email in `channelId`.
 - Marketplace lines often lack your tags — don't try to fix that here; isolate them.
 - Splitting by `cos_service_name` buries vendors; issuer is the Finance question.
 

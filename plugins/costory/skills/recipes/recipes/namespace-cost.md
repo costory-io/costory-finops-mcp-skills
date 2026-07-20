@@ -51,8 +51,8 @@
     }
   ],
   "destinations": [{
-    "destinationType": "[SLACK|TEAMS|EMAIL]",
-    "channelId": "[DESTINATION_ID]"
+    "destinationType": "SLACK",
+    "channelId": "[CHANNEL_ID]"
   }]
 }
 ```
@@ -67,6 +67,7 @@ Frozen: `groupBy` = `cos_namespace_reallocated`; `conditionsCel` = `cos_namespac
 
 ## Gotchas
 
+- Destinations: SLACK/TEAMS use `channelId`; EMAIL uses `{ "destinationType": "EMAIL", "email": "[ADDRESS]" }` — never put an email in `channelId`.
 - CEL null-exclusion is `!= null` — **not** `is_null`, **not** the string `"null"`.
 - Prefer `cos_namespace_reallocated` over raw namespace labels when the org uses reallocation.
 - Weekly beats monthly here — K8s workloads change fast.
