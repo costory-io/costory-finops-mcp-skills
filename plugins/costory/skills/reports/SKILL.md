@@ -1,11 +1,11 @@
 ---
 name: reports
-description: "Use when creating, previewing, updating, scheduling, or exploring Costory reports. Route by intent: scheduled Slack/Teams/email sharing (Schedule workflow — accompany the user, offer starter report designs, ask before build) vs explain last-month cost with DIGEST + suggest_groupby (Explain workflow — NOW). Workflows are named, never lettered. DIGEST AI is opt-in via display: \"summary\" (executive narrative) and/or enableAiInvestigation (per-node deep analysis) — both slower. Covers GRAPH_SNAPSHOT, TOP_FLOP, DASHBOARD_PDF, context-first inheritance, destinations discovered only after the channel type is known, and delivery safety. Call get_skill with skillId \"reports\" before create_report or substantial report work."
+description: "Use when creating, previewing, updating, scheduling, or exploring Costory reports. Route by intent: scheduled Slack/Teams/email sharing (Schedule — ask before build) vs explain last-month cost with preview-first DIGEST (Explain — chat preview required; not query+compare). Workflows are named, never lettered. DIGEST AI is opt-in via display: \"summary\" and/or enableAiInvestigation — both slower. Covers GRAPH_SNAPSHOT, TOP_FLOP, DASHBOARD_PDF, context-first inheritance, destinations after channel type is known, and delivery safety. Call get_skill with skillId \"reports\" before create_report or substantial report work."
 ---
 
 # Reports
 
-**Skill body version 0.4.4.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
+**Skill body version 0.5.0.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
 A **report** has a shared **`context`** (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared `context` + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `context`.
 
@@ -13,14 +13,15 @@ A **report** has a shared **`context`** (global theme) and **widgets** that inhe
 
 ## Must-follow rules
 
-Everything below this section is detail. These six are the contract:
+Everything below this section is detail. These seven are the contract:
 
-1. **Ask before build.** Do not pick widgets, call `preview_report_widget`, or call `create_report` until the design is confirmed. Never silently default to DIGEST, a graph, or an AI summary.
-2. **Context-first.** Once answers are in, define the full report `context` before listing widgets. Widgets carry **only overrides** — never duplicate what already lives in `context`.
-3. **Destinations last.** Do not call `list_available_destinations` until the user has named the channel **type** (Slack / Teams / email). Then list only that type and propose matches by name — never paste a whole channel list into the conversation.
-4. **AI features are opt-in.** DIGEST-only. Set `display: "summary"` for the executive narrative and/or `enableAiInvestigation: true` for per-node deep analysis — both default off (tree-only) and are slower.
-5. **Confirm delivery.** Both `NOW` and `SCHEDULED` need explicit confirmation before `create_report`. `UNSCHEDULED` does not.
-6. **`datePreset`, never frozen dates,** on `SCHEDULED` reports.
+1. **Ask before build (Schedule / delivery).** Do not pick widgets, call `preview_report_widget`, or call `create_report` until the design is confirmed. Never silently default to a graph or an AI summary on Schedule.
+2. **Explain exception — preview-first DIGEST.** For one-shot *"what changed / explain last month"* (Explain workflow or `explain-period-change` recipe), **defaulting to DIGEST chat preview is required.** Do not wait for a full design questionnaire; do not substitute `query` + `compare` for the first answer.
+3. **Context-first.** Once answers are in, define the full report `context` before listing widgets. Widgets carry **only overrides** — never duplicate what already lives in `context`.
+4. **Destinations last.** Do not call `list_available_destinations` until the user has named the channel **type** (Slack / Teams / email). Then list only that type and propose matches by name — never paste a whole channel list into the conversation.
+5. **AI features are opt-in.** DIGEST-only. Set `display: "summary"` for the executive narrative and/or `enableAiInvestigation: true` for per-node deep analysis — both default off (tree-only) and are slower.
+6. **Confirm delivery.** Both `NOW` and `SCHEDULED` need explicit confirmation before `create_report`. `UNSCHEDULED` does not.
+7. **`datePreset`, never frozen dates,** on `SCHEDULED` reports.
 
 ## Routing
 
@@ -110,40 +111,43 @@ Then restate a **one-paragraph design brief** (audience, cadence, widgets, scope
 
 ## Workflow: Explain — last month (NOW + DIGEST)
 
-**Triggers:** explain last month's cost; what changed last month and why; one-shot narrative for stakeholders.
+**Triggers:** explain last month's cost; what changed last month and why; one-shot narrative for stakeholders. Prefer recipe `explain-period-change` when that card was loaded.
 
-**Goal:** a `NOW` (or preview-first, then NOW) report whose primary widget is **DIGEST**, with hierarchy from `suggest_groupby`. The core deliverable is the **change tree**; AI narrative / investigation are optional and slower.
+**Goal:** a **chat DIGEST preview** (then optional NOW) whose primary widget is **DIGEST**, with hierarchy from `suggest_groupby`. The core deliverable is the **change tree from `preview_report_widget`**; do not rebuild it with `query`.
 
-### 1 — Ask first (required)
+### 1 — Defaults vs questions
 
-1. **Scope** — whole org, team (`scopeId`), and/or CEL filter?
-2. **Audience** — preview in chat only, or send NOW to Slack / Teams / email?
-3. **Hierarchy preference** — if they already know the tree (e.g. team → service), confirm it; otherwise you will propose from `suggest_groupby`
-4. **Optional AI** — ask if they want the executive narrative (`display: "summary"`) and/or per-node investigation (`enableAiInvestigation: true`); warn both take longer; default tree-only
-5. **Optional extras** — add a GRAPH_SNAPSHOT (e.g. `TRAILING_14_WEEKS`) only if they also want a trend image
+**Chat-only (default when they did not name a channel):** assume whole org, `LAST_MONTH` (or `LAST_INVOICE_MONTH` if they said invoice), tree-only AI off. Ask only if scope/period is ambiguous.
 
-Do not skip to a graph-only report for this trigger — the core ask is explanation → DIGEST tree.
+**Before NOW delivery** (they asked to send): confirm scope, hierarchy, AI (`display: "summary"` / `enableAiInvestigation`), and channel type. GRAPH_SNAPSHOT only if they also want a trend image.
 
-### 2 — Discover the tree with `suggest_groupby`
+Do not skip to a graph-only report for this trigger — the core ask is explanation → DIGEST tree. Do not call `query` for the first answer.
 
-1. `get_context` (+ `list_teams` if needed)
-2. Resolve period: prefer `context.datePreset: "LAST_MONTH"` (or `LAST_INVOICE_MONTH` if they mean invoice close)
+### 2 — Discover the tree with `suggest_groupby` (same turn as preview)
+
+1. `get_context` (+ `list_teams` only if team scoping is needed)
+2. Resolve period: prefer `context.datePreset: "LAST_MONTH"` (or `LAST_INVOICE_MONTH`)
 3. Call `suggest_groupby` with `from`/`to` matching that month and the same `filterCel` as the planned scope
-4. Propose a tree: **root** = top hit → `context.groupBy`; **deeper levels** = next useful hits → `additionalGroupBy` (typically 1–2 levels)
-5. Confirm the path in plain language before preview
+4. Pick a tree: **root** = top hit → `context.groupBy`; **deeper levels** = next useful hits → `additionalGroupBy` (typically 1–2 levels). If suggestions are empty/weak → `popularGroupBys`, else `cos_provider` → `cos_service_name`
+5. **Chat-only:** state the path in one sentence and go straight to preview (no confirmation wait). **NOW:** confirm the path before create
 
-### 3 — Preview DIGEST
+### 3 — Preview DIGEST (primary data tool)
 
-1. Draft `context`: `datePreset: "LAST_MONTH"`, confirmed `groupBy`, `metricId`, `currency`, optional scope
-2. `preview_report_widget` with `{ context, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in at step 1)
-3. Present totals, top increases/decreases, and the tree outline (`rootNodes`); include `summaryMarkdown` only when `display: "summary"`
-4. Tune from `recommendations` / user feedback → re-preview
+1. Draft `context`: `datePreset: "LAST_MONTH"`, chosen `groupBy`, `metricId`, `currency`, optional scope
+2. `preview_report_widget` with `{ context, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in)
+3. **Present only preview fields** — required shape:
+   - Headline from `resolvedPeriod` + `totals`
+   - `topIncreases` / `topDecreases` (path + Δ)
+   - Tree outline from `rootNodes` (label, Δ, childCount)
+   - Footer: thresholds + optional `explorerUrl` / `comparisonPeriodSummary`
+   - `summaryMarkdown` only when `display: "summary"`
+4. Stop. Offer drill-down / AI re-preview / NOW. Tune from `recommendations` → re-preview — still without `query` unless the user names a node to dig into
 
 ### 4 — Deliver
 
 1. Stop here if they only wanted an explanation in chat — no `create_report` needed
-2. To send: the channel type came from step 1 → `list_available_destinations` for that type → confirm the channel → confirm `schedule.mode: "NOW"`
-3. `create_report` with the **same** `context` + that DIGEST object inside **`widgets: […]`** (plural array; GRAPH_SNAPSHOT only if requested at step 1)
+2. To send: channel type known → `list_available_destinations` for that type → confirm the channel → confirm `schedule.mode: "NOW"`
+3. `create_report` with the **same** `context` + that DIGEST object inside **`widgets: […]`** (plural array; GRAPH_SNAPSHOT only if requested)
 
 ---
 
@@ -431,11 +435,14 @@ The conversation rules live in **Must-follow rules** above. These are the shape 
 - Do not pass `widgets` to `preview_report_widget` or a singular `widget` to `create_report` (Zod strict rejects both)
 - Do not send dashboard `textContent` on a report TEXT widget — the field is `contentMarkdown` with `type: "TEXT"`
 - Do not skip preview before create when DIGEST is in the mix
-- Do not skip confirming the DIGEST tree path after `suggest_groupby`
+- Do not skip confirming the DIGEST tree path after `suggest_groupby` when delivering NOW/SCHEDULED (chat-only Explain may preview in the same turn)
 - Do not substitute destinations silently
+- Do not use `query` + `compare` as a substitute for Explain’s DIGEST preview on the first answer
+- Do not rebuild DIGEST movers as explorer tables or a canvas before presenting preview fields
 
 ## Related skills
 
 - `dashboards` — when the user wants an interactive dashboard instead of a delivered report (same context-first inheritance model; also uses `suggest_groupby`)
-- `query` — validate scope or inspect drivers before locking DIGEST thresholds; `suggest_groupby` shape matches the query skill
+- `query` — **after** DIGEST preview, drill a user-named node (`filterCel`); not the primary tool for “what changed last month”
+- `recipes` → `explain-period-change` — one-shot explain outcome card (preview-first DIGEST)
 - `virtual-dimensions` — when a DIGEST hierarchy needs a custom axis that does not exist yet

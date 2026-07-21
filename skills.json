@@ -1,5 +1,5 @@
 {
-  "version": "0.7.1",
+  "version": "0.8.0",
   "skills": {
     "recipes": {
       "id": "recipes",
@@ -23,13 +23,13 @@
       "id": "reports",
       "name": "reports",
       "path": "plugins/costory/skills/reports/SKILL.md",
-      "description": "Design scheduled Slack/Teams/email reports with starter recipes (ask-first) or explain last-month cost with DIGEST + suggest_groupby; optional slower AI summary; delivery safety."
+      "description": "Design scheduled Slack/Teams/email reports (ask-first) or explain last-month cost with preview-first DIGEST (not query+compare); optional slower AI summary; delivery safety."
     },
     "query": {
       "id": "query",
       "name": "query",
       "path": "plugins/costory/skills/query/SKILL.md",
-      "description": "Explore Costory cost, usage, metric, formula, budget, and external-metric data with investigation workflows."
+      "description": "Explore Costory cost, usage, metric, formula, budget, and external-metric data. Explorer PoP only — hand off change-tree \"what changed\" asks to explain-period-change / reports Explain."
     }
   }
 }

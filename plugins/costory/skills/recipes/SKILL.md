@@ -1,6 +1,6 @@
 ---
 name: recipes
-description: "Use when a user states a FinOps *outcome* rather than a tool. Route to one recipe card, then hand off: bill jump / what changed → explain-period-change; marketplace / private-offer → marketplace-spend; K8s namespace showback → namespace-cost; credits runway → provider-credits; YTD credits → credits-ytd-explore; weekly env+service pulse → service-cost-weekly; tag coverage → untagged-coverage; exec env report → env-costs-cto; explore Prod vs R&D → prod-vs-rnd-explore; build Prod/R&D VDIM → prod-vs-rnd-vdim; reallocate by external metric → reallocate-by-external-metric; budget vs actual daily → budget-vs-actual-dashboard; EC2 +10% alert → ec2-cost-spike-alert; compute drill-down dimension → compute-drilldown-dimension. Skeletons in recipes; HOW in reports/dashboards/virtual-dimensions/query."
+description: "Use when a user states a FinOps *outcome* rather than a tool. Route to one recipe card, then hand off: bill jump / what changed → explain-period-change (preview_report_widget DIGEST, not query+compare); marketplace / private-offer → marketplace-spend; K8s namespace showback → namespace-cost; credits runway → provider-credits; YTD credits → credits-ytd-explore; weekly env+service pulse → service-cost-weekly; tag coverage → untagged-coverage; exec env report → env-costs-cto; explore Prod vs R&D → prod-vs-rnd-explore; build Prod/R&D VDIM → prod-vs-rnd-vdim; reallocate by external metric → reallocate-by-external-metric; budget vs actual daily → budget-vs-actual-dashboard; EC2 +10% alert → ec2-cost-spike-alert; compute drill-down dimension → compute-drilldown-dimension. Skeletons in recipes; HOW in reports/dashboards/virtual-dimensions/query."
 ---
 
 # Recipes
@@ -38,7 +38,7 @@ Read the matching file. Do not improvise a blend of two cards until the user ask
 
 | If the user means… | Signals (phrases / audience) | You get | Not this if… | Read |
 |--------------------|------------------------------|---------|--------------|------|
-| **Why did spend move?** (one-shot) | "why did the bill jump", "what changed last month", "explain the spike", finance-review prep — **ad-hoc**, not recurring | DIGEST change tree (± optional AI); usually chat preview | they want a **standing** weekly/monthly channel report → pick a Schedule recipe below | `plugins/costory/skills/recipes/explain-period-change.md` |
+| **Why did spend move?** (one-shot) | "why did the bill jump", "what changed last month", "explain the spike", finance-review prep — **ad-hoc**, not recurring | **`preview_report_widget` DIGEST** change tree (chat-first; not `query`+`compare`); ± optional AI | standing weekly/monthly channel report → Schedule recipe; explorer PoP totals only → `query` Workflow B | `plugins/costory/skills/recipes/explain-period-change.md` |
 | **Marketplace / vendor spend** | "marketplace", "private offer", "third-party on the cloud bill", "spend by seller/issuer" — Finance / procurement | Monthly marketplace-only trend + top vendors by `cos_invoice_issuer` | native cloud usage (EC2 etc.) — wrong recipe | `plugins/costory/skills/recipes/marketplace-spend.md` |
 | **K8s cost per namespace** | "namespace", "EKS/GKE", "cluster showback", platform/DevOps weekly | Weekly reallocated-namespace trend + top/flop | env or account rollup without namespaces → `service-cost-weekly` or `env-costs-cto` | `plugins/costory/skills/recipes/namespace-cost.md` |
 | **Credits / discounts runway** | "credits burning", "savings plan / CUDs", "promotional credits", "discount lines", charge category | Monthly charge-category trend + movers | usage-by-service operating view → `service-cost-weekly` | `plugins/costory/skills/recipes/provider-credits.md` |
@@ -60,7 +60,8 @@ Read the matching file. Do not improvise a blend of two cards until the user ask
 | "cost per environment" from a **CTO / VP** (monthly, simple) | `env-costs-cto` |
 | "cost per environment **and service**" / **weekly** eng pulse | `service-cost-weekly` |
 | "explain Prod vs R&D" **once** vs **build the VDIM** vs **monthly Slack** | `prod-vs-rnd-explore` / `prod-vs-rnd-vdim` / `env-costs-cto` |
-| "what changed?" **once** vs **every week/month in Slack** | explain-period-change vs the Schedule recipe that matches the topic |
+| "what changed?" **once** vs **every week/month in Slack** | explain-period-change (DIGEST preview) vs the Schedule recipe that matches the topic |
+| "what changed?" **drivers tree** vs explorer PoP **numbers** | explain-period-change vs `query` Workflow B |
 | "untagged spend $" vs "tag **coverage %**" | raw untagged $ can be a scoped query; **coverage campaign** → `untagged-coverage` |
 | "cost per request" KPI vs **reallocate** shared spend by requests | unit economics only → `query`; proportional split → `reallocate-by-external-metric` |
 | "credits this year" **total** vs credits **runway report** | `credits-ytd-explore` vs `provider-credits` |

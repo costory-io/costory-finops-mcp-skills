@@ -2,15 +2,20 @@
 
 **When:** one-shot *"why did the bill jump?"* / *"what changed vs last month?"* / *"break down the spike before the finance review"* — reactive investigation, not a standing schedule.
 **Audience:** whoever just saw a number move (FinOps, eng lead, finance).
-**Outcome:** a **change tree** that decomposes the delta into chaseable drivers, not just a new total.
+**Outcome:** a **DIGEST change tree** from `preview_report_widget` that decomposes the delta into chaseable drivers — not explorer tables rebuilt via `query`.
 
 ## Tool sequence
 
-1. `get_context` → currency
-2. Resolve scope → `[CONDITIONS_CEL]` and/or `[SCOPE_ID]` (ask; whole org if none)
-3. `suggest_groupby` on chosen period + scope → propose root + 1–2 deeper levels in plain language → confirm → `[ROOT_GROUPBY]`, `[ADDITIONAL_GROUPBY]`
-4. `preview_report_widget` with the **preview** skeleton below (chat deliverable) — body is `{ context, widget }` with a **singular** `widget` object (`reportMcpPreviewWidgetBodySchema`). Never pass `widgets` (plural) to preview.
-5. Optional: confirm destination type → `list_available_destinations` → `create_report` with `schedule.mode: "NOW"` — only if they explicitly want to share. Create uses `widgets` (plural array).
+1. `get_context` → currency + `popularGroupBys` (fallback hierarchy)
+2. Resolve scope → `[CONDITIONS_CEL]` and/or `[SCOPE_ID]` (ask only if ambiguous; **default whole org**)
+3. Resolve period → default `LAST_MONTH` (or `LAST_INVOICE_MONTH` if they mean invoice close)
+4. `suggest_groupby` on chosen period + scope → pick root + 1–2 deeper levels
+   - If suggestions are empty / weak → fall back to `popularGroupBys`, else `cos_provider` → `cos_service_name`
+   - **Chat-only:** propose the path in one sentence and **preview in the same turn** (do not wait for hierarchy confirmation)
+   - **NOW / delivery:** confirm the path before create
+5. `preview_report_widget` with the **preview** skeleton below — **this is the only cost-data tool for the first answer**
+6. Present the preview using **Present the preview** below — then stop
+7. Optional follow-ups (only if the user asks): drill one node via `query` + `filterCel`, AI summary re-preview, or NOW delivery
 
 ## Payload skeleton
 
@@ -73,19 +78,33 @@ Frozen: DIGEST-only; thresholds **100 / 5% / 20**; AI **off** unless they ask �
 
 ## Confirm before build
 
-1. Scope + period (calendar vs invoice month)
-2. Hierarchy path in plain language (root → deeper) after `suggest_groupby`
-3. AI: tree-only vs `display: "summary"` vs deep investigation (`enableAiInvestigation: true`)
-4. Headline **total before → after** agreed before digging into the breakdown
-5. Stay in chat vs NOW to a channel
+**Chat-only explain (default):** do **not** block on a long questionnaire. Defaults — whole org, `LAST_MONTH`, tree-only AI off. Ask only when scope/period is ambiguous or they want AI / NOW.
 
-## Gotchas
+**NOW / channel delivery:** confirm scope, hierarchy, AI, and destination before `create_report`.
 
-- Don't skip to graph-only — explanation intent → DIGEST.
-- Don't invent the tree; let `suggest_groupby` point at it.
+## Present the preview (required shape)
+
+After `preview_report_widget` succeeds, the user answer **must** be built only from preview fields (cite them; do not re-fetch):
+
+1. **Headline** — `resolvedPeriod` labels + `totals` (current ← previous, absoluteDelta, relativeDelta)
+2. **Largest movers** — `topIncreases` / `topDecreases` (path + Δ + %). Lead with the direction that dominates.
+3. **Tree outline** — `rootNodes` (label, Δ, childCount). Do not invent children the preview did not return.
+4. **Footer** — thresholds used + optional `explorerUrl`. Note `comparisonPeriodSummary` when present.
+5. **Stop.** Offer: drill a named node, re-preview with AI (`display: "summary"`), or send NOW. Do not open a parallel investigation.
+
+Include `summaryMarkdown` only when `display: "summary"`.
+
+## Anti-patterns
+
+- Do **not** call `query` for the first answer (no total, no `groupBy` + `compare`, no daily/monthly series). DIGEST preview already returns totals, comparison period, movers, and tree.
+- Do **not** rebuild the explanation as explorer tables or a canvas from parallel `query` calls. DIGEST preview is the deliverable.
+- Do **not** skip to GRAPH_SNAPSHOT / TOP_FLOP only — explanation intent → DIGEST.
+- Do **not** invent the tree; use `suggest_groupby`, then `popularGroupBys` / `cos_provider` → `cos_service_name` if empty.
+- Do **not** wait for hierarchy confirmation on chat-only explain — preview in the same turn after stating the proposed path.
 - Preview = `widget` (singular). Create/update = `widgets` (array). Mixing them fails Zod strict (`unrecognized_keys`).
-- Tune thresholds from preview `recommendations`.
+- Tune thresholds from preview `recommendations`, then re-preview — still without `query` unless drilling a node the user named.
+- `query` is allowed **only after** the user asks to dig into a specific node/path (then scope with `filterCel`).
 
-**Brief:** *"One-shot DIGEST on [scope] for [period], tree [root → …], AI [tree / summary / deep], preview in chat [+ NOW to X if asked]."*
+**Brief:** *"One-shot DIGEST preview on [scope] for [period], tree [root → …], AI [tree / summary / deep], present preview fields in chat [+ NOW to X if asked]."*
 
 **→ Hand off to `reports` (Explain)** — owns preview → optional NOW.

@@ -1,6 +1,6 @@
 ---
 name: query
-description: "Use when exploring Costory cost, usage, metric, formula, budget, or external-metric data with the query tool — including scope vs split (filterCel / groupBy), period comparison, CEL discovery, and investigation workflows. Call get_skill with skillId \"query\" before non-trivial query work."
+description: "Use when exploring Costory cost, usage, metric, formula, budget, or external-metric data with the query tool — scope vs split (filterCel / groupBy), explorer PoP comparison, CEL discovery, unit economics, budgets. Not for one-shot \"what changed last month\" change trees — those use recipes explain-period-change / reports Explain (DIGEST preview). Call get_skill with skillId \"query\" before non-trivial query work."
 ---
 
 # Query
@@ -12,13 +12,16 @@ description: "Use when exploring Costory cost, usage, metric, formula, budget, o
 ## When to Trigger
 
 - Exploring or breaking down cloud costs (by service, region, team, environment, …)
-- Period comparison ("vs last month", movers, WoW / MoM)
+- Explorer-style period comparison (PoP totals / composition) — **not** the “why did spend move?” change-tree explanation
 - Cost + usage or cost + business metric (unit economics / formulas)
 - Budget vs spend, including month-to-date rolling burn and cumulated budget vs cumulated cost
 - K8s waste vs K8s cost (usage metrics + optional waste ratio)
 - Effective savings (`contracted_cost` minus `effective_cost`)
 - Validating CEL filters before building a dashboard or report
-- User asks "what are we spending on X?" or "why did costs change?"
+- User asks "what are we spending on X?"
+- **After** a DIGEST explain preview: drill into a user-named node with `filterCel`
+
+**Hand off instead of this skill:** *"why did the bill jump?"* / *"what changed last month?"* / *"explain the spike"* → load `recipes` → `explain-period-change` (or `reports` Explain). First answer is `preview_report_widget` DIGEST, not `query` + `compare`.
 
 ## Core concepts
 
@@ -151,7 +154,11 @@ Optional per series: `chartType` (`BAR` \| `LINE` \| `AREA` \| `WATERFALL` \| `T
 }
 ```
 
-## Workflow B — Period comparison ("what changed?")
+## Workflow B — Explorer period comparison (PoP totals)
+
+**Not for change-tree explanation.** If the user wants *why spend moved* / *explain last month* / *what drove the delta* as a drivers tree → **stop**. Load `recipes` → `explain-period-change` (or `reports` Explain) and call `preview_report_widget` DIGEST. Do not use this workflow as a substitute.
+
+Use this workflow only for explorer-style period-over-period **numbers** (totals, composition, a single `groupBy` table) when DIGEST is not the ask.
 
 1. Same discovery as Workflow A
 2. `query` with a primary period **and** `compare`:
@@ -180,7 +187,7 @@ Optional per series: `chartType` (`BAR` \| `LINE` \| `AREA` \| `WATERFALL` \| `T
 }
 ```
 
-Add `groupBy` (e.g. `cos_service_name`) when you need top movers by dimension.
+Add `groupBy` (e.g. `cos_service_name`) when you need a flat explorer breakdown — not a DIGEST hierarchy.
 
 ## Workflow C — Pick a groupBy when stuck
 
@@ -506,7 +513,7 @@ After useful results, consider:
 
 1. `list_events` for the resolved date range (explain spikes)
 2. `suggest_actions` — `{ "hasEvents": true|false, "hasDiff": true|false }`
-3. Hand off: `dashboards` to persist the view, `reports` to schedule a DIGEST, `virtual-dimensions` if the needed axis does not exist
+3. Hand off: `dashboards` to persist the view; for a change-tree explanation use `recipes` → `explain-period-change` (not “schedule a DIGEST” as a substitute for preview); `virtual-dimensions` if the needed axis does not exist
 
 ## Safety / anti-patterns
 
@@ -521,10 +528,12 @@ After useful results, consider:
 - Do not set `limit` by default — only when >100 groups are needed
 - Do not use string `"null"` for missing labels — use CEL `== null`
 - Prefer saved `type: "metric"` over `externalMetric` when a saved metric already exists
+- Do not answer *"explain / what changed last month"* with `query` + `compare` — hand off to DIGEST preview (`explain-period-change` / `reports` Explain)
 
 ## Related Skills / Next Steps
 
 - `dashboards` — persist a validated query as widgets (`skillId: "dashboards"`)
-- `reports` — scheduled DIGEST / delivered report (`skillId: "reports"`)
+- `reports` — Explain (DIGEST preview) or scheduled delivery (`skillId: "reports"`)
+- `recipes` → `explain-period-change` — one-shot spend-change tree (prefer over Workflow B)
 - `virtual-dimensions` — custom cost axis when no dimension fits (`skillId: "virtual-dimensions"`)
 - `recipes` — reallocate shared cost by an external / usage metric → `reallocate-by-external-metric`
