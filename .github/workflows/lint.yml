@@ -94,7 +94,10 @@ jobs:
               exit 1
             }
           done
+          # SKILL.md is the recipes catalog (listed in skills.json), not a chat
+          # suggestion card — only *.md recipe cards must appear in index.json.
           for f in plugins/costory/skills/recipes/*.md; do
+            [ "$(basename "$f")" = "SKILL.md" ] && continue
             jq -e --arg f "$f" 'any(.[]; .path == $f)' "$index" > /dev/null || {
               echo "::error file=$index::recipe file $f is not listed in index.json"
               exit 1
