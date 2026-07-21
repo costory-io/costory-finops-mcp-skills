@@ -72,7 +72,7 @@ jobs:
       - name: Validate recipes index.json
         run: |
           set -e
-          index=plugins/costory/skills/recipes/recipes/index.json
+          index=plugins/costory/skills/recipes/index.json
           jq empty "$index"
           bad=$(jq -r '.[] | select((.id | type != "string" or length == 0)
                                  or (.name | type != "string" or length == 0)
@@ -94,7 +94,7 @@ jobs:
               exit 1
             }
           done
-          for f in plugins/costory/skills/recipes/recipes/*.md; do
+          for f in plugins/costory/skills/recipes/*.md; do
             jq -e --arg f "$f" 'any(.[]; .path == $f)' "$index" > /dev/null || {
               echo "::error file=$index::recipe file $f is not listed in index.json"
               exit 1
