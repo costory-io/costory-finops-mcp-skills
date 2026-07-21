@@ -5,7 +5,7 @@ description: "Use when creating, previewing, updating, scheduling, or exploring 
 
 # Reports
 
-**Skill body version 0.4.3.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
+**Skill body version 0.4.4.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
 A **report** has a shared **`context`** (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared `context` + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `context`.
 
@@ -135,7 +135,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 ### 3 — Preview DIGEST
 
 1. Draft `context`: `datePreset: "LAST_MONTH"`, confirmed `groupBy`, `metricId`, `currency`, optional scope
-2. `preview_report_widget` with a minimal DIGEST widget (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in at step 1)
+2. `preview_report_widget` with `{ context, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in at step 1)
 3. Present totals, top increases/decreases, and the tree outline (`rootNodes`); include `summaryMarkdown` only when `display: "summary"`
 4. Tune from `recommendations` / user feedback → re-preview
 
@@ -143,7 +143,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 
 1. Stop here if they only wanted an explanation in chat — no `create_report` needed
 2. To send: the channel type came from step 1 → `list_available_destinations` for that type → confirm the channel → confirm `schedule.mode: "NOW"`
-3. `create_report` with the **same** `context` + DIGEST widget (GRAPH_SNAPSHOT only if requested at step 1)
+3. `create_report` with the **same** `context` + that DIGEST object inside **`widgets: […]`** (plural array; GRAPH_SNAPSHOT only if requested at step 1)
 
 ---
 
@@ -300,7 +300,7 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
 
 ## Examples
 
-**Monthly DIGEST (after the user confirmed the recipe) — tree-only defaults:**
+**`preview_report_widget` — monthly DIGEST (tree-only defaults):**
 
 ```json
 {
@@ -310,7 +310,7 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
     "metricId": "cost",
     "currency": "USD"
   },
-  "widgets": [{
+  "widget": {
     "type": "DIGEST",
     "queries": [{ "type": "cost", "name": "a", "alias": "Cost by environment" }],
     "aggBy": "Month",
@@ -318,11 +318,11 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
     "minAbsoluteDiff": 100,
     "minRelativeDiff": 5,
     "topLargestAbsoluteChange": 20
-  }]
+  }
 }
 ```
 
-**Same DIGEST with executive AI summary** (add when opted in):
+**Same DIGEST widget with executive AI summary** (add on the widget when opted in):
 
 ```json
 {
@@ -337,6 +337,8 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
   "enableAiInvestigation": false
 }
 ```
+
+**`create_report` / `update_report` — same DIGEST goes in `widgets` (plural array).**
 
 **Migration tracker (graph + top/flop — not DIGEST):**
 
@@ -425,7 +427,8 @@ The conversation rules live in **Must-follow rules** above. These are the shape 
 - Do not repeat `metricId`, `currency`, `groupBy`, `from`/`to`, or `datePreset` on a widget when it already matches `context`
 - Do not put the global scope in each widget's `filterCel` instead of `context.conditionsCel`
 - Do not confuse ownership (`teamId` / `visibility`) with query scope (`scopeId` / `conditionsCel` / `filterCel`)
-- Do not use a different shape for preview vs create — same `context` + widget object
+- Do not use a different widget *content* for preview vs create — same `context` + DIGEST fields — but the key differs: preview = `widget`, create/update = `widgets[]`
+- Do not pass `widgets` to `preview_report_widget` or a singular `widget` to `create_report` (Zod strict rejects both)
 - Do not send dashboard `textContent` on a report TEXT widget — the field is `contentMarkdown` with `type: "TEXT"`
 - Do not skip preview before create when DIGEST is in the mix
 - Do not skip confirming the DIGEST tree path after `suggest_groupby`
