@@ -47,8 +47,16 @@ Provide a period with **either** `datePreset` **or** `from` + `to` (ISO dates, i
 
 | Mode | When |
 |------|------|
-| `datePreset` | **Preferred** whenever an available `DatePreset` matches (e.g. `TRAILING_30_DAYS`, `TRAILING_90_DAYS`, `LAST_MONTH`, `LAST_WEEK`, `YTD`) |
-| `from` + `to` | Truly custom absolute ranges only |
+| `datePreset` | **Preferred** whenever a value from the `DatePreset` enum below matches the requested range |
+| `from` + `to` | Custom absolute ranges, **and** any relative range no preset covers — do not invent a preset token |
+
+**`DatePreset` enum — these 16 values are the *only* accepted tokens.** The server validates `datePreset` against this exact set and rejects anything else with `MCP error -32602: Invalid option … path: ["datePreset"]`. Do **not** guess or extrapolate a token (e.g. there is no `LAST_2_MONTHS`, `TRAILING_60_DAYS`, or `WTD`) — if none of these matches, fall back to explicit `from`/`to`.
+
+| Group | Values |
+|-------|--------|
+| Trailing (rolling window ending today) | `TRAILING_3_DAYS`, `TRAILING_7_DAYS`, `TRAILING_30_DAYS`, `TRAILING_45_DAYS`, `TRAILING_90_DAYS`, `TRAILING_14_WEEKS` |
+| Last complete period | `LAST_WEEK`, `LAST_MONTH`, `LAST_3_MONTHS`, `LAST_6_MONTHS`, `LAST_12_MONTHS`, `LAST_4_YEARS`, `LAST_INVOICE_MONTH` |
+| To-date (period start → today) | `MTD`, `QTD`, `YTD` |
 
 | `aggBy` | Use when |
 |---------|----------|
@@ -518,6 +526,7 @@ After useful results, consider:
 ## Safety / anti-patterns
 
 - Prefer `datePreset` over hand-computed `from`/`to` when a preset matches — do not freeze last-month/trailing windows as absolute dates
+- Do not invent a `datePreset` token — only the 16 enum values above are valid; if none matches the requested range, use explicit `from`/`to` (a bad token fails with `-32602 Invalid option … path: ["datePreset"]`)
 - Do not combine `datePreset` with `from`/`to`
 - Do not invent CEL field names — use `search` `type: ["dimensions"]` or `get_context` popular groupBys
 - Do not put descriptive labels in `name` — use `alias`

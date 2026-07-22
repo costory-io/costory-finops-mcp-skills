@@ -69,7 +69,7 @@ Read the matching file. Do not improvise a blend of two cards until the user ask
 
 ## Notes on presets
 
-Cards use real `datePreset` tokens (`LAST_MONTH`, `LAST_WEEK`, `LAST_INVOICE_MONTH`, `TRAILING_14_WEEKS`, `LAST_12_MONTHS`, `MTD`, `YTD`, `TRAILING_90_DAYS`) — all present in the live DatePreset enum.
+Cards use real `datePreset` tokens (`LAST_MONTH`, `LAST_WEEK`, `LAST_INVOICE_MONTH`, `TRAILING_14_WEEKS`, `LAST_12_MONTHS`, `MTD`, `YTD`, `TRAILING_90_DAYS`) — all drawn from the `DatePreset` enum. The enum has exactly 16 values; the `query` skill lists the full authoritative set (also: `QTD`, `LAST_3_MONTHS`, `LAST_6_MONTHS`, `LAST_4_YEARS`, `TRAILING_3_DAYS`, `TRAILING_7_DAYS`, `TRAILING_30_DAYS`, `TRAILING_45_DAYS`). If a card needs a range no token covers, use explicit `from`/`to` rather than inventing a preset — the server rejects unknown tokens with `-32602`.
 
 ## Adding a recipe
 
