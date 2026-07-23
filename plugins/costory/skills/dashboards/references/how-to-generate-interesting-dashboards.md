@@ -9,7 +9,7 @@ Do **not** ship a wall of identical "by service" BAR charts. Mix composition, tr
 Always discover axes and metrics from the org — do not guess.
 
 1. `get_context` — popular groupBys, recent dashboards, currency / org habits
-2. Lock the **scope** (what to include) as CEL — this becomes `context.conditionsCel`
+2. Lock the **scope** (what to include) as CEL — this becomes `dashboardContext.conditionsCel`
 3. Resolve exact dimension names with `search` (`type: ["dimensions"]`) if needed
 4. `suggest_groupby` with the planned period (`from`/`to` matching the dashboard range) + the same `filterCel` as the scope → primary and secondary split axes
 5. If the scope is **specific** (service, product, cluster, team, …) → `suggest_usage_metrics` with that `filterCel` → candidate usage series
@@ -27,9 +27,9 @@ Call when the split axis is unclear or you want the most discriminative dimensio
 }
 ```
 
-- Use the **top suggestion** as `context.groupBy` when most widgets share that axis
+- Use the **top suggestion** as `dashboardContext.groupBy` when most widgets share that axis
 - Use the next 1–2 suggestions as **widget overrides** (`queries[].groupBy`) for secondary breakdowns
-- Pass the **same** `filterCel` you will put in `context.conditionsCel`
+- Pass the **same** `filterCel` you will put in `dashboardContext.conditionsCel`
 
 ### `suggest_usage_metrics`
 
@@ -109,10 +109,10 @@ Omit rows that do not apply (no usage suggestions → skip row 5). Prefer fewer 
 
 Before calling `create_dashboard`:
 
-- [ ] `context.conditionsCel` = discovery scope
-- [ ] `context.groupBy` = top `suggest_groupby` result (when shared by ≥2 widgets)
-- [ ] `context.datePreset` preferred over frozen dates
-- [ ] `context.metricId` + `context.currency` set once
+- [ ] `dashboardContext.conditionsCel` = discovery scope
+- [ ] `dashboardContext.groupBy` = top `suggest_groupby` result (when shared by ≥2 widgets)
+- [ ] `dashboardContext.datePreset` preferred over frozen dates
+- [ ] `dashboardContext.metricId` + `dashboardContext.currency` set once
 - [ ] Chart widgets omit inherited fields; only overrides remain
 - [ ] At least one **text** widget explains the dashboard
 - [ ] Chart types mix composition / trend / comparison — not five identical BARs
@@ -133,7 +133,7 @@ After `get_context`, `suggest_groupby` (AWS scope → e.g. `cos_service_name`, t
 ```json
 {
   "name": "AWS interesting overview",
-  "context": {
+  "dashboardContext": {
     "conditionsCel": "cos_provider in [\"AWS\"]",
     "groupBy": "cos_service_name",
     "metricId": "cost",

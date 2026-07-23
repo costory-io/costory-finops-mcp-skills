@@ -23,7 +23,7 @@
 
 ```json
 {
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_MONTH",
     "groupBy": "[ROOT_GROUPBY]",
     "metricId": "cost",
@@ -45,13 +45,13 @@
 
 ### `create_report` (only after they ask to send NOW)
 
-Same `context` + the same DIGEST object inside **`widgets`** (plural), plus schedule/destinations:
+Same `reportContext` + the same DIGEST object inside **`widgets`** (plural), plus schedule/destinations:
 
 ```json
 {
   "visibility": "PRIVATE",
   "schedule": { "mode": "NOW" },
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_MONTH",
     "groupBy": "[ROOT_GROUPBY]",
     "metricId": "cost",
@@ -74,7 +74,7 @@ Same `context` + the same DIGEST object inside **`widgets`** (plural), plus sche
 }
 ```
 
-Frozen: DIGEST-only; thresholds **100 / 5% / 20**; AI **off** unless they ask — then set `display: "summary"` for the executive narrative and/or `enableAiInvestigation: true` for per-node deep analysis (both slower; both real DIGEST fields). Period default `LAST_MONTH`; use `LAST_INVOICE_MONTH` if they mean invoice close. Comparison auto-derived from the preset — do not invent a second range. Root axis is **`context.groupBy` only**; put deeper levels in `additionalGroupBy` (never put the root there). `aggBy` is **`Month` or `Week`** only for DIGEST.
+Frozen: DIGEST-only; thresholds **100 / 5% / 20**; AI **off** unless they ask — then set `display: "summary"` for the executive narrative and/or `enableAiInvestigation: true` for per-node deep analysis (both slower; both real DIGEST fields). Period default `LAST_MONTH`; use `LAST_INVOICE_MONTH` if they mean invoice close. Comparison auto-derived from the preset — do not invent a second range. Root axis is **`reportContext.groupBy` only**; put deeper levels in `additionalGroupBy` (never put the root there). `aggBy` is **`Month` or `Week`** only for DIGEST.
 
 ## Confirm before build
 
