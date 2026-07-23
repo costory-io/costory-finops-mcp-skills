@@ -100,6 +100,8 @@ If slug auto-detect fails, call `list_organizations` and pass `slug`.
 
 Optional per series: `chartType` (`BAR` \| `LINE` \| `AREA` \| `WATERFALL` \| `TABLE`, default `LINE`), `groupBy`, `filterCel` (cost/usage), `alias`, `rollingAggregation`.
 
+> **`chartType` accepts only those five values** — any other value is rejected with a zod validation error. There is **no `DONUT`** enum: for a single-period composition use `chartType: "BAR"` + `aggBy: "Period"` (and a `groupBy`). **`KPI_BREAKDOWN` is compare-only** — it is valid on the dashboards `compare.chartType`, never on a series `chartType`.
+
 **Cost columns (`metricId`):** `cost`, `effective_cost`, `list_cost`, `contracted_cost`, `unblended_cost`, `net_unblended_cost`, `amortized_cost`, `net_amortized_cost`.
 
 **Null labels:** unlabelled resources are CEL `null` — use `== null` / `!= null`, not `is_null` or the string `"null"`.
