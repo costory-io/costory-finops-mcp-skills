@@ -18,7 +18,7 @@
 ```json
 {
   "name": "Budget vs actual — daily",
-  "context": {
+  "dashboardContext": {
     "datePreset": "MTD",
     "metricId": "cost",
     "currency": "[CURRENCY]",
@@ -100,7 +100,7 @@
 }
 ```
 
-Frozen: `budgetId` = **`budgetVersionId` from `get`** (never parent id from `search`); both cost and budget legs share the same `rollingAggregation` window; widget `aggBy: "Day"`; default context `datePreset: "MTD"`. Utilization widget is optional — omit if they only want the dual series.
+Frozen: `budgetId` = **`budgetVersionId` from `get`** (never parent id from `search`); both cost and budget legs share the same `rollingAggregation` window; widget `aggBy: "Day"`; default `dashboardContext.datePreset: "MTD"`. Utilization widget is optional — omit if they only want the dual series.
 
 ## Confirm before build
 

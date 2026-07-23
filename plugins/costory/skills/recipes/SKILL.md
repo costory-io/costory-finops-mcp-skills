@@ -24,7 +24,7 @@ Every card has:
 |---------|------|
 | **When / Audience / Outcome** | routing + what "done" looks like |
 | **Tool sequence** | ordered Costory MCP tool names (discover → confirm → preview → create) |
-| **Payload skeleton** | JSON-shaped `context` / `widgets` / optional `query` with frozen defaults + `[PLACEHOLDERS]` |
+| **Payload skeleton** | JSON-shaped `dashboardContext` or `reportContext` / `widgets` / optional `query` with frozen defaults + `[PLACEHOLDERS]` |
 | **Confirm before build** | gates that must be answered before preview/create/NOW/SCHEDULED |
 | **Gotchas** | recipe-specific traps only |
 | **Brief** | one-line restatement |

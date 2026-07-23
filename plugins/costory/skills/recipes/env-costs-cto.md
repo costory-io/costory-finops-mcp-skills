@@ -22,7 +22,7 @@
     "period": "MONTHLY",
     "firstRunAt": "[ISO_FIRST_RUN]"
   },
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_MONTH",
     "groupBy": "[ENV_BQ_NAME]",
     "metricId": "cost",

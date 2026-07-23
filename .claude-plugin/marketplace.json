@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Costory FinOps skills for AI agents: query, virtual dimensions, dashboards, reports (DIGEST) workflows, and ready-made tracking recipes for the Costory MCP tool surface.",
-    "version": "0.8.2"
+    "version": "0.8.3"
   },
   "plugins": [
     {

@@ -21,7 +21,7 @@
     "weekday": "[WEEKDAY]",
     "firstRunAt": "[ISO_FIRST_RUN]"
   },
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_WEEK",
     "groupBy": "cos_namespace_reallocated",
     "metricId": "cost",

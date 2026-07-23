@@ -23,7 +23,7 @@
     "weekday": "[WEEKDAY]",
     "firstRunAt": "[ISO_FIRST_RUN]"
   },
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_WEEK",
     "groupBy": "[ROOT_GROUPBY]",
     "metricId": "cost",

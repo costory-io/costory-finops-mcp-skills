@@ -11,7 +11,7 @@
 3. Confirm what is legitimately un-taggable → `[SCOPE_CEL]` (default exclude marketplace: `cos_marketplace_purchase == false`)
 4. `query` with formula skeleton below — eyeball both legs + ratio on a known period (`datePreset`, not hand-picked dates)
 5. Confirm cadence + channel type → `list_available_destinations`
-6. Confirm `SCHEDULED` → `create_report` reusing the **same** formula (shared fields in report `context`; hand off to `reports` for inheritance)
+6. Confirm `SCHEDULED` → `create_report` reusing the **same** formula (shared fields in `reportContext`; hand off to `reports` for inheritance)
 
 ## Payload skeleton — validate in `query` first
 
@@ -61,7 +61,7 @@ Adjust tagged leg if "tagged" means a specific value (`[TAG_FIELD] == "[EXPECTED
     "weekday": "[WEEKDAY if WEEKLY]",
     "firstRunAt": "[ISO_FIRST_RUN]"
   },
-  "context": {
+  "reportContext": {
     "datePreset": "[LAST_WEEK|LAST_MONTH]",
     "groupBy": "cos_service_name",
     "metricId": "cost",
@@ -128,7 +128,7 @@ Adjust tagged leg if "tagged" means a specific value (`[TAG_FIELD] == "[EXPECTED
 }
 ```
 
-Frozen: metric is formula `a / b` (not raw `cost`); `groupBy` = `cos_service_name`; scope on `context.conditionsCel`; tagged-only predicate on query `filterCel`. Cadence usually MONTHLY (WEEKLY during an active tagging push).
+Frozen: metric is formula `a / b` (not raw `cost`); `groupBy` = `cos_service_name`; scope on `reportContext.conditionsCel`; tagged-only predicate on query `filterCel`. Cadence usually MONTHLY (WEEKLY during an active tagging push).
 
 ## Confirm before build
 

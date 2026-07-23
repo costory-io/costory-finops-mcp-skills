@@ -5,9 +5,11 @@ description: "Use when creating, previewing, updating, scheduling, or exploring 
 
 # Reports
 
-**Skill body version 0.5.1.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
+**Skill body version 0.5.2.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
-A **report** has a shared **`context`** (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared `context` + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `context`.
+A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`.
+
+> **Temporary compatibility:** the deprecated top-level `context` alias is accepted during migration, but always generate `reportContext`. Never send both.
 
 **Load this skill first** for any report creation, DIGEST preview, substantial update, or delivery conversation.
 
@@ -17,7 +19,7 @@ Everything below this section is detail. These eight are the contract:
 
 1. **Ask before build (Schedule / delivery).** Do not pick widgets, call `preview_report_widget`, or call `create_report` until the design is confirmed. Never silently default to a graph or an AI summary on Schedule.
 2. **Explain exception — preview-first DIGEST.** For one-shot *"what changed / explain last month"* (Explain workflow or `explain-period-change` recipe), **defaulting to DIGEST chat preview is required.** Do not wait for a full design questionnaire; do not substitute `query` + `compare` for the first answer.
-3. **Context-first.** Once answers are in, define the full report `context` before listing widgets. Widgets carry **only overrides** — never duplicate what already lives in `context`.
+3. **Context-first.** Once answers are in, define the full `reportContext` before listing widgets. Widgets carry **only overrides** — never duplicate what already lives in `reportContext`.
 4. **Destinations last.** Do not call `list_available_destinations` until the user has named the channel **type** (Slack / Teams / email). Then list only that type and propose matches by name — never paste a whole channel list into the conversation.
 5. **AI features are opt-in.** DIGEST-only. Set `display: "summary"` for the executive narrative and/or `enableAiInvestigation: true` for per-node deep analysis — both default off (tree-only) and are slower.
 6. **Confirm delivery.** Both `NOW` and `SCHEDULED` need explicit confirmation before `create_report`. `UNSCHEDULED` does not.
@@ -103,10 +105,10 @@ Then restate a **one-paragraph design brief** (audience, cadence, widgets, scope
 1. `get_context`, plus `list_teams` only if team scoping applies
 2. Steps 1–3 above → design brief confirmed
 3. If the DIGEST hierarchy was open-ended → `suggest_groupby` with the planned period + scope filter → propose root + `additionalGroupBy` → confirm
-4. **Draft the report `context` first** — shared `datePreset` / metric / currency / `groupBy` / scope
+4. **Draft `reportContext` first** — shared `datePreset` / metric / currency / `groupBy` / scope
 5. If DIGEST is in the mix → `preview_report_widget` (defaults **100 / 5% / 20**; set `display: "summary"` / `enableAiInvestigation` only if opted in) → tune → re-preview
 6. **Now** resolve delivery: `list_available_destinations` for the chosen channel type → propose matches by name → confirm the specific destination. Missing Slack/Teams integration → https://app.costory.io/integration
-7. Confirm `schedule.mode: "SCHEDULED"` (period, weekday, `firstRunAt`) → `create_report` with the **same `context` + widgets** you previewed
+7. Confirm `schedule.mode: "SCHEDULED"` (period, weekday, `firstRunAt`) → `create_report` with the **same `reportContext` + widgets** you previewed
 
 ---
 
@@ -127,15 +129,15 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 ### 2 — Discover the tree with `suggest_groupby` (same turn as preview)
 
 1. `get_context` (+ `list_teams` only if team scoping is needed)
-2. Resolve period: prefer `context.datePreset: "LAST_MONTH"` (or `LAST_INVOICE_MONTH`)
+2. Resolve period: prefer `reportContext.datePreset: "LAST_MONTH"` (or `LAST_INVOICE_MONTH`)
 3. Call `suggest_groupby` with `from`/`to` matching that month and the same `filterCel` as the planned scope
-4. Pick a tree: **root** = top hit → `context.groupBy`; **deeper levels** = next useful hits → `additionalGroupBy` (typically 1–2 levels). If suggestions are empty/weak → `popularGroupBys`, else `cos_provider` → `cos_service_name`
+4. Pick a tree: **root** = top hit → `reportContext.groupBy`; **deeper levels** = next useful hits → `additionalGroupBy` (typically 1–2 levels). If suggestions are empty/weak → `popularGroupBys`, else `cos_provider` → `cos_service_name`
 5. **Chat-only:** state the path in one sentence and go straight to preview (no confirmation wait). **NOW:** confirm the path before create
 
 ### 3 — Preview DIGEST (primary data tool)
 
-1. Draft `context`: `datePreset: "LAST_MONTH"`, chosen `groupBy`, `metricId`, `currency`, optional scope
-2. `preview_report_widget` with `{ context, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in)
+1. Draft `reportContext`: `datePreset: "LAST_MONTH"`, chosen `groupBy`, `metricId`, `currency`, optional scope
+2. `preview_report_widget` with `{ reportContext, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in)
 3. **Present only preview fields** — required shape:
    - Headline from `resolvedPeriod` + `totals`
    - `topIncreases` / `topDecreases` (path + Δ)
@@ -148,7 +150,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 
 1. Stop here if they only wanted an explanation in chat — no `create_report` needed
 2. To send: channel type known → `list_available_destinations` for that type → confirm the channel → confirm `schedule.mode: "NOW"`
-3. `create_report` with the **same** `context` + that DIGEST object inside **`widgets: […]`** (plural array; GRAPH_SNAPSHOT only if requested)
+3. `create_report` with the **same** `reportContext` + that DIGEST object inside **`widgets: […]`** (plural array; GRAPH_SNAPSHOT only if requested)
 
 ---
 
@@ -156,9 +158,9 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 
 `get` (report id) → preview if DIGEST content changes → `update_report`.
 
-- Patch `context` alone to change the report-wide period / groupBy / filter / currency without rewriting widgets.
+- Patch `reportContext` alone to change the report-wide period / groupBy / filter / currency without rewriting widgets.
 - Pass `widgets` only when replacing the widget list (wholesale replace). The field is always the `widgets` **array** — a singular `widget` key is silently ignored.
-- New widgets follow the same inheritance rules: omit fields that match `context`.
+- New widgets follow the same inheritance rules: omit fields that match `reportContext`.
 
 ## Workflow: Run — run, retry, transfer, archive
 
@@ -174,7 +176,7 @@ Retry **failed executions only** — never `run_report_now` to fix one destinati
 
 Read this half when drafting JSON — the conversation rules above still apply.
 
-## Report `context` fields
+## Report `reportContext` fields
 
 | Field | Role | Widget inheritance |
 |-------|------|-------------------|
@@ -193,15 +195,15 @@ Report **ownership** (`teamId`, `visibility` on `create_report`) is separate fro
 
 At preview, create, and each scheduled run:
 
-1. Start from report `context` (period, `metricId`, `currency`, `groupBy`, `conditionsCel`, `scopeId`).
+1. Start from `reportContext` (period, `metricId`, `currency`, `groupBy`, `conditionsCel`, `scopeId`).
 2. Apply **widget-level** overrides (`datePreset` / `from`/`to`, `scopeId`, DIGEST thresholds, `aggBy`, title, …).
 3. Apply **query-level** overrides (`groupBy`, `metricId`, `currency`, `filterCel`, `chartType`, `alias`).
 4. Effective cost filter = report `conditionsCel` **AND** widget/query `filterCel` (an empty side is a no-op).
 
 Consequences worth knowing:
 
-- **Similarity rule:** when widgets share a period, split, metric, currency, or scope, put it in `context` first. Widget fields are exceptions only.
-- **Per-widget periods are normal** — e.g. GRAPH = `TRAILING_14_WEEKS`, TOP_FLOP = `LAST_WEEK` (Tuesday send) or `TRAILING_7_DAYS` (earlier weekday). Keep shared fields on `context`; override only `datePreset` (and presentation) on the widget.
+- **Similarity rule:** when widgets share a period, split, metric, currency, or scope, put it in `reportContext` first. Widget fields are exceptions only.
+- **Per-widget periods are normal** — e.g. GRAPH = `TRAILING_14_WEEKS`, TOP_FLOP = `LAST_WEEK` (Tuesday send) or `TRAILING_7_DAYS` (earlier weekday). Keep shared fields on `reportContext`; override only `datePreset` (and presentation) on the widget.
 - **Never combine** `datePreset` with explicit dates on the same layer.
 - **`conditionsCel` is report-wide** — do not repeat it inside every widget `filterCel`.
 - **TEXT and DASHBOARD_PDF do not inherit query fields.** PDF period lives on the referenced dashboard; TEXT is static markdown in `contentMarkdown` (not dashboard `textContent`).
@@ -249,7 +251,7 @@ Pairings: tree is enough → DIGEST alone (defaults). Narrative + tree → DIGES
 Free-form markdown block. Shape is **`{ type: "TEXT", contentMarkdown }`** — optional `title` / `description`.
 
 - Field name is **`contentMarkdown`** (1–10,000 characters after trim). Do **not** use `textContent` — that is the **dashboards** text-widget field (`type: "text"`).
-- No queries, period, or inheritance from report `context`.
+- No queries, period, or inheritance from `reportContext`.
 - Not a substitute for the DIGEST AI summary (`summaryMarkdown`).
 
 ```json
@@ -266,10 +268,10 @@ DIGEST builds a tree. Levels map to fields:
 
 | Level | Field | Notes |
 |-------|-------|-------|
-| Root (top of tree) | `context.groupBy` | Preferred; use `queries[0].groupBy` only when one DIGEST must differ |
+| Root (top of tree) | `reportContext.groupBy` | Preferred; use `queries[0].groupBy` only when one DIGEST must differ |
 | Deeper levels (in order) | `additionalGroupBy` | Ordered children only — **never** put the root here |
 
-| User says | `context.groupBy` (root) | `additionalGroupBy` |
+| User says | `reportContext.groupBy` (root) | `additionalGroupBy` |
 |-----------|---------------------------|---------------------|
 | provider → service | `cos_provider` | `["cos_service_name"]` |
 | env → project → service | `environment` | `["cos_sub_account_id", "cos_service_name"]` |
@@ -282,12 +284,12 @@ DIGEST builds a tree. Levels map to fields:
 
 ## Query config (DIGEST, GRAPH_SNAPSHOT, TOP_FLOP)
 
-Same query shape as `query`, minus anything that matches `context`:
+Same query shape as `query`, minus anything that matches `reportContext`:
 
-- `queries` — for DIGEST: exactly one `{ type: "cost", name: "a", filterCel? }` (omit `groupBy` / `metricId` / `currency` when they match context)
-- **Period** — omit on widgets when `context.datePreset` (or start/end) is set; widget-level `datePreset` / `from`/`to` are overrides only. Never hand-compute dates for recurring schedules. For DIGEST the server also resolves the comparison period and echoes `resolvedPeriod`.
+- `queries` — for DIGEST: exactly one `{ type: "cost", name: "a", filterCel? }` (omit `groupBy` / `metricId` / `currency` when they match reportContext)
+- **Period** — omit on widgets when `reportContext.datePreset` (or start/end) is set; widget-level `datePreset` / `from`/`to` are overrides only. Never hand-compute dates for recurring schedules. For DIGEST the server also resolves the comparison period and echoes `resolvedPeriod`.
 - `aggBy`
-- Widget `scopeId?` only when it must differ from `context.scopeId`
+- Widget `scopeId?` only when it must differ from `reportContext.scopeId`
 
 ## Preview defaults (DIGEST)
 
@@ -309,7 +311,7 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
 
 ```json
 {
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_MONTH",
     "groupBy": "environment",
     "metricId": "cost",
@@ -345,11 +347,11 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
 
 **`create_report` / `update_report` — same DIGEST goes in `widgets` (plural array).**
 
-**Migration tracker (graph + top/flop — not DIGEST).** Pair with `schedule.weekday: 2` (Tuesday) when using `LAST_WEEK`; if the send day is Monday, set `context.datePreset` to `TRAILING_7_DAYS` instead:
+**Migration tracker (graph + top/flop — not DIGEST).** Pair with `schedule.weekday: 2` (Tuesday) when using `LAST_WEEK`; if the send day is Monday, set `reportContext.datePreset` to `TRAILING_7_DAYS` instead:
 
 ```json
 {
-  "context": {
+  "reportContext": {
     "metricId": "cost",
     "currency": "USD",
     "groupBy": "team",
@@ -413,7 +415,7 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
     "period": "MONTHLY",
     "firstRunAt": "2026-08-01T10:00:00.000Z"
   },
-  "context": {
+  "reportContext": {
     "datePreset": "LAST_MONTH",
     "groupBy": "environment",
     "metricId": "cost",
@@ -428,11 +430,11 @@ Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10,
 
 The conversation rules live in **Must-follow rules** above. These are the shape mistakes:
 
-- Do not put the root hierarchy axis in `additionalGroupBy` instead of `context.groupBy`
-- Do not repeat `metricId`, `currency`, `groupBy`, `from`/`to`, or `datePreset` on a widget when it already matches `context`
-- Do not put the global scope in each widget's `filterCel` instead of `context.conditionsCel`
+- Do not put the root hierarchy axis in `additionalGroupBy` instead of `reportContext.groupBy`
+- Do not repeat `metricId`, `currency`, `groupBy`, `from`/`to`, or `datePreset` on a widget when it already matches `reportContext`
+- Do not put the global scope in each widget's `filterCel` instead of `reportContext.conditionsCel`
 - Do not confuse ownership (`teamId` / `visibility`) with query scope (`scopeId` / `conditionsCel` / `filterCel`)
-- Do not use a different widget *content* for preview vs create — same `context` + DIGEST fields — but the key differs: preview = `widget`, create/update = `widgets[]`
+- Do not use different widget *content* for preview vs create — same `reportContext` + DIGEST fields — but the key differs: preview = `widget`, create/update = `widgets[]`
 - Do not pass `widgets` to `preview_report_widget` or a singular `widget` to `create_report` (Zod strict rejects both)
 - Do not send dashboard `textContent` on a report TEXT widget — the field is `contentMarkdown` with `type: "TEXT"`
 - Do not skip preview before create when DIGEST is in the mix
@@ -441,6 +443,7 @@ The conversation rules live in **Must-follow rules** above. These are the shape 
 - Do not use `query` + `compare` as a substitute for Explain’s DIGEST preview on the first answer
 - Do not rebuild DIGEST movers as explorer tables or a canvas before presenting preview fields
 - Do not schedule a weekly `LAST_WEEK` report for Monday (`weekday: 1`) — cost data is ~2 days late; use Tuesday (`weekday: 2`) with `LAST_WEEK`, or keep Monday and switch to `TRAILING_7_DAYS`
+- Do not generate the deprecated `context` alias or send it together with `reportContext`
 
 ## Related skills
 

@@ -1,5 +1,5 @@
 {
-  "version": "0.8.2",
+  "version": "0.8.3",
   "skills": {
     "recipes": {
       "id": "recipes",
@@ -17,7 +17,7 @@
       "id": "dashboards",
       "name": "dashboards",
       "path": "plugins/costory/skills/dashboards/SKILL.md",
-      "description": "Create or extend Costory dashboards with context-first widget inheritance and interesting-overview generation (suggest_groupby, suggest_usage_metrics, text widgets)."
+      "description": "Create or extend Costory dashboards with dashboardContext-first widget inheritance and interesting-overview generation (suggest_groupby, suggest_usage_metrics, text widgets)."
     },
     "reports": {
       "id": "reports",

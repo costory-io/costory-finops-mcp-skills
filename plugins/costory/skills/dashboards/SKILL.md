@@ -1,24 +1,26 @@
 ---
 name: dashboards
-description: "Use when creating or extending Costory dashboards, generating interesting FinOps overviews (suggest_groupby + suggest_usage_metrics + text widgets), adding or replacing widgets, copying widgets between dashboards, editing dashboard context (global filter / period / groupBy) via update_dashboard, or applying context-first inheritance for period, groupBy, metric, currency, and CEL filters. Call get_skill with skillId \"dashboards\" before create_dashboard or update_dashboard."
+description: "Use when creating or extending Costory dashboards, generating interesting FinOps overviews (suggest_groupby + suggest_usage_metrics + text widgets), adding or replacing widgets, copying widgets between dashboards, editing dashboardContext (global filter / period / groupBy) via update_dashboard, or applying shared-context inheritance for period, groupBy, metric, currency, and CEL filters. Call get_skill with skillId \"dashboards\" before create_dashboard or update_dashboard."
 ---
 
 # Dashboards
 
-A **DashboardV2** has a shared **`context`** (global theme) and **widgets** that inherit it by default. Each widget is either a **chart** (Advanced Explorer queries + `chartType`) or a **text block** (`type: "text"`, `textContent`).
+A **DashboardV2** has a shared **`dashboardContext`** input (global theme) and **widgets** that inherit it by default. Each widget is either a **chart** (Advanced Explorer queries + `chartType`) or a **text block** (`type: "text"`, `textContent`).
 
-**Context-first rule:** define the full dashboard `context` **before** listing widgets. Widgets should contain **only overrides** — never duplicate what already lives in `context`. If two or more widgets share the same period, `groupBy`, metric, currency, or filter scope, extract that shared value to `context` first.
+**Context-first rule:** define the full `dashboardContext` **before** listing widgets. Widgets should contain **only overrides** — never duplicate what already lives in `dashboardContext`. If two or more widgets share the same period, `groupBy`, metric, currency, or filter scope, extract that shared value to `dashboardContext` first.
+
+> **Temporary compatibility:** the deprecated top-level `context` alias is accepted during migration, but always generate `dashboardContext`. Never send both.
 
 ## When to Trigger
 
 - Creating a new Costory dashboard
 - Generating an **interesting** overview when the user has not specified every widget (use **How to generate interesting dashboards** below)
 - Adding, replacing, or removing widgets on an existing dashboard
-- Editing dashboard `context` (global filter, period, groupBy, metric, currency) without recreating
+- Editing `dashboardContext` (global filter, period, groupBy, metric, currency) without recreating
 - Copying a widget to another dashboard
 - User asks for a cost overview "by service / by region" style dashboard
 
-## Dashboard `context` fields
+## Dashboard `dashboardContext` fields
 
 | Field | Role | Widget inheritance |
 |-------|------|-------------------|
@@ -29,17 +31,17 @@ A **DashboardV2** has a shared **`context`** (global theme) and **widgets** that
 | `conditionsCel` | Dashboard-wide CEL filter (scope) | AND-merged into every cost widget by default |
 | `scopeId` | Optional saved scope | Inherited like other context fields |
 
-Each query still needs `"type": "cost"` (query kind — not inherited). What you omit on cost widgets is `metricId`, `currency`, `groupBy`, and period when they match `context`.
+Each query still needs `"type": "cost"` (query kind — not inherited). What you omit on cost widgets is `metricId`, `currency`, `groupBy`, and period when they match `dashboardContext`.
 
 ## Inheritance semantics
 
-- **Period, metricId, currency, groupBy:** omit on widgets when they match the dashboard `context`.
-- **Similarity rule:** when widgets or dashboards are very similar, identify the common `datePreset`/dates, `groupBy`, `metricId`, `currency`, and `conditionsCel` before writing widgets. Put common values in `context`; widget fields are for exceptions only.
-- **`groupBy`:** omit the field to inherit `context.groupBy`; set `groupBy: null` to explicitly disable grouping for that widget.
-- **Period presets:** if the user's range maps to an available `DatePreset` (for example `TRAILING_30_DAYS`, `TRAILING_90_DAYS`, `LAST_MONTH`, `YTD`), use `context.datePreset`. Use `startDate`/`endDate` only for truly custom ranges.
+- **Period, metricId, currency, groupBy:** omit on widgets when they match `dashboardContext`.
+- **Similarity rule:** when widgets or dashboards are very similar, identify the common `datePreset`/dates, `groupBy`, `metricId`, `currency`, and `conditionsCel` before writing widgets. Put common values in `dashboardContext`; widget fields are for exceptions only.
+- **`groupBy`:** omit the field to inherit `dashboardContext.groupBy`; set `groupBy: null` to explicitly disable grouping for that widget.
+- **Period presets:** if the user's range maps to an available `DatePreset` (for example `TRAILING_30_DAYS`, `TRAILING_90_DAYS`, `LAST_MONTH`, `YTD`), use `dashboardContext.datePreset`. Use `startDate`/`endDate` only for truly custom ranges.
 - **`conditionsCel`:** inherited by default. Every cost widget AND-merges dashboard `conditionsCel` with its own `filterCel`.
 - **`extendDashboardConditions`:** defaults to `true` (inherit dashboard filter). Set `false` **only** when the widget must ignore the dashboard filter entirely.
-- **Widget `filterCel`:** widget-specific scope only — do **not** put the dashboard-wide filter here; put it in `context.conditionsCel`.
+- **Widget `filterCel`:** widget-specific scope only — do **not** put the dashboard-wide filter here; put it in `dashboardContext.conditionsCel`.
 
 ## Widget types
 
@@ -151,7 +153,7 @@ Dashboard layout is a **12-column** grid. Rows grow downward.
 | Read existing dashboard + widget layout | `get` |
 | Create a new dashboard | `create_dashboard` |
 | Add / replace / remove widgets | `update_dashboard` (Workflow B) |
-| Patch shared `context` / global filter | `update_dashboard` with `context` (Workflow D) |
+| Patch shared `dashboardContext` / global filter | `update_dashboard` with `dashboardContext` (Workflow D) |
 | Run saved widget data | `get_dashboard_widget_data` |
 
 ## How to generate interesting dashboards
@@ -165,16 +167,16 @@ Full playbook (layout recipe, anti-patterns, extended examples): call `get_skill
 ### Discovery (required)
 
 1. `get_context` — popular groupBys, recent dashboards, currency habits
-2. Lock **scope** as CEL → this becomes `context.conditionsCel` (provider, team, service, …)
+2. Lock **scope** as CEL → this becomes `dashboardContext.conditionsCel` (provider, team, service, …)
 3. `suggest_groupby` with period `from`/`to` matching the dashboard range + the same `filterCel` as that scope
-   - Top hit → `context.groupBy` when ≥2 widgets share it
+   - Top hit → `dashboardContext.groupBy` when ≥2 widgets share it
    - Next 1–2 hits → secondary widget `groupBy` overrides
 4. If scope is **specific** (not org-wide) → `suggest_usage_metrics` with that `filterCel` → optional usage / unit-economics widgets
 5. Optionally `query` once so intro/findings text can cite real drivers (never invent numbers)
-6. Draft `context` first, then the widget palette below → `create_dashboard`
+6. Draft `dashboardContext` first, then the widget palette below → `create_dashboard`
 
 ```json
-// suggest_groupby — same filterCel as context.conditionsCel
+// suggest_groupby — same filterCel as dashboardContext.conditionsCel
 { "from": "2026-04-18", "to": "2026-07-17", "filterCel": "cos_provider in [\"AWS\"]" }
 
 // suggest_usage_metrics — only with a narrow scope
@@ -213,7 +215,7 @@ Build **5–8** widgets that answer different questions:
 ```json
 {
   "name": "AWS interesting overview",
-  "context": {
+  "dashboardContext": {
     "conditionsCel": "cos_provider in [\"AWS\"]",
     "groupBy": "cos_service_name",
     "metricId": "cost",
@@ -279,25 +281,25 @@ Build **5–8** widgets that answer different questions:
 
 1. `get_skill` with `skillId: "dashboards"` (this guide) — you are here
 2. `get_context` + optional `search` / `query` to pick dimensions and validate CEL. If the widget list is open-ended, follow **How to generate interesting dashboards** (`suggest_groupby`, optional `suggest_usage_metrics`, text + mixed chart types)
-3. **Draft the dashboard `context` first:**
+3. **Draft `dashboardContext` first:**
    - `metricId`, `currency`, default `groupBy` when two or more widgets share the same split
    - **Period:** prefer `datePreset` (e.g. `TRAILING_90_DAYS`) when possible; otherwise use `startDate` + `endDate`
    - Global scope: `conditionsCel` when all widgets share a filter
-4. **List widgets as minimal overrides** — each chart widget: `title`, `queries` (`type`, `name`, `chartType`, optional `groupBy` / `filterCel`), `aggBy`. Pick `chartType` + size from **Widget types** / **Grid sizing** above. Omit `metricId`, `currency`, period, `groupBy`, and `conditionsCel` when they match `context`.
+4. **List widgets as minimal overrides** — each chart widget: `title`, `queries` (`type`, `name`, `chartType`, optional `groupBy` / `filterCel`), `aggBy`. Pick `chartType` + size from **Widget types** / **Grid sizing** above. Omit `metricId`, `currency`, period, `groupBy`, and `conditionsCel` when they match `dashboardContext`.
 5. `create_dashboard` — include the returned URL in your reply
 
 **Example — AWS overview, by service and by region:**
 
-> **`context.metricId` ≠ query `"type"`.** Both can be `"cost"` but mean different things:
-> - `context.metricId` → which cost **column** to query (inherited — widgets omit `metricId`)
+> **`dashboardContext.metricId` ≠ query `"type"`.** Both can be `"cost"` but mean different things:
+> - `dashboardContext.metricId` → which cost **column** to query (inherited — widgets omit `metricId`)
 > - `queries[].type` → query **kind** (`"cost"`, `"metric"`, `"formula"`…) — required on every query, not inherited
 >
-> Widgets below do **not** repeat `metricId`, `currency`, period, `groupBy`, or `conditionsCel` from `context`. Only `"type": "cost"` stays on each query.
+> Widgets below do **not** repeat `metricId`, `currency`, period, `groupBy`, or `conditionsCel` from `dashboardContext`. Only `"type": "cost"` stays on each query.
 
 ```json
 {
   "name": "AWS Overview",
-  "context": {
+  "dashboardContext": {
     "conditionsCel": "cos_provider in [\"AWS\"]",
     "groupBy": "cos_service_name",
     "metricId": "cost",
@@ -323,7 +325,7 @@ Build **5–8** widgets that answer different questions:
 
 1. `search` → dashboard id
 2. `get` → read `context` and each widget's `queryConfig`
-3. `update_dashboard` with `op: "add"` (or `replace` / `remove`) — new widgets omit fields that match the dashboard `context`, especially the period and common `groupBy`
+3. `update_dashboard` with `op: "add"` (or `replace` / `remove`) — new widgets omit fields that match the dashboard context, especially the period and common `groupBy`
 4. Response includes `inheritedContext` — use it to know what widgets can omit
 5. Include the returned URL in your reply
 
@@ -349,15 +351,15 @@ Build **5–8** widgets that answer different questions:
 2. `get` on the target dashboard → read its `context`
 3. `update_dashboard` on the target with `op: "add"`:
    - Pass `x`, `y`, `w`, `h` to preserve layout
-   - Rebuild queries using **overrides only** relative to the **target** dashboard `context` — do not copy inherited metricId/currency/period/filter fields that the target already provides
+   - Rebuild queries using **overrides only** relative to the **target** dashboard context — do not copy inherited metricId/currency/period/filter fields that the target already provides
 
 ## Workflow D — Edit dashboard context
 
-Change the shared `context` (global filter, period, `groupBy`, `metricId`, `currency`, `scopeId`) **without** recreating the dashboard or rewriting widgets.
+Change the shared context through the `dashboardContext` input (global filter, period, `groupBy`, `metricId`, `currency`, `scopeId`) **without** recreating the dashboard or rewriting widgets.
 
 1. `search` → dashboard id (optional if already known)
 2. `get` → read current `context` / `conditionsCel`
-3. `update_dashboard` with a **partial** `context` patch — omit fields you want to keep
+3. `update_dashboard` with a **partial** `dashboardContext` patch — omit fields you want to keep
 4. Response includes updated `inheritedContext`; `applied` is `[]` when no widget ops were passed
 5. Include the returned URL in your reply
 
@@ -377,7 +379,7 @@ Chart dashboards must keep a resolvable period after the merge — do not clear 
 ```json
 {
   "dashboardId": "clx9abc",
-  "context": {
+  "dashboardContext": {
     "conditionsCel": "cos_provider in [\"AWS\"]"
   }
 }
@@ -388,27 +390,27 @@ Chart dashboards must keep a resolvable period after the merge — do not clear 
 ```json
 {
   "dashboardId": "clx9abc",
-  "context": {
+  "dashboardContext": {
     "conditionsCel": ""
   }
 }
 ```
 
-You can combine `context` with `operations` in one call (new/replaced widgets inherit the merged context).
+You can combine `dashboardContext` with `operations` in one call (new/replaced widgets inherit the merged context).
 
 ## Per-widget overrides (complete catalog)
 
-Chart widgets inherit dashboard `context` for shared fields. Set a field on the widget (or query) **only** when it differs from `context`. Text widgets ignore all of these (except title / description / layout).
+Chart widgets inherit `dashboardContext` for shared fields. Set a field on the widget (or query) **only** when it differs from `dashboardContext`. Text widgets ignore all of these (except title / description / layout).
 
 ### Widget-level fields
 
-| Field | Inherits from `context`? | Default if omitted | Override when… |
+| Field | Inherits from `dashboardContext`? | Default if omitted | Override when… |
 |-------|--------------------------|--------------------|----------------|
 | `datePreset` | yes | dashboard period | This widget needs a different relative range (e.g. `LAST_MONTH` while dashboard is `TRAILING_90_DAYS`) |
 | `from` + `to` | yes (together) | dashboard period | This widget needs a custom absolute range. Prefer `datePreset` when a preset fits. Do not mix with widget `datePreset` |
 | `aggBy` | no (widget-only) | `Month` | Granularity: `Hour` / `Day` / `Week` / `Month` / `Period` (Period = donut / single-bucket) |
 | `compare` | no | off | Period comparison — prefer `{}` / `{ enabled: true }` to auto-derive previous period from primary `datePreset`; or `{ from, to }` for a custom range; optional `chartType`: `WATERFALL` \| `TABLE` \| `KPI_BREAKDOWN` |
-| `extendDashboardConditions` | n/a (controls inheritance) | `true` | Set `false` **only** when this widget must ignore `context.conditionsCel` entirely |
+| `extendDashboardConditions` | n/a (controls inheritance) | `true` | Set `false` **only** when this widget must ignore `dashboardContext.conditionsCel` entirely |
 | `scopeId` | yes | dashboard `scopeId` | Widget should use a different saved team scope (`list_teams`) |
 | `limit` | no | `100` | Need more than 100 groups/rows (max `1000`) |
 | `title` / `description` | no | — | Always set `title`; `description` optional |
@@ -416,24 +418,24 @@ Chart widgets inherit dashboard `context` for shared fields. Set a field on the 
 
 ### Query-level fields (`queries[]`)
 
-| Field | Inherits from `context`? | Default if omitted | Override when… |
+| Field | Inherits from `dashboardContext`? | Default if omitted | Override when… |
 |-------|--------------------------|--------------------|----------------|
 | `type` + `name` | no | — | Always required (`type` = query kind; `name` = single letter `a`/`b`/`c`) |
 | `chartType` | no | `LINE` | Choose `BAR` / `LINE` / `AREA` / `TABLE` / `WATERFALL` (see **Widget types**) |
-| `groupBy` | yes | `context.groupBy` | Different split on this series. Set `null` for an ungrouped total (do not omit if you need to *disable* context groupBy) |
-| `metricId` | yes (cost queries) | `context.metricId` → `"cost"` | Different cost column (`effective_cost`, etc.) |
-| `currency` | yes (cost queries) | `context.currency` → `"USD"` | Different currency on this series |
+| `groupBy` | yes | `dashboardContext.groupBy` | Different split on this series. Set `null` for an ungrouped total (do not omit if you need to *disable* context groupBy) |
+| `metricId` | yes (cost queries) | `dashboardContext.metricId` → `"cost"` | Different cost column (`effective_cost`, etc.) |
+| `currency` | yes (cost queries) | `dashboardContext.currency` → `"USD"` | Different currency on this series |
 | `filterCel` | no (widget-specific) | none | Extra scope for this series only — AND-merged with dashboard conditions when inheriting (see below) |
 | `alias` | no | — | Human label for the series; never put labels in `name` |
 | `rollingAggregation` | no | off | Running totals / windowed agg (e.g. MTD budget burn: `aggBy: Day` + `{ aggregator: "SUM", window: { preset: "MONTH" } }`) |
 
 ### Conditions inheritance (`extendDashboardConditions` + `filterCel`)
 
-Dashboard filter = `context.conditionsCel`. Widget-specific filter = query `filterCel`.
+Dashboard filter = `dashboardContext.conditionsCel`. Widget-specific filter = query `filterCel`.
 
 | `extendDashboardConditions` | Effective CEL for cost/usage queries |
 |-----------------------------|--------------------------------------|
-| omit or `true` (default) | `(context.conditionsCel) AND (filterCel)` — if one side is empty, the other applies alone |
+| omit or `true` (default) | `(dashboardContext.conditionsCel) AND (filterCel)` — if one side is empty, the other applies alone |
 | `false` | `filterCel` only — dashboard `conditionsCel` is ignored for this widget |
 
 Examples (dashboard `conditionsCel`: `cos_provider in ["AWS"]`):
@@ -449,7 +451,7 @@ Examples (dashboard `conditionsCel`: `cos_provider in ["AWS"]`):
   "queries": [{ "type": "cost", "name": "a", "chartType": "BAR" }], "aggBy": "Month" }
 ```
 
-Do **not** repeat the dashboard-wide CEL inside every `filterCel`. Put shared scope in `context.conditionsCel`; put exceptions in `filterCel` and/or `extendDashboardConditions: false`.
+Do **not** repeat the dashboard-wide CEL inside every `filterCel`. Put shared scope in `dashboardContext.conditionsCel`; put exceptions in `filterCel` and/or `extendDashboardConditions: false`.
 
 ## QUERY NAMING
 
@@ -457,12 +459,13 @@ Do **not** repeat the dashboard-wide CEL inside every `filterCel`. Put shared sc
 
 ## Safety Rules / Anti-patterns
 
-- Do not repeat `metricId`, `currency`, `groupBy`, `from`/`to`, or `datePreset` on every widget when already in `context`
-- Do not use widget `from`/`to` for a common dashboard period when a `context.datePreset` is possible
-- Do not repeat the same `groupBy` across similar widgets instead of setting `context.groupBy`
-- Do not put the global scope (e.g. `cos_provider in ["AWS"]`) in each widget's `filterCel` instead of `context.conditionsCel`
+- Do not repeat `metricId`, `currency`, `groupBy`, `from`/`to`, or `datePreset` on every widget when already in `dashboardContext`
+- Do not use widget `from`/`to` for a common dashboard period when a `dashboardContext.datePreset` is possible
+- Do not repeat the same `groupBy` across similar widgets instead of setting `dashboardContext.groupBy`
+- Do not put the global scope (e.g. `cos_provider in ["AWS"]`) in each widget's `filterCel` instead of `dashboardContext.conditionsCel`
 - Do not set `extendDashboardConditions: true` on every widget — omit it (default is inherit)
-- Do not call `create_dashboard` without a period in `context` — validation rejects it (chart widgets need a dashboard period; text widgets do not)
+- Do not call `create_dashboard` without a period in `dashboardContext` — validation rejects it (chart widgets need a dashboard period; text widgets do not)
+- Do not generate the deprecated `context` alias or send it together with `dashboardContext`
 - Do not skip `suggest_groupby` on open-ended "interesting dashboard" requests and always default to `cos_service_name`
 - Do not call `suggest_usage_metrics` without a specific `filterCel`
 - Do not ship chart-only dashboards with no text intro / findings when generating an overview
