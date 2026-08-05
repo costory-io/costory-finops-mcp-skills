@@ -427,7 +427,7 @@ Chart widgets inherit `dashboardContext` for shared fields. Set a field on the w
 | `currency` | yes (cost queries) | `dashboardContext.currency` → `"USD"` | Different currency on this series |
 | `filterCel` | no (widget-specific) | none | Extra scope for this series only — AND-merged with dashboard conditions when inheriting (see below) |
 | `alias` | no | — | Human label for the series; never put labels in `name` |
-| `rollingAggregation` | no | off | Running totals / windowed agg (e.g. MTD budget burn: `aggBy: Day` + `{ aggregator: "SUM", window: { preset: "MONTH" } }`) |
+| `rollingAggregation` | no | off | Running totals / windowed agg (e.g. MTD budget burn: `aggBy: Day` + `{ aggregator: "SUM", window: { preset: "MONTH" } }`). `aggregator` accepts only `SUM` \| `AVG` \| `MAX` \| `MIN` |
 
 ### Conditions inheritance (`extendDashboardConditions` + `filterCel`)
 

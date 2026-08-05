@@ -91,6 +91,8 @@ Prefer saved `{ type: "metric" }` when one exists; otherwise use `externalMetric
 }
 ```
 
+**`aggregator` accepts only `SUM` \| `AVG` \| `MAX` \| `MIN`** (uppercase) — any other value is rejected with a zod validation error.
+
 **BigQuery table — add `dateColumn`, `metricColumn`, `gapFillingMethod` on the external leg.**
 
 Adjust `[GROUP_BY]` / `groupByFields` so cost and metric break down on the **same axis** you will map in the VDIM (e.g. service, team, product id).
