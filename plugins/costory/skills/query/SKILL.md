@@ -94,13 +94,15 @@ If slug auto-detect fails, call `list_organizations` and pass `slug`.
 | `cost` | `metricId` (default `"cost"`), `currency` (default `"USD"`) | — |
 | `usage` | `metricId` | `suggest_usage_metrics` |
 | `metric` | `metricId` | `list_metrics` |
-| `externalMetric` | `integrationId`, `metricName`, `aggregator`; BigQuery also needs `dateColumn`, `metricColumn`, `gapFillingMethod` | `list_metrics` `includeExternal: true` |
+| `externalMetric` | `integrationId`, `metricName`, `aggregator` (`SUM` \| `AVG` \| `MAX` \| `MIN`); BigQuery also needs `dateColumn`, `metricColumn`, `gapFillingMethod` | `list_metrics` `includeExternal: true` |
 | `formula` | `formula` referencing letters (`"a / b"`) | — |
 | `budget` | `budgetId` = **budget version id** (not parent id from search) | `search` → `get` |
 
-Optional per series: `chartType` (`BAR` \| `LINE` \| `AREA` \| `WATERFALL` \| `TABLE`, default `LINE`), `groupBy`, `filterCel` (cost/usage), `alias`, `rollingAggregation`.
+Optional per series: `chartType` (`BAR` \| `LINE` \| `AREA` \| `WATERFALL` \| `TABLE`, default `LINE`), `groupBy`, `filterCel` (cost/usage), `alias`, `rollingAggregation` (`{ aggregator, window }`, where `aggregator` is `SUM` \| `AVG` \| `MAX` \| `MIN`).
 
 > **`chartType` accepts only those five values** — any other value is rejected with a zod validation error. There is **no `DONUT`** enum: for a single-period composition use `chartType: "BAR"` + `aggBy: "Period"` (and a `groupBy`). **`KPI_BREAKDOWN` is compare-only** — it is valid on the dashboards `compare.chartType`, never on a series `chartType`.
+
+> **`aggregator` accepts only `SUM` \| `AVG` \| `MAX` \| `MIN`** (uppercase) — any other value (`COUNT`, `AVERAGE`, lowercase `sum`, …) is rejected with a zod validation error. This applies to both the `externalMetric` series `aggregator` and `rollingAggregation.aggregator`.
 
 **Cost columns (`metricId`):** `cost`, `effective_cost`, `list_cost`, `contracted_cost`, `unblended_cost`, `net_unblended_cost`, `amortized_cost`, `net_amortized_cost`.
 
