@@ -38,7 +38,7 @@ Never put the split dimension into `filterCel` (or the filter into `groupBy`). D
 ### Query naming
 
 - `name` — single lowercase letter (`a`–`z`) for formula references
-- `alias` — human label (e.g. `"Cost by environment"`)
+- `alias` — human label, **max 50 characters** (e.g. `"Cost by environment"`)
 - Never put descriptive text in `name`
 
 ### Period and aggregation
@@ -532,6 +532,7 @@ After useful results, consider:
 - Do not combine `datePreset` with `from`/`to`
 - Do not invent CEL field names — use `search` `type: ["dimensions"]` or `get_context` popular groupBys
 - Do not put descriptive labels in `name` — use `alias`
+- Do not exceed **50 characters** in `alias` — longer labels fail with `-32602 too_big … maximum: 50 … path: [..., "alias"]`; keep series labels short
 - Do not confuse SCOPE (`filterCel`) with SPLIT (`groupBy`)
 - Do not pass the parent budget id from `search` as `budgetId` — resolve `budgetVersionId` via `get`
 - Do not call `suggest_usage_metrics` without a specific `filterCel`
