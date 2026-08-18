@@ -38,7 +38,7 @@ Write tools (`create` / `update` / `publish`) are Clerk-only — not available o
 | Rule ids | **Create:** saveVirtualDimensionDraft re-stamps all rule ids — response ids are authoritative. **Update:** preserves ids from input (including when seeding a draft from published state). **Both:** ids are sticky to logical rules — reorder by moving `id` + `name` + `conditionCel` + `allocation` together; attaching an id to a different condition silently mis-assigns spend |
 | Tags | `get` returns `tags` (names) for both published and draft. Pass `tagNames` (strings) on create/update — not tag UUIDs |
 | `values` | Output-only — derived from rule allocations; do not send on create/update |
-| Allocation shapes | `dimensionValue`: `{ allocationType: "dimensionValue", dimensionValue: "prod" }`; `existingColumn`: `{ allocationType: "existingColumn", existingColumn: "cos_team" }`; `splitCost`: `{ allocationType: "splitCost", reAllocationParams: { type: "custom", partitions: [{ label: "A", weight: 60 }, { label: "B", weight: 40 }] } }` (weights sum to 100); `telemetry`: `{ allocationType: "telemetry", datasource: "...", mappingType: "mapping" \| "regexMapping" \| "identity", mappingParams: { mapping: { "key": "value" } }, regexTransformation: "..." }` — discover `datasource` via `list_metrics` (`{ datasourceId }` for groupBy dimensions); mapping keys are metric **value** names (not `cos_*` dimensions); unmapped values → leftover. Echo non-`dimensionValue` allocations from get unchanged unless the user explicitly asks to edit advanced allocation behavior |
+| Allocation shapes | `dimensionValue`: `{ allocationType: "dimensionValue", dimensionValue: "prod" }`; `existingColumn`: `{ allocationType: "existingColumn", existingColumn: "cos_team" }`; `splitCost`: `{ allocationType: "splitCost", reAllocationParams: { type: "custom", partitions: [{ label: "A", weight: 60 }, { label: "B", weight: 40 }] } }` (weights sum to 100); `telemetry`: `{ allocationType: "telemetry", externalMetric: { provider, integrationId, metricName, aggregator, groupByFields: ["<split-by>"] }, mappingType: "mapping" \| "regexMapping" \| "identity", mappingParams: { mapping: { "key": "value" } }, regexTransformation: "..." }` — discover `externalMetric` via `list_metrics` `{ includeExternal: true, search }`. Do **not** set `datasource` on new reallocations (leftover stored rows may still have it — echo unchanged). mapping keys are metric **value** names (not `cos_*` dimensions); unmapped values → leftover. Echo non-`dimensionValue` allocations from get unchanged unless the user explicitly asks to edit advanced allocation behavior |
 | CEL only | Always use `conditionCel` strings; never raw query-builder JSON |
 | Unlabelled values | Use `cos_environment == null` in `conditionCel` (not `is_null` or string `"null"`) |
 | Declarative updates | `update_virtual_dimension_draft` takes the **full desired rules array**, not diffs |
@@ -79,8 +79,9 @@ Do not invent bucket names from spend patterns alone without confirming — infe
 | Find dimension values / existing VDIMs for a topic | `search` with `type: ["dimensions", "virtual_dimensions"]` |
 | Explore spend to decide what rules to write | `query` |
 | Pick a natural split dimension for unclaimed spend | `suggest_groupby` |
-| Discover datasource id + groupBy dimensions for a `telemetry` allocation | `list_metrics` (no args to list; `{ datasourceId }` for dimensions) |
-| See values of a chosen metric dimension before mapping | `query` (`type: "metric"`, `groupBy`) |
+| Discover a live integration metric for a new `telemetry` allocation | `list_metrics` `{ includeExternal: true, search }` — persist inline `externalMetric` (do not set `datasource`) |
+| Inspect leftover saved-metric telemetry (already-stored `datasource` only) | `list_metrics` `{ datasourceId }` — not for new reallocations |
+| See series keys of a chosen external metric before mapping | `query` (`type: "externalMetric"`, `groupByFields`) |
 
 ## Workflow A — Create a new virtual dimension on a topic
 
@@ -121,15 +122,16 @@ If no pending draft exists, `update_virtual_dimension_draft` seeds one from publ
 
 ## Workflow C — Reallocate shared cost by a usage metric
 
-Use when the user wants to split shared spend proportionally to a synced usage metric (e.g. CPU-hours, requests) — the `telemetry` allocation type.
+Use when the user wants to split shared spend proportionally to a live integration metric (e.g. CPU-hours, requests) — the `telemetry` allocation type. New reallocations persist inline `externalMetric` only.
 
-1. `list_metrics` `{}` → pick the saved metric / datasource. Its `id` (minus any `::metricName`) is the `telemetry.datasource`.
-2. `list_metrics` `{ datasourceId }` → read `groupByDimensions`. Pick the dimension to reallocate by.
-3. `query` `{ type: "metric", metricId, groupBy: "<dimension>" }` → see top values. These become `mappingParams.mapping` keys.
-4. Present the proposed mapping for **explicit rule approval** (do not guess bucket labels; map significant values and let the long tail go to leftover).
-5. `create_virtual_dimension_draft` / `update_virtual_dimension_draft` with a rule whose `allocation` is `{ allocationType: "telemetry", datasource, mappingType: "mapping", mappingParams: { mapping } }` (or `regexMapping` + `regexTransformation` with named capture groups).
-6. `preview_virtual_dimension_draft` `mode: "costs"` → confirm the split and leftover share.
-7. `publish_virtual_dimension` on explicit confirmation.
+1. `list_metrics` `{ includeExternal: true, search }` → pick `provider`, `integrationId`, `metricName`, and a split-by attribute from `attributes`.
+2. `query` `{ type: "externalMetric", provider, integrationId, metricName, aggregator, groupByFields: ["<attribute>"] }` → see top series keys. These become `mappingParams.mapping` keys.
+3. Present the proposed mapping for **explicit rule approval** (do not guess bucket labels; map significant values and let the long tail go to leftover).
+4. `create_virtual_dimension_draft` / `update_virtual_dimension_draft` with a rule whose `allocation` is `{ allocationType: "telemetry", externalMetric: { provider, integrationId, metricName, aggregator, groupByFields }, mappingType: "mapping", mappingParams: { mapping } }` (or `regexMapping` + `regexTransformation` with named capture groups). Do not set `datasource`.
+5. `preview_virtual_dimension_draft` `mode: "costs"` → confirm the split and leftover share.
+6. `publish_virtual_dimension` on explicit confirmation.
+
+If `get` returns a leftover stored `{ datasource }` telemetry rule, echo it unchanged unless the user asks to switch it to an integration.
 
 ## The iteration loop
 
@@ -196,6 +198,7 @@ After adding a broad rule above a narrower one, a later rule can show **0** in p
 - Do not call `publish_virtual_dimension` before the user explicitly asks to go live
 - Do not try to rename the leftover bucket via `update_virtual_dimension_draft` — use the Costory web app
 - Do not derive `groupBy` / `filterCel` from the display `name` — always use immutable `bqName`
+- Do not set `datasource` / `datasourceId` on new telemetry reallocations — persist inline `externalMetric` via `list_metrics` `{ includeExternal: true, search }`
 
 ## Related Skills / Next Steps
 
