@@ -2,58 +2,22 @@
 
 **When:** *"reallocate shared cost by usage"*, *"split the platform bill by requests / CPU / revenue"*, *"unit economics with an external metric"*, *"showback by business driver"* — proportional allocation, not just cost ÷ metric in Explorer.
 **Audience:** FinOps / platform / product ops defining fair shared-cost showback.
-**Outcome:** a **telemetry virtual dimension** that splits in-scope spend by an external or saved usage metric, after validating unit economics in `query`.
+**Outcome:** a **telemetry virtual dimension** that splits in-scope spend by a live external-metric integration, after validating unit economics in `query`.
 
 ## Tool sequence
 
 1. `get_context` → currency, integrations
-2. `list_metrics` `{}` → pick saved metric **or** note none exists yet
-3. If no saved metric → `list_metrics` `{ includeExternal: true, search: "[KEYWORD]" }` → `[INTEGRATION_ID]`, `[METRIC_NAME]`, provider fields
-4. Define `[SCOPE_CEL]` (shared spend to split — e.g. a cluster, account, or service)
-5. `query` — validate **cost per unit** and inspect top `[GROUP_BY]` values (same period as the eventual VDIM)
-6. `list_metrics` `{ datasourceId: "[DATASOURCE_ID]" }` → read `groupByDimensions`; pick `[TELEMETRY_DIMENSION]`
-7. `query` `{ type: "metric", metricId: "[METRIC_ID]", groupBy: "[TELEMETRY_DIMENSION]" }` → build mapping keys
-8. Present proposed mapping for **explicit rule approval**
-9. `create_virtual_dimension_draft` / `update_virtual_dimension_draft` with `telemetry` allocation
-10. `preview_virtual_dimension_draft` `mode: "costs"` → confirm split + leftover share
-11. `publish_virtual_dimension` — only on explicit user confirmation
+2. `list_metrics` `{ includeExternal: true, search: "[KEYWORD]" }` → `[PROVIDER]`, `[INTEGRATION_ID]`, `[METRIC_NAME]`, split-by attribute from `attributes`
+3. Define `[SCOPE_CEL]` (shared spend to split — e.g. a cluster, account, or service)
+4. `query` — validate **cost per unit** with `{ type: "externalMetric", ... }` and inspect top series keys (same period as the eventual VDIM)
+5. Present proposed mapping for **explicit rule approval**
+6. `create_virtual_dimension_draft` / `update_virtual_dimension_draft` with `telemetry` + inline `externalMetric` (do not set `datasource`)
+7. `preview_virtual_dimension_draft` `mode: "costs"` → confirm split + leftover share
+8. `publish_virtual_dimension` — only on explicit user confirmation
 
 ## Payload skeleton — validate unit economics in `query` first
 
-Prefer saved `{ type: "metric" }` when one exists; otherwise use `externalMetric` for exploration.
-
-**Saved metric:**
-
-```json
-{
-  "datePreset": "[LAST_MONTH|TRAILING_30_DAYS]",
-  "aggBy": "[Week|Month]",
-  "queries": [
-    {
-      "type": "cost",
-      "name": "a",
-      "alias": "In-scope cost",
-      "metricId": "cost",
-      "currency": "[CURRENCY]",
-      "groupBy": "[GROUP_BY]",
-      "filterCel": "[SCOPE_CEL]"
-    },
-    {
-      "type": "metric",
-      "name": "b",
-      "alias": "[METRIC_LABEL]",
-      "metricId": "[METRIC_ID]",
-      "groupBy": "[GROUP_BY]"
-    },
-    {
-      "type": "formula",
-      "name": "c",
-      "alias": "Cost per unit",
-      "formula": "a / b"
-    }
-  ]
-}
-```
+Use `{ type: "externalMetric" }` for the metric leg — new telemetry reallocations are integration-backed.
 
 **Live external (Tsuga) — after `list_metrics` with `includeExternal: true`:**
 
@@ -107,7 +71,13 @@ Single rule with proportional split; unmapped metric values → leftover.
     "conditionCel": "[SCOPE_CEL]",
     "allocation": {
       "allocationType": "telemetry",
-      "datasource": "[DATASOURCE_ID]",
+      "externalMetric": {
+        "provider": "[PROVIDER]",
+        "integrationId": "[INTEGRATION_ID]",
+        "metricName": "[METRIC_NAME]",
+        "aggregator": "SUM",
+        "groupByFields": ["[PROVIDER_ATTRIBUTE]"]
+      },
       "mappingType": "mapping",
       "mappingParams": {
         "mapping": {
@@ -125,7 +95,7 @@ Frozen: use `telemetry` allocation (not manual weights); map significant metric 
 ## Confirm before build
 
 1. Which shared spend is in scope (`[SCOPE_CEL]`)
-2. Which metric drives the split (saved id vs external integration)
+2. Which live integration metric drives the split (`provider` / `integrationId` / `metricName` / split-by)
 3. Which dimension / groupBy aligns cost with metric volume
 4. Proposed mapping table (metric value → bucket label) — user approves before draft
 5. Acceptable leftover % after `preview_virtual_dimension_draft`
@@ -135,7 +105,8 @@ Frozen: use `telemetry` allocation (not manual weights); map significant metric 
 
 - **Unit economics in `query` ≠ reallocation.** Cost ÷ metric validates the driver; the VDIM performs proportional **split** of dollars.
 - Do not call `list_metrics` with `includeExternal: true` without a search term.
-- Mapping keys are metric **value names**, not `cos_*` CEL fields — discover via `query` on the metric with `groupBy`.
+- Mapping keys are metric **value names**, not `cos_*` CEL fields — discover via `query` `{ type: "externalMetric", groupByFields }`.
+- Do not set `datasource` on the VDIM telemetry allocation — persist inline `externalMetric` only.
 - If leftover share stays high after preview, add mapping entries for the largest unmapped values or narrow `[SCOPE_CEL]`.
 - After publish, poll `computeStatus` until `COMPLETED` before using `bqName` in dashboards/reports.
 
