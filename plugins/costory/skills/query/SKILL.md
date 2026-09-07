@@ -70,7 +70,7 @@ Provide a period with **either** `datePreset` **or** `from` + `to` (ISO dates, i
 
 ### Limit
 
-Omit `limit` unless needed (default **100** groups). Raise up to **1000** only for long-tail / full breakdown lists.
+Omit `limit` unless needed (default **100** groups). Raise up to **1000** only for long-tail / full breakdown lists. **1000 is a hard cap** — a larger value fails with `-32602 too_big … maximum: 1000 … path: [..., "limit"]`. To cover more than 1000 groups, narrow `filterCel` or split the `groupBy` instead of asking for a bigger limit.
 
 ## Supporting tools
 
@@ -541,6 +541,7 @@ After useful results, consider:
 - Do not call `suggest_usage_metrics` without a specific `filterCel`
 - Do not call `list_metrics` with `includeExternal: true` without a `search` term
 - Do not set `limit` by default — only when >100 groups are needed
+- Do not exceed **1000** in `limit` — larger values fail with `-32602 too_big … maximum: 1000 … path: [..., "limit"]`; narrow `filterCel` or split the `groupBy` instead
 - Do not use string `"null"` for missing labels — use CEL `== null`
 - Prefer saved `type: "metric"` over `externalMetric` when a saved metric already exists
 - Do not answer *"explain / what changed last month"* with `query` + `compare` — hand off to DIGEST preview (`explain-period-change` / `reports` Explain)

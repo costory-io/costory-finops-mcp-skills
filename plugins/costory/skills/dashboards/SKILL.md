@@ -412,7 +412,7 @@ Chart widgets inherit `dashboardContext` for shared fields. Set a field on the w
 | `compare` | no | off | Period comparison — prefer `{}` / `{ enabled: true }` to auto-derive previous period from primary `datePreset`; or `{ from, to }` for a custom range; optional `chartType`: `WATERFALL` \| `TABLE` \| `KPI_BREAKDOWN` |
 | `extendDashboardConditions` | n/a (controls inheritance) | `true` | Set `false` **only** when this widget must ignore `dashboardContext.conditionsCel` entirely |
 | `scopeId` | yes | dashboard `scopeId` | Widget should use a different saved team scope (`list_teams`) |
-| `limit` | no | `100` | Need more than 100 groups/rows (max `1000`) |
+| `limit` | no | `100` | Need more than 100 groups/rows (hard cap `1000` — a larger value fails with `-32602 too_big`; narrow `filterCel` or split `groupBy` instead) |
 | `title` / `description` | no | — | Always set `title`; `description` optional |
 | `w` / `h` / `x` / `y` | no | auto size / auto pack | See **Grid sizing** |
 
