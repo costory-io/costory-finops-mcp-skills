@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Costory FinOps skills for AI agents: cost-change investigation, query, virtual dimensions, dashboards, reports (DIGEST), and ready-made tracking recipes for the Costory MCP tool surface.",
-    "version": "0.10.5"
+    "version": "0.10.6"
   },
   "plugins": [
     {
