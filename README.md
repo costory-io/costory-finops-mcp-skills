@@ -64,6 +64,7 @@ Skills are the workflow layer: each one encodes how to sequence the tools above 
 
 | MCP `skillId` | Use when |
 |---|---|
+| `bigquery` | BigQuery warehouse caveats (on-demand vs slots, physical vs logical, labels) plus the [BigQuery] dashboard template |
 | `cost-change-investigation` | Explain a cost change with contribution, timing, usage, metric, event, alert, and terminology evidence |
 | `query` | Cost, usage, metric, formula, and budget investigation. Explorer period-over-period only; hands off "what changed" to `reports` Explain |
 | `virtual-dimensions` | Create, edit, preview, and publish custom cost axes with ordered CEL rules |
@@ -71,7 +72,7 @@ Skills are the workflow layer: each one encodes how to sequence the tools above 
 | `reports` | Scheduled Slack, Teams, and email reports, and preview-first DIGEST to explain last month's cost |
 | `recipes` | Ready-made tracking designs matched to an outcome, then handed off to the skills above to build |
 
-Recipes currently cover budget-vs-actual dashboards, EC2 spike alerts, prod-vs-R&D splits, untagged coverage, marketplace spend, provider credits, namespace cost, compute drilldowns, and period-change explanation. See [`plugins/costory/skills/recipes/`](./plugins/costory/skills/recipes/).
+Recipes currently cover BigQuery warehouse routing, GCP spend-based CUDs, budget-vs-actual dashboards, EC2 spike alerts, prod-vs-R&D splits, untagged coverage, marketplace spend, provider credits, namespace cost, compute drilldowns, and period-change explanation. See [`plugins/costory/skills/recipes/`](./plugins/costory/skills/recipes/).
 
 ## Install as a plugin
 
@@ -94,6 +95,7 @@ skills.json                            ← MCP skillId -> SKILL.md path
 plugins/costory/
   .claude-plugin/plugin.json
   skills/
+    bigquery/SKILL.md
     cost-change-investigation/SKILL.md
     query/SKILL.md
     virtual-dimensions/SKILL.md

@@ -103,5 +103,12 @@
         "prompt": "Explain GCP spend-based commitments and how to use the GCP Spend-Based Commitments dashboard.",
         "path": "plugins/costory/skills/recipes/gcp-spend-cud.md",
         "category": "explore"
+    },
+    {
+        "id": "16",
+        "name": "BigQuery warehouse",
+        "prompt": "Explain our BigQuery costs and how to use the BigQuery dashboard.",
+        "path": "plugins/costory/skills/recipes/bigquery.md",
+        "category": "explore"
     }
 ]
