@@ -1,6 +1,12 @@
 {
-  "version": "0.11.2",
+  "version": "0.15.0",
   "skills": {
+    "network-costs": {
+      "id": "network-costs",
+      "name": "network-costs",
+      "path": "plugins/costory/skills/network-costs/SKILL.md",
+      "description": "Open the [Network] Network costs dashboard (it teaches traffic vs rent and the eight families), then drill: scope traps, build landmines, and CloudWatch / Cloud Monitoring metrics for usage detail and unused network resources."
+    },
     "bigquery": {
       "id": "bigquery",
       "name": "bigquery",

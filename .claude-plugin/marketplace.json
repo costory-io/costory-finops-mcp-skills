@@ -5,13 +5,13 @@
     "email": "support@costory.io"
   },
   "metadata": {
-    "description": "Costory FinOps skills for AI agents: BigQuery warehouse caveats, cost-change investigation, query, virtual dimensions, dashboards, reports (DIGEST), and ready-made tracking recipes for the Costory MCP tool surface.",
-    "version": "0.11.2"
+    "description": "Costory FinOps skills for AI agents: BigQuery warehouse caveats, network costs (AWS/GCP/Azure), cost-change investigation, query, virtual dimensions, dashboards, reports (DIGEST), and ready-made tracking recipes for the Costory MCP tool surface.",
+    "version": "0.15.0"
   },
   "plugins": [
     {
       "name": "costory",
-      "description": "Costory FinOps plugin: agent skills for BigQuery warehouse caveats, cost-change investigation, querying, virtual dimensions (custom cost axes), dashboard and report creation with context-first widget inheritance, and DIGEST workflows with preview and delivery safety.",
+      "description": "Costory FinOps plugin: agent skills for BigQuery warehouse caveats, network costs (AWS/GCP/Azure), cost-change investigation, querying, virtual dimensions (custom cost axes), dashboard and report creation with context-first widget inheritance, and DIGEST workflows with preview and delivery safety.",
       "category": "productivity",
       "source": "./plugins/costory",
       "strict": false

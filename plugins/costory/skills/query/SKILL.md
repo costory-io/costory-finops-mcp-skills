@@ -553,3 +553,4 @@ After useful results, consider:
 - `virtual-dimensions` — custom cost axis when no dimension fits (`skillId: "virtual-dimensions"`)
 - `recipes` — reallocate shared cost by an external / usage metric → `reallocate-by-external-metric`
 - `bigquery` — BigQuery SKU families, physical vs logical, slots vs load jobs, labels (`skillId: "bigquery"`)
+- `network-costs` — egress / NAT / CDN / private connectivity across AWS, GCP, Azure (`skillId: "network-costs"`)
