@@ -4,7 +4,7 @@
 **Audience:** FinOps watching GCP Flexible / dollar-based commitments.
 **Outcome:** they understand spend-based CUDs, have the **GCP Spend-Based Commitments** dashboard (search by **name**, never hardcode an id), and can run leftover / hourly / project / SKU / family-drift questions when leftover / committed fee is **≥ 2%**. Rate and net savings live on the dashboard — do not re-query them.
 
-**Not this if:** monthly charge-category credit runway → `provider-credits`. Resource-based CUDs only (`cos_commitment_discount_category` = `Usage`) → design from `query`. Standing Slack pulse with no CUD concept → `reports`.
+**Not this if:** monthly charge-category credit runway → `provider-credits`. Resource-based CUDs only (`cos_commitment_discount_category` = `Usage`) → design from `query`. Standing Slack pulse with no CUD concept → `reports`. BigQuery Analysis / slots / storage warehouse → `bigquery`.
 
 ## Concept (teach this first)
 

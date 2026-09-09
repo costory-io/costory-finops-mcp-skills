@@ -17,7 +17,7 @@ Notes:
 - **No top-level `skills/` directory.** Every skill lives under `plugins/costory/skills/`.
 - **No `.codex-plugin/` directory.** Codex consumes the same `.claude-plugin/marketplace.json`.
 - **No `skills[]` array in marketplace.json.** Skills are auto-discovered from the plugin's `skills/` directory.
-- **`skills.json`** maps Costory MCP `skillId` values (`virtual-dimensions`, `dashboards`, `reports`, `query`, `recipes`) to on-disk paths so the backend can load markdown without hardcoding content.
+- **`skills.json`** maps Costory MCP `skillId` values (`bigquery`, `virtual-dimensions`, `dashboards`, `reports`, `query`, `recipes`) to on-disk paths so the backend can load markdown without hardcoding content.
 
 ## Skill ID mapping (Costory MCP)
 
@@ -25,6 +25,7 @@ Notes:
 
 | MCP `skillId` |
 |---------------|
+| `bigquery` |
 | `virtual-dimensions` |
 | `dashboards` |
 | `reports` |

@@ -1,6 +1,12 @@
 {
-  "version": "0.10.5",
+  "version": "0.11.2",
   "skills": {
+    "bigquery": {
+      "id": "bigquery",
+      "name": "bigquery",
+      "path": "plugins/costory/skills/bigquery/SKILL.md",
+      "description": "Teach BigQuery cost drivers and caveats, open the [BigQuery] dashboard template, and allocate or optimize analysis, slots, and storage."
+    },
     "cost-change-investigation": {
       "id": "cost-change-investigation",
       "name": "cost-change-investigation",

@@ -552,3 +552,4 @@ After useful results, consider:
 - `recipes` → `explain-period-change` — one-shot spend-change tree (prefer over Workflow B)
 - `virtual-dimensions` — custom cost axis when no dimension fits (`skillId: "virtual-dimensions"`)
 - `recipes` — reallocate shared cost by an external / usage metric → `reallocate-by-external-metric`
+- `bigquery` — BigQuery SKU families, physical vs logical, slots vs load jobs, labels (`skillId: "bigquery"`)
