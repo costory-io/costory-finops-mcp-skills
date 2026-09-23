@@ -5,7 +5,7 @@ description: "Use when creating, previewing, updating, scheduling, or exploring 
 
 # Reports
 
-**Skill body version 0.5.2.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
+**Skill body version 0.5.3.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
 A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`.
 
@@ -106,7 +106,7 @@ Then restate a **one-paragraph design brief** (audience, cadence, widgets, scope
 2. Steps 1–3 above → design brief confirmed
 3. If the DIGEST hierarchy was open-ended → `suggest_groupby` with the planned period + scope filter → propose root + `additionalGroupBy` → confirm
 4. **Draft `reportContext` first** — shared `datePreset` / metric / currency / `groupBy` / scope
-5. If DIGEST is in the mix → `preview_report_widget` (defaults **100 / 5% / 20**; set `display: "summary"` / `enableAiInvestigation` only if opted in) → tune → re-preview
+5. If DIGEST is in the mix → `preview_report_widget` (defaults **100 / 5% / 20**; if they named a row count, set `topLargestAbsoluteChange` to that integer **1–100**; set `display: "summary"` / `enableAiInvestigation` only if opted in) → tune → re-preview
 6. **Now** resolve delivery: `list_available_destinations` for the chosen channel type → propose matches by name → confirm the specific destination. Missing Slack/Teams integration → https://app.costory.io/integration
 7. Confirm `schedule.mode: "SCHEDULED"` (period, weekday, `firstRunAt`) → `create_report` with the **same `reportContext` + widgets** you previewed
 
@@ -137,7 +137,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 ### 3 — Preview DIGEST (primary data tool)
 
 1. Draft `reportContext`: `datePreset: "LAST_MONTH"`, chosen `groupBy`, `metricId`, `currency`, optional scope
-2. `preview_report_widget` with `{ reportContext, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in)
+2. `preview_report_widget` with `{ reportContext, widget }` (**singular** `widget`, never `widgets`) — minimal DIGEST (`additionalGroupBy`, thresholds **100 / 5% / 20** unless they named another `topLargestAbsoluteChange` in **1–100**, `aggBy: "Month"`; `display: "summary"` / `enableAiInvestigation: true` only if opted in)
 3. **Present only preview fields** — required shape:
    - Headline from `resolvedPeriod` + `totals`
    - `topIncreases` / `topDecreases` (path + Δ)
@@ -236,7 +236,7 @@ Analysis presets (map intent → fields; do not invent other knobs):
 |--------|--------|
 | Direct tree (default) | `display: "tree"`, `enableAiInvestigation: false` (or omit both) |
 | Executive summary | `display: "summary"`, `enableAiInvestigation: false` |
-| Deep investigation | `display: "summary"`, `enableAiInvestigation: true`, `topLargestAbsoluteChange: 20` |
+| Deep investigation | `display: "summary"`, `enableAiInvestigation: true`, `topLargestAbsoluteChange: 20` (any integer **1–100**; a higher N multiplies per-level work) |
 
 - **Offer narrative** when they want a written overview of what changed and why (exec / stakeholder read). Set `display: "summary"`.
 - **Offer investigation** only when they want per-node AI explanations under the tree — warn it is noticeably slower. Set `enableAiInvestigation: true`. Prefer `display: "summary"` with it so the narrative can ground on those findings; do not ask a second tree-vs-summary question once deep investigation is chosen.
@@ -291,19 +291,28 @@ Same query shape as `query`, minus anything that matches `reportContext`:
 - `aggBy`
 - Widget `scopeId?` only when it must differ from `reportContext.scopeId`
 
+## How many rows
+
+KPI movers (`TOP_FLOP`) and the DIGEST tree both take an integer N. Pass the integer they asked for (**1–100**).
+
+| Widget | Fields | Range | Default | Map their words |
+|--------|--------|-------|---------|-----------------|
+| `TOP_FLOP` | `topN` and `flopN` | integer **1–100** to choose a size; persist also accepts **0** | **5** each | "top 3" → `3`; "biggest change only" → `1`; a custom count (`7`, `40`, `100`) → that integer. Write the **same** N to both fields. `flopN: 0` (or `topN: 0`) hides that side — increases only, or decreases only. Values above **100** are rejected. |
+| `DIGEST` | `topLargestAbsoluteChange` | integer **1–100** | **20** | Same phrasing. Applied at **every tree level**, so a high N multiplies retained nodes — and AI investigations / summary tokens when those are on. `0` and values above **100** are rejected. |
+
 ## Preview defaults (DIGEST)
 
 | Field | Default |
 |-------|---------|
 | `minAbsoluteDiff` | **100** |
 | `minRelativeDiff` | **5** (percent) |
-| `topLargestAbsoluteChange` | **20** (allowed: 5, 10, 15, or 20) |
+| `topLargestAbsoluteChange` | **20** (any integer **1–100**) |
 | `display` | **`"tree"`** (set `"summary"` only when opted in) |
 | `enableAiInvestigation` | **`false`** (set `true` only when opted in) |
 
 Always show `resolvedPeriod` (when present), `comparisonPeriodSummary`, `totals`, `counts`, `topIncreases` / `topDecreases`, and `rootNodes`. Show `summaryMarkdown` only when `display: "summary"` (and warn that that preview may take longer).
 
-Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (only 5, 10, 15, or 20), grouping. Repeat `preview_report_widget` until satisfied.
+Tune from `recommendations`: thresholds, `topLargestAbsoluteChange` (any integer 1–100; lower it when the tree is large — it applies at every level), grouping. Repeat `preview_report_widget` until satisfied.
 
 ## Examples
 
