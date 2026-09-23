@@ -297,7 +297,7 @@ KPI movers (`TOP_FLOP`) and the DIGEST tree both take an integer N. Pass the int
 
 | Widget | Fields | Range | Default | Map their words |
 |--------|--------|-------|---------|-----------------|
-| `TOP_FLOP` | `topN` and `flopN` | integer **1–100** to choose a size; persist also accepts **0** | **5** each | "top 3" → `3`; "biggest change only" → `1`; a custom count (`7`, `40`, `100`) → that integer. Write the **same** N to both fields. `flopN: 0` (or `topN: 0`) hides that side — increases only, or decreases only. Values above **100** are rejected. |
+| `TOP_FLOP` | `topN` and `flopN` | integer **1–100** to choose a size; persist also accepts **0** | **5** each | "top 3" → `3`; "biggest change only" → `1`; a custom count (`7`, `40`, `100`) → that integer. When they name one count, write that N to both fields. `flopN: 0` (or `topN: 0`) hides that side — increases only, or decreases only. Values above **100** are rejected. |
 | `DIGEST` | `topLargestAbsoluteChange` | integer **1–100** | **20** | Same phrasing. Applied at **every tree level**, so a high N multiplies retained nodes — and AI investigations / summary tokens when those are on. `0` and values above **100** are rejected. |
 
 ## Preview defaults (DIGEST)
