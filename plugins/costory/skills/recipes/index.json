@@ -110,5 +110,12 @@
         "prompt": "Explain our BigQuery costs and how to use the BigQuery dashboard.",
         "path": "plugins/costory/skills/recipes/bigquery.md",
         "category": "explore"
+    },
+    {
+        "id": "17",
+        "name": "Explain this chart slice",
+        "prompt": "Explain this bar and how this slice evolved.",
+        "path": "plugins/costory/skills/recipes/explain-chart-slice.md",
+        "category": "explore"
     }
 ]
