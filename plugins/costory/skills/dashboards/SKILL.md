@@ -52,6 +52,8 @@ Two top-level widget kinds in `create_dashboard` / `update_dashboard`:
 | **Chart** | omit `type`, or `"type": "chart"` | `title`, `queries` (each with `type` + `name`), usually `aggBy` |
 | **Text** | `"type": "text"` | `title`, `textContent` (markdown or plain text) |
 
+`get` returns each chart widget's resolved query as `queryConfig`. `queryConfig` is read-only: `update_dashboard` rejects a widget that sends it. To write a chart widget, always send `queries` entries (`type`, `name`, `chartType`, and overrides only).
+
 ### Chart widget — `queries[].chartType`
 
 Set `chartType` on each series (`cost` / `metric` / `usage` / `formula` / `budget` / `externalMetric`). Omit → **`LINE`**. Primary series for sizing = first non-formula query (else first query).
@@ -324,7 +326,7 @@ Build **5–8** widgets that answer different questions:
 ## Workflow B — Extend an existing dashboard
 
 1. `search` → dashboard id
-2. `get` → read `context` and each widget's `queryConfig`
+2. `get` → read `context` and each widget's `queryConfig`. `queryConfig` is read-only — when you add or replace a widget, rebuild it as `queries` entries (`type`, `name`, `chartType`, and overrides only)
 3. `update_dashboard` with `op: "add"` (or `replace` / `remove`) — new widgets omit fields that match the dashboard context, especially the period and common `groupBy`
 4. Response includes `inheritedContext` — use it to know what widgets can omit
 5. Include the returned URL in your reply
@@ -351,7 +353,8 @@ Build **5–8** widgets that answer different questions:
 2. `get` on the target dashboard → read its `context`
 3. `update_dashboard` on the target with `op: "add"`:
    - Pass `x`, `y`, `w`, `h` to preserve layout
-   - Rebuild queries using **overrides only** relative to the **target** dashboard context — do not copy inherited metricId/currency/period/filter fields that the target already provides
+   - Rebuild the source `queryConfig` as `queries` entries (`type`, `name`, `chartType`, and overrides only). Do not send `queryConfig` — it is read-only and `update_dashboard` rejects it
+   - Use **overrides only** relative to the **target** dashboard context — do not copy inherited metricId/currency/period/filter fields that the target already provides
 
 ## Workflow D — Edit dashboard context
 
@@ -466,6 +469,7 @@ Do **not** repeat the dashboard-wide CEL inside every `filterCel`. Put shared sc
 - Do not set `extendDashboardConditions: true` on every widget — omit it (default is inherit)
 - Do not call `create_dashboard` without a period in `dashboardContext` — validation rejects it (chart widgets need a dashboard period; text widgets do not)
 - Do not generate the deprecated `context` alias or send it together with `dashboardContext`
+- Do not send the `queryConfig` from `get` in a write call — rebuild it as `queries`
 - Do not skip `suggest_groupby` on open-ended "interesting dashboard" requests and always default to `cos_service_name`
 - Do not call `suggest_usage_metrics` without a specific `filterCel`
 - Do not ship chart-only dashboards with no text intro / findings when generating an overview
