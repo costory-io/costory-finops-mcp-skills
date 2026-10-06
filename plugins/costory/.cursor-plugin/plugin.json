@@ -1,0 +1,28 @@
+{
+  "name": "costory",
+  "displayName": "Costory FinOps",
+  "version": "0.11.4",
+  "description": "Costory FinOps plugin: connect the hosted Costory MCP and agent skills for cloud-cost investigation, BigQuery caveats, virtual dimensions, dashboards, reports (DIGEST), and ready-made tracking recipes.",
+  "author": {
+    "name": "Costory",
+    "email": "engineering@costory.io"
+  },
+  "homepage": "https://costory.io",
+  "repository": "https://github.com/costory-io/costory-finops-mcp-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "costory",
+    "finops",
+    "cloud-cost",
+    "mcp",
+    "aws",
+    "gcp",
+    "azure",
+    "bigquery",
+    "dashboards",
+    "reports"
+  ],
+  "logo": "assets/logo.png",
+  "skills": "skills/",
+  "mcpServers": "mcp.json"
+}

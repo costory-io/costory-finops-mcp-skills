@@ -1,0 +1,30 @@
+{
+  "name": "costory",
+  "owner": {
+    "name": "Costory",
+    "email": "support@costory.io"
+  },
+  "metadata": {
+    "description": "Costory FinOps skills and hosted MCP for AI agents: cloud-cost investigation, BigQuery caveats, virtual dimensions, dashboards, reports (DIGEST), and ready-made tracking recipes.",
+    "version": "0.11.4",
+    "pluginRoot": "plugins"
+  },
+  "plugins": [
+    {
+      "name": "costory",
+      "source": "costory",
+      "description": "Costory FinOps plugin: hosted MCP plus agent skills for cost-change investigation, querying, virtual dimensions, dashboards, reports, and recipes.",
+      "category": "productivity",
+      "homepage": "https://costory.io",
+      "repository": "https://github.com/costory-io/costory-finops-mcp-skills",
+      "license": "Apache-2.0",
+      "keywords": [
+        "costory",
+        "finops",
+        "cloud-cost",
+        "mcp"
+      ],
+      "logo": "costory/assets/logo.png"
+    }
+  ]
+}

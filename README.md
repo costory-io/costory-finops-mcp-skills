@@ -74,6 +74,17 @@ Skills are the workflow layer: each one encodes how to sequence the tools above 
 
 Recipes currently cover BigQuery warehouse routing, GCP spend-based CUDs, budget-vs-actual dashboards, EC2 spike alerts, prod-vs-R&D splits, untagged coverage, marketplace spend, provider credits, namespace cost, compute drilldowns, and period-change explanation. See [`plugins/costory/skills/recipes/`](./plugins/costory/skills/recipes/).
 
+## Cursor Marketplace packaging
+
+This repo also ships a Cursor plugin layout next to the Claude Code marketplace:
+
+- `.cursor-plugin/marketplace.json` — multi-plugin marketplace manifest
+- `plugins/costory/.cursor-plugin/plugin.json` — Cursor plugin manifest
+- `plugins/costory/mcp.json` — hosted MCP at `https://app-api.costory.io/mcp` (OAuth in the client)
+- `plugins/costory/assets/logo.png` — plugin logo
+
+Submit the public repo URL at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) after local smoke-testing.
+
 ## Install as a plugin
 
 ```bash
