@@ -26,6 +26,8 @@ A **virtual dimension** is a custom cost axis (e.g. "Environment", "Team", "Prod
 
 Write tools (`create` / `update` / `publish`) are Clerk-only — not available on the service route. Read tools work on both routes.
 
+**Several organizations:** if `get_context` (or any tool) returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
+
 ## Concepts
 
 | Concept | Meaning |

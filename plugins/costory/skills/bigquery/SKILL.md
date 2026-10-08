@@ -12,6 +12,7 @@ Invoice SKUs first. Bytes scanned, slot-ms, and table storage are **not on the b
 ## Workflow
 
 1. `get_context` — currency; note `bq_*` / `user_email` if already ingested
+   - **Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
 2. `search` `{ type: ["dashboards"], query: "BigQuery" }` — use the template **[BigQuery] BigQuery Dashboard**. Org copies can differ. **Never hardcode an id.**
 3. `get` that template for the URL. Do not walk widgets.
 4. Teach **Slots vs on-demand** (two sentences): *On-demand = pay per TiB scanned. Slots = pay for a pool; unused slots still cost, and bytes no longer price the job.* Then the SKU table, then the caveat that matches the ask.

@@ -43,6 +43,7 @@ If intent is ambiguous between Schedule and Explain, ask: **recurring delivery t
 
 1. `get_skill` with `skillId: "reports"` — this guide
 2. `get_context` — org context, currency, popular groupBys
+   - **Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
 3. `list_teams` — only when team scoping may apply; each scope's `id` is the `scopeId` value
 4. `suggest_groupby` — when a DIGEST hierarchy is open-ended; needs the planned period + the report's scope filter
 5. `list_available_destinations` — **only after the channel type is known**, and only for a delivered report

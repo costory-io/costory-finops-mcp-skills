@@ -32,6 +32,8 @@ Every card has:
 
 Placeholders are never invented: resolve via `get_context`, `search`, `suggest_groupby`, `list_available_destinations`, VDIM publish, or the user. Currency comes from `get_context`.
 
+**Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
+
 ## Pick a recipe
 
 Read the matching file. Do not improvise a blend of two cards until the user asks to combine them.

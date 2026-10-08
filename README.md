@@ -70,6 +70,12 @@ For clients without native remote-MCP support, proxy it with `mcp-remote`:
 }
 ```
 
+### First prompt
+
+Try "Use Costory to show my top cost drivers last month". The agent calls `get_context`, then `query`.
+
+**If your account has access to several organizations**, `get_context` without a slug returns "Multiple organizations" with the list of slugs. The agent should call `list_organizations` (or read that list), ask which org to use, and pass that `slug` to `get_context` and the following tools. You can also name it upfront: "Use Costory org `acme` and show my top cost drivers last month".
+
 ## MCP tools reference
 
 The server exposes tools in five groups. Names and payloads are versioned; the
