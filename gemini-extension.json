@@ -1,0 +1,11 @@
+{
+  "name": "costory-finops",
+  "version": "0.12.0",
+  "description": "FinOps agent for Gemini CLI: hosted Costory MCP with allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost (OAuth).",
+  "mcpServers": {
+    "costory": {
+      "httpUrl": "https://app-api.costory.io/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
