@@ -20,7 +20,7 @@ No IAM credentials, Docker, or local server are needed.
 - "Why did our AWS bill go up last week? Check deploys in the same window."
 - "Split our shared Kubernetes cost by namespace and publish it as a Team dimension."
 - "What is our total AI spend across OpenAI, Anthropic and Bedrock this month, by team?"
-- "Create an alert if daily BigQuery cost goes above $2,000."
+- "Create an alert if daily BigQuery cost goes above $2,000 and post it to our #finops Slack channel."
 
 ## Support
 

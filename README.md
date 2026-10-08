@@ -34,7 +34,7 @@ agent starts from allocated, correlated data.
 - "What is our total AI spend across OpenAI, Anthropic, and Bedrock this month, by team and model?"
 - "Split our shared Cloud SQL cost across teams by usage and publish it as a dimension."
 - "What is our cloud cost per active user, this month vs last month?"
-- "Create an alert if daily BigQuery cost goes above $2,000."
+- "Create an alert if daily BigQuery cost goes above $2,000 and post it to our #finops Slack channel."
 - "Send the top 5 cost movers to Slack every Monday."
 
 ## Connect the MCP
