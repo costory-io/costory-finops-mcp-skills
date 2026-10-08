@@ -12,7 +12,7 @@ The plugin ships two things:
 
 ## Requirements
 
-A Costory workspace with billing data connected. A 15-day trial is available at [costory.io](https://costory.io).
+A Costory workspace with billing data connected. A 14-day trial is available at [costory.io](https://costory.io).
 No IAM credentials, Docker, or local server are needed.
 
 ## Example prompts

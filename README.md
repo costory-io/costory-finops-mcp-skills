@@ -39,7 +39,7 @@ agent starts from allocated, correlated data.
 
 ## Connect the MCP
 
-You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). A 15-day trial is available.
+You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). A 14-day trial is available.
 
 **Claude Desktop / Claude Code / Cursor / VS Code:** add a custom connector pointing at `https://app-api.costory.io/mcp`, then complete the OAuth login in the browser window that opens. Per-client walkthroughs with screenshots are in the [MCP docs](https://docs.costory.io/features/mcp).
 
