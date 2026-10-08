@@ -87,7 +87,7 @@ Omit `limit` unless needed (default **100** groups). Raise up to **1000** only f
 | Correlate spikes | `list_events` | Same date range as the query |
 | Offer next steps | `suggest_actions` | After `query` / `get`; set `hasEvents` / `hasDiff` |
 
-If slug auto-detect fails, call `list_organizations` and pass `slug`.
+**Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
 
 ## Query types
 

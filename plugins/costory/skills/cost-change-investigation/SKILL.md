@@ -32,6 +32,7 @@ Rules:
 ## Workflow
 
 1. Call MCP `get_context` first. Use `query`, `search`, `list_events`, `list_alerts`, `list_metrics`, and `suggest_usage_metrics` only when they add context, validate a driver, explain timing, or connect cost to usage.
+   - **Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
    - `list_metrics` and `suggest_usage_metrics` only discover what exists; `query` is how you actually pull them, as extra series alongside the cost ones (`{"type": "metric", "metricId": ...}` for business metrics, `{"type": "usage", ...}` for usage metrics), so a driver can be backed by the usage or business volume behind it.
    - `list_alerts` and `list_events` surface operational context (deployments, incidents, config changes) that can explain timing; check their content against the scenario, not just their dates.
 2. Use `lookup_term_context(query=...)` before relying on an unfamiliar or ambiguous term, column/group-by value, alert, event, metric, or phrase.

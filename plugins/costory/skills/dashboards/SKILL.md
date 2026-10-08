@@ -156,6 +156,8 @@ Dashboard layout is a **12-column** grid. Rows grow downward.
 | Patch shared `dashboardContext` / global filter | `update_dashboard` with `dashboardContext` (Workflow D) |
 | Run saved widget data | `get_dashboard_widget_data` |
 
+**Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
+
 ## How to generate interesting dashboards
 
 Use when the user wants a useful FinOps overview but has **not** listed every widget — e.g. "build a dashboard for AWS", "something interesting for the platform team", "Kubernetes cost overview".

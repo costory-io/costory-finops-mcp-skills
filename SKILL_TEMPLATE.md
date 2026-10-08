@@ -26,6 +26,7 @@ description: [One sentence. What does this skill do? When should an agent trigge
 
 1. `get_skill` with `skillId: "[snake_case_id]"` (this guide) — if served via Costory MCP
 2. `get_context` when org context is needed
+   - **Several organizations:** if `get_context` returns "Multiple organizations" with a list of slugs, do not pick one. Ask the user which org to use (from that list or `list_organizations`), then pass that `slug` to `get_context` and the following tool calls. If the user already named the org (e.g. "org `acme`"), use that slug directly.
 
 ## Workflow
 
