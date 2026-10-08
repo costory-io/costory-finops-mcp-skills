@@ -1,14 +1,41 @@
-# Costory FinOps MCP: agent skills and plugin
+# Costory FinOps MCP: build a FinOps agent on Claude, Cursor, or any LLM
 
-The **Costory FinOps MCP** is a hosted [Model Context Protocol](https://modelcontextprotocol.io) server that lets Claude, Cursor, VS Code, Codex, or Dust answer questions about your cloud and AI spend.
+[![MCP Registry](https://img.shields.io/badge/MCP%20Registry-io.costory%2Ffinops-blue)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.costory/finops)
+[![Claude connector](https://img.shields.io/badge/Claude-connector-d97757)](https://claude.ai/directory/connectors/costory)
+[![Cursor Directory](https://img.shields.io/badge/cursor.directory-costory-black)](https://cursor.directory/plugins/costory)
+[![Costory MCP connector](https://glama.ai/mcp/connectors/io.costory.app-api/costory/badges/score.svg)](https://glama.ai/mcp/connectors/io.costory.app-api/costory)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](./LICENSE)
 
-Feeding raw AWS or GCP billing lines into a prompt does not work. Costory acts as a **context layer**: it normalizes billing from AWS, GCP, Azure, Snowflake, Datadog, OpenAI, and Anthropic into one schema, allocates shared and untagged cost from real usage metrics, and correlates spend with deploy events and incidents. The assistant then calls structured tools against data that is already allocated and explained.
+**Costory is the cost-data layer for a FinOps agent.** It ingests and normalizes cloud, Kubernetes, SaaS, and AI
+spend (AWS, GCP, Azure, Snowflake, Datadog, OpenAI, Anthropic), allocates it to teams, products, and features, and
+exposes it through a hosted [Model Context Protocol](https://modelcontextprotocol.io) server. Claude, Cursor,
+VS Code, Codex, Gemini CLI, Dust, or your own agent then investigates, explains, and optimizes spend with
+structured tool calls instead of raw billing lines.
 
-This repository holds the **agent skills** that sit on top of those tools: the workflows that turn "why did prod cost jump last week" into the right sequence of tool calls.
+This repository is the open part: the **agent skills and plugin packaging** (Claude Code, Codex, Cursor) that teach
+an agent how to run FinOps workflows on top of the Costory MCP tools.
 
-- **Full MCP documentation:** [docs.costory.io/features/mcp](https://docs.costory.io/features/mcp)
-- **Endpoint:** `https://app-api.costory.io/mcp`
-- **Auth:** OAuth, no IAM credentials, no Docker, no local server
+- **Endpoint:** `https://app-api.costory.io/mcp` (streamable HTTP)
+- **Auth:** OAuth 2.1 in the browser. No IAM credentials, no Docker, no local server
+- **Docs:** [docs.costory.io/features/mcp](https://docs.costory.io/features/mcp)
+- **Registry name:** `io.costory/finops` on the [official MCP Registry](https://registry.modelcontextprotocol.io)
+
+### Why a cost layer for a FinOps agent?
+
+A provider billing MCP returns line items for one cloud. That works for a single account. On a real stack
+(several clouds, shared Kubernetes clusters, many teams) the agent also needs to know who owns which spend, how
+shared and untagged cost is split, and what changed when the bill moved. Costory maintains that context, so the
+agent starts from allocated, correlated data.
+
+### What engineers ask it
+
+- "Why did our AWS bill jump last week? Which deploys line up with it?"
+- "Break down Kubernetes cost by namespace and team for the payments cluster."
+- "What is our total AI spend across OpenAI, Anthropic, and Bedrock this month, by team and model?"
+- "Split our shared Cloud SQL cost across teams by usage and publish it as a dimension."
+- "What is our cloud cost per active user, this month vs last month?"
+- "Create an alert if daily BigQuery cost goes above $2,000."
+- "Send the top 5 cost movers to Slack every Monday."
 
 ## Connect the MCP
 
@@ -83,9 +110,11 @@ This repo also ships a Cursor plugin layout next to the Claude Code marketplace:
 - `plugins/costory/mcp.json` — hosted MCP at `https://app-api.costory.io/mcp` (OAuth in the client)
 - `plugins/costory/assets/logo.png` — plugin logo
 
-Submit the public repo URL at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish) after local smoke-testing.
+Listed on [cursor.directory/plugins/costory](https://cursor.directory/plugins/costory).
 
-## Install as a plugin
+## Install as a plugin (MCP connection + skills)
+
+The plugin wires the MCP server and installs the skills in one step.
 
 ```bash
 # Claude Code
@@ -103,8 +132,13 @@ codex plugin add costory@costory
 .mcp.json                              ← ready-to-copy MCP client config
 skills.json                            ← MCP skillId -> SKILL.md path
 .claude-plugin/marketplace.json
+server.json                            ← official MCP Registry entry (io.costory/finops)
+gemini-extension.json + GEMINI.md      ← Gemini CLI extension (MCP connection + context)
 plugins/costory/
   .claude-plugin/plugin.json
+  .mcp.json                            ← MCP server wired by the Claude Code / Codex plugin
+  README.md
+  LICENSE                              ← Apache-2.0 (copy of the root LICENSE)
   skills/
     bigquery/SKILL.md
     cost-change-investigation/SKILL.md

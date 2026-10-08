@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.costory/finops",
+  "title": "Costory FinOps MCP",
+  "description": "FinOps agent MCP: allocated AWS, GCP, Azure, Kubernetes, SaaS & AI cost for Claude or any agent",
+  "version": "1.0.1",
+  "websiteUrl": "https://docs.costory.io/features/mcp",
+  "repository": {
+    "url": "https://github.com/costory-io/costory-finops-mcp-skills",
+    "source": "github",
+    "id": "1186372172"
+  },
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/costory-io/costory-finops-mcp-skills/main/plugins/costory/assets/logo.png",
+      "mimeType": "image/png",
+      "sizes": ["256x256"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://app-api.costory.io/mcp"
+    }
+  ]
+}

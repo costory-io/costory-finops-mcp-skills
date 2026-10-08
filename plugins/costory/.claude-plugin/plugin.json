@@ -1,23 +1,38 @@
 {
   "name": "costory",
-  "description": "Costory FinOps plugin: agent skills for BigQuery warehouse caveats, cost-change investigation, querying, virtual dimensions (custom cost axes), dashboard and report creation with context-first widget inheritance, DIGEST workflows with preview and delivery safety, and ready-made tracking recipes.",
-  "version": "0.11.4",
+  "displayName": "Costory FinOps Agent",
+  "version": "0.12.0",
+  "description": "Turn Claude into a FinOps agent: connects the hosted Costory FinOps MCP (allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost) and adds skills for cost-change investigation, querying, virtual dimensions (cost allocation), dashboards, scheduled reports and ready-made FinOps recipes.",
   "author": {
     "name": "Costory",
     "email": "engineering@costory.io"
   },
+  "homepage": "https://docs.costory.io/features/mcp",
+  "repository": "https://github.com/costory-io/costory-finops-mcp-skills",
+  "license": "Apache-2.0",
   "keywords": [
-    "costory",
     "finops",
+    "finops-agent",
+    "finops-mcp",
     "cloud-cost",
+    "cost-allocation",
+    "aws",
+    "gcp",
+    "azure",
+    "kubernetes",
+    "llm-cost",
     "bigquery",
     "cost-change-investigation",
-    "query",
     "virtual-dimensions",
     "dashboards",
     "reports",
     "recipes",
-    "digest",
-    "mcp"
-  ]
+    "mcp",
+    "costory"
+  ],
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://docs.costory.io/features/mcp",
+  "supportUrl": "mailto:support@costory.io",
+  "privacyPolicyUrl": "https://www.costory.io/privacy",
+  "termsOfServiceUrl": "https://www.costory.io/terms"
 }
