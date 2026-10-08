@@ -1,7 +1,7 @@
 {
   "name": "costory",
   "displayName": "Costory FinOps Agent",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "FinOps agent for Cursor: hosted Costory MCP (allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost) plus skills for cost-change investigation, allocation, dashboards, reports and FinOps recipes.",
   "author": {
     "name": "Costory",

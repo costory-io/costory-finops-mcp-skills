@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Costory FinOps agent for Claude Code, Codex and Cursor: hosted FinOps MCP (allocated multi-cloud, Kubernetes, SaaS and AI cost) plus skills for cost-change investigation, allocation, dashboards, reports and recipes.",
-    "version": "0.12.1"
+    "version": "0.12.2"
   },
   "plugins": [
     {
