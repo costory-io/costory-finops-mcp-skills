@@ -39,6 +39,13 @@ agent starts from allocated, correlated data.
 
 ## Connect the MCP
 
+[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_Costory_MCP-0098FF?style=flat-square)](https://insiders.vscode.dev/redirect/mcp/install?name=costory&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fapp-api.costory.io%2Fmcp%22%7D)
+[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_Costory_MCP-24bfa5?style=flat-square)](https://insiders.vscode.dev/redirect/mcp/install?name=costory&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fapp-api.costory.io%2Fmcp%22%7D&quality=insiders)
+[![Add to Cursor](https://img.shields.io/badge/Cursor-Add_Costory_MCP-000000?style=flat-square&logo=cursor&logoColor=white)](https://cursor.com/en/install-mcp?name=costory&config=eyJ1cmwiOiJodHRwczovL2FwcC1hcGkuY29zdG9yeS5pby9tY3AifQ%3D%3D)
+
+One click adds `https://app-api.costory.io/mcp` to VS Code or Cursor; the OAuth login opens in the browser on first use.
+Cursor deeplink, if you prefer to paste it: `cursor://anysphere.cursor-deeplink/mcp/install?name=costory&config=eyJ1cmwiOiJodHRwczovL2FwcC1hcGkuY29zdG9yeS5pby9tY3AifQ%3D%3D`
+
 You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). A 14-day trial is available.
 
 **Claude Desktop / Claude Code / Cursor / VS Code:** add a custom connector pointing at `https://app-api.costory.io/mcp`, then complete the OAuth login in the browser window that opens. Per-client walkthroughs with screenshots are in the [MCP docs](https://docs.costory.io/features/mcp).
@@ -132,6 +139,17 @@ codex plugin marketplace add costory-io/costory-finops-mcp-skills
 codex plugin add costory@costory
 ```
 
+**Skills only, any agent ([skills.sh](https://skills.sh)):** installs the seven skills into Claude Code, Cursor,
+Codex and other agents that read Agent Skills. Connect the MCP separately (see above).
+
+```bash
+npx skills add costory-io/costory-finops-mcp-skills
+```
+
+**Kiro:** this repo ships a [Kiro power](./powers/costory/) (MCP connection + FinOps skill). In Kiro, open the
+Powers panel → **Add Custom Power** → **Import power from GitHub** and enter
+`https://github.com/costory-io/costory-finops-mcp-skills/tree/main/powers/costory`.
+
 ## Layout
 
 ```
@@ -140,6 +158,7 @@ skills.json                            ← MCP skillId -> SKILL.md path
 .claude-plugin/marketplace.json
 server.json                            ← official MCP Registry entry (io.costory/finops)
 gemini-extension.json + GEMINI.md      ← Gemini CLI extension (MCP connection + context)
+powers/costory/                        ← Kiro power (plugin.json + mcp.json + skills/costory-finops)
 plugins/costory/
   .claude-plugin/plugin.json
   .mcp.json                            ← MCP server wired by the Claude Code / Codex plugin
@@ -169,6 +188,10 @@ plugins/costory/
 ## Authoring
 
 See [AGENTS.md](./AGENTS.md) for layout rules, version bumps, and validation. Use [SKILL_TEMPLATE.md](./SKILL_TEMPLATE.md) when adding a skill.
+
+## Support
+
+support@costory.io · [Documentation](https://docs.costory.io/features/mcp) · [Privacy Policy](https://www.costory.io/privacy) · [Terms](https://www.costory.io/terms)
 
 ## License
 
