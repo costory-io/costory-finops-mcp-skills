@@ -1,7 +1,7 @@
 {
   "name": "costory",
   "displayName": "Costory FinOps Agent",
-  "version": "0.12.2",
+  "version": "0.12.3",
   "description": "Turn Claude into a FinOps agent: connects the hosted Costory FinOps MCP (allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost) and adds skills for cost-change investigation, querying, virtual dimensions (cost allocation), dashboards, scheduled reports and ready-made FinOps recipes.",
   "author": {
     "name": "Costory",
