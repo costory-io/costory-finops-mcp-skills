@@ -5,7 +5,7 @@ license: "Apache-2.0"
 compatibility: "Requires the hosted Costory FinOps MCP (https://app-api.costory.io/mcp, OAuth in the browser) and a Costory workspace with billing data connected."
 metadata:
   author: "Costory"
-  version: "0.12.3"
+  version: "0.12.4"
 ---
 
 # Costory FinOps Agent

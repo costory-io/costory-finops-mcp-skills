@@ -64,14 +64,26 @@ This repo ships an [`.mcp.json`](./.mcp.json) you can copy:
 }
 ```
 
-For clients without native remote-MCP support, proxy it with `mcp-remote`:
+Claude Desktop (developer config, `claude_desktop_config.json`), see [alternative JSON config](https://docs.costory.io/features/mcp#alternative-json-config):
 
 ```json
 {
   "mcpServers": {
     "costory": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://app-api.costory.io/mcp"]
+      "url": "https://app-api.costory.io/mcp"
+    }
+  }
+}
+```
+
+VS Code (`.vscode/mcp.json`):
+
+```json
+{
+  "servers": {
+    "costory": {
+      "type": "http",
+      "url": "https://app-api.costory.io/mcp"
     }
   }
 }
