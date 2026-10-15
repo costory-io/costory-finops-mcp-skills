@@ -46,7 +46,7 @@ agent starts from allocated, correlated data.
 One click adds `https://app-api.costory.io/mcp` to VS Code or Cursor; the OAuth login opens in the browser on first use.
 Cursor deeplink, if you prefer to paste it: `cursor://anysphere.cursor-deeplink/mcp/install?name=costory&config=eyJ1cmwiOiJodHRwczovL2FwcC1hcGkuY29zdG9yeS5pby9tY3AifQ%3D%3D`
 
-You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). A 14-day trial is available.
+You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). A 30-day trial is available.
 
 **Claude Desktop / Claude Code / Cursor / VS Code:** add a custom connector pointing at `https://app-api.costory.io/mcp`, then complete the OAuth login in the browser window that opens. Per-client walkthroughs with screenshots are in the [MCP docs](https://docs.costory.io/features/mcp).
 

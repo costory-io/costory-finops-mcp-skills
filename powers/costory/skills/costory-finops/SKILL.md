@@ -5,7 +5,7 @@ license: "Apache-2.0"
 compatibility: "Requires the hosted Costory FinOps MCP (https://app-api.costory.io/mcp, OAuth in the browser) and a Costory workspace with billing data connected."
 metadata:
   author: "Costory"
-  version: "0.12.4"
+  version: "0.12.5"
 ---
 
 # Costory FinOps Agent
@@ -32,7 +32,7 @@ itself: call `get_skill` with one of these `skillId` values before non-trivial w
 
 ## Prerequisites
 
-- A Costory workspace with billing data connected (a 14-day trial is available at https://www.costory.io).
+- A Costory workspace with billing data connected (a 30-day trial is available at https://www.costory.io).
 - On first use, the MCP client opens a browser window for the OAuth login. No IAM keys, Docker or local server.
 - If tools fail with an authentication error, ask the user to reconnect the `costory` MCP server and log in again.
 
