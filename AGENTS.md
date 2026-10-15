@@ -8,7 +8,8 @@ This repo distributes **one plugin**, `costory`, from a single marketplace using
 .claude-plugin/marketplace.json            ← marketplace listing; each plugin points to its own subdir via source
 skills.json                                ← Costory MCP skillId → SKILL.md path index (for get_skill)
 plugins/costory/
-  .claude-plugin/plugin.json               ← per-plugin manifest
+  .claude-plugin/plugin.json               ← per-plugin manifest (Claude Code / Codex)
+  plugin.json                              ← Agent Plugins 1.0 manifest (GitHub Copilot / VS Code / Copilot CLI)
   skills/<skill-name>/SKILL.md             ← skills auto-discovered by Claude Code / Codex
 powers/costory/                            ← Kiro power (Agent Plugins format: plugin.json + mcp.json + skills/costory-finops/)
 ```
@@ -43,6 +44,8 @@ When Costory `get_skill` is wired to this repo, resolve via `skills.json`. Retur
    - `.claude-plugin/marketplace.json` → `metadata.version`
    - `plugins/costory/.claude-plugin/plugin.json` → `version`
    - `skills.json` → `version`
+
+   Also keep `plugins/costory/plugin.json` (Agent Plugins), `plugins/costory/.cursor-plugin/plugin.json`, `.cursor-plugin/marketplace.json`, `gemini-extension.json` and `powers/costory/plugin.json` on the same version.
 
    Semver:
 

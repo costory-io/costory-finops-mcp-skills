@@ -132,6 +132,7 @@ This repo also ships a Cursor plugin layout next to the Claude Code marketplace:
 
 - `.cursor-plugin/marketplace.json` — multi-plugin marketplace manifest
 - `plugins/costory/.cursor-plugin/plugin.json` — Cursor plugin manifest
+- `plugins/costory/plugin.json` — [Agent Plugins](https://agent-plugins.org/) 1.0 manifest (GitHub Copilot in VS Code, Copilot CLI)
 - `plugins/costory/mcp.json` — hosted MCP at `https://app-api.costory.io/mcp` (OAuth in the client)
 - `plugins/costory/assets/logo.png` — plugin logo
 

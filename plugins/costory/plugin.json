@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "costory",
+  "version": "0.13.0",
+  "description": "Turn your coding agent into a FinOps agent: connects the hosted Costory FinOps MCP (allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost) and adds skills for cost-change investigation, querying, virtual dimensions (cost allocation), dashboards, scheduled reports and ready-made FinOps recipes.",
+  "author": {
+    "name": "Costory",
+    "url": "https://www.costory.io",
+    "email": "support@costory.io"
+  },
+  "homepage": "https://docs.costory.io/features/mcp",
+  "repository": "https://github.com/costory-io/costory-finops-mcp-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "finops",
+    "finops-agent",
+    "finops-mcp",
+    "cloud-cost",
+    "cost-allocation",
+    "aws",
+    "gcp",
+    "azure",
+    "kubernetes",
+    "llm-cost",
+    "bigquery",
+    "mcp",
+    "costory"
+  ]
+}
