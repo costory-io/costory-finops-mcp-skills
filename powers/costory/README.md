@@ -12,7 +12,7 @@ In Kiro: **Powers panel → Add Custom Power → Import power from GitHub**, the
 `https://github.com/costory-io/costory-finops-mcp-skills/tree/main/powers/costory`.
 Or clone the repo and use **Import power from a folder** on `powers/costory`.
 
-Requires a Costory workspace with billing data connected. A 14-day trial is available at [costory.io](https://www.costory.io).
+Requires a Costory workspace with billing data connected. A 30-day trial is available at [costory.io](https://www.costory.io).
 
 ## Support
 
