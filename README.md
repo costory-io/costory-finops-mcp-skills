@@ -4,6 +4,7 @@
 [![Claude connector](https://img.shields.io/badge/Claude-connector-d97757)](https://claude.ai/directory/connectors/costory)
 [![Cursor Directory](https://img.shields.io/badge/cursor.directory-costory-black)](https://cursor.directory/plugins/costory)
 [![Costory MCP connector](https://glama.ai/mcp/connectors/io.costory.app-api/costory/badges/score.svg)](https://glama.ai/mcp/connectors/io.costory.app-api/costory)
+[![Costory Finops Mcp Skills on AI Agents Listing](https://aiagentslisting.com/costory-finops-mcp-skills/badge.svg?claim=b4cf4c826fe986336f9907b6e40e0a21)](https://aiagentslisting.com/mcp/costory-finops-mcp-skills)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](./LICENSE)
 
 **Costory is the cost-data layer for a FinOps agent.** It ingests and normalizes cloud, Kubernetes, SaaS, and AI
