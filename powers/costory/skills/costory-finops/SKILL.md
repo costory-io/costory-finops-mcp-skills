@@ -5,7 +5,7 @@ license: "Apache-2.0"
 compatibility: "Requires the hosted Costory FinOps MCP (https://app-api.costory.io/mcp, OAuth in the browser) and a Costory workspace with billing data connected."
 metadata:
   author: "Costory"
-  version: "0.12.5"
+  version: "0.12.6"
 ---
 
 # Costory FinOps Agent
@@ -17,7 +17,7 @@ Snowflake, Datadog, OpenAI and Anthropic, allocates it to teams, products, envir
 through the hosted Costory MCP server (`costory` in this power). Use it to investigate, explain and allocate spend
 with structured tool calls instead of raw billing lines.
 
-This skill is the condensed playbook. The detailed workflows (payload formats, edge cases) are served by the MCP
+This skill is the condensed version of the Costory skills. The detailed workflows (payload formats, edge cases) are served by the MCP
 itself: call `get_skill` with one of these `skillId` values before non-trivial work.
 
 | `skillId` | Load it before |
@@ -32,7 +32,7 @@ itself: call `get_skill` with one of these `skillId` values before non-trivial w
 
 ## Prerequisites
 
-- A Costory workspace with billing data connected (a 30-day trial is available at https://www.costory.io).
+- A Costory workspace with billing data connected (Starter from $300/month; 30-day free trial at https://www.costory.io).
 - On first use, the MCP client opens a browser window for the OAuth login. No IAM keys, Docker or local server.
 - If tools fail with an authentication error, ask the user to reconnect the `costory` MCP server and log in again.
 

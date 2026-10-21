@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "costory",
-  "version": "0.12.5",
-  "description": "Costory FinOps Agent for Kiro: connects the hosted Costory FinOps MCP (allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost) and adds a skill to investigate cost changes, query spend, allocate shared cost, and build dashboards, reports and alerts.",
+  "version": "0.12.6",
+  "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
   "author": {
     "name": "Costory",
     "url": "https://www.costory.io",

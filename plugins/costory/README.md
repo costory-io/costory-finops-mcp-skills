@@ -1,9 +1,14 @@
 # Costory FinOps Agent plugin
 
-This plugin turns Claude Code, Codex, or Cursor into a FinOps agent backed by the hosted
-[Costory FinOps MCP](https://docs.costory.io/features/mcp) (`https://app-api.costory.io/mcp`, OAuth).
-Costory ingests and normalizes cloud, Kubernetes, SaaS, and AI spend (AWS, GCP, Azure, Snowflake,
-Datadog, OpenAI, Anthropic), allocates it to teams and features, and exposes it as structured MCP tools.
+This plugin connects Claude Code, Codex, or Cursor to the hosted [Costory FinOps MCP](https://docs.costory.io/features/mcp) (`https://app-api.costory.io/mcp`, OAuth).
+
+Costory is the FinOps agent your team builds on. Claude plus a single provider's MCP works for one person and one cloud. It breaks when you add more providers, more people, and more tools to maintain.
+
+- **Multiple providers:** AWS, GCP, Azure, LLM APIs and data clouds normalized and allocated to teams and features in one model, including allocation from telemetry (Kubernetes, Datadog, dbt).
+- **Multiple users:** one hosted setup with OAuth, per-user access and enterprise SSO, instead of local credentials and prompts per person.
+- **Maintained for you:** tools, skills and connectors kept up to date by Costory, so reorgs and new services don't break your agent.
+
+Your agent finds savings, explains every change in spend and issues recommendations that your coding agent can implement. It works in Claude, Cursor and any MCP client, plus Slack. Customers include Alan, Deezer, Delivery Hero, Voodoo and Pennylane.
 
 The plugin ships two things:
 
@@ -12,7 +17,10 @@ The plugin ships two things:
 
 ## Requirements
 
-A Costory workspace with billing data connected. A 30-day trial is available at [costory.io](https://costory.io).
+A Costory workspace with billing data connected.
+
+**Pricing:** Starter from $300/month, flat: unlimited users and data sources, and a fair use that 80% of customers never outgrow. Nothing is ever cut off, and agents connected through the MCP use no AI credits. 30-day free trial.
+
 No IAM credentials, Docker, or local server are needed.
 
 ## Example prompts
