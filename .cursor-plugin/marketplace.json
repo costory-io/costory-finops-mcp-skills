@@ -5,15 +5,15 @@
     "email": "support@costory.io"
   },
   "metadata": {
-    "description": "Costory FinOps agent for Claude Code, Codex and Cursor: hosted FinOps MCP (allocated multi-cloud, Kubernetes, SaaS and AI cost) plus skills for cost-change investigation, allocation, dashboards, reports and recipes.",
-    "version": "0.12.5",
+    "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
+    "version": "0.12.6",
     "pluginRoot": "plugins"
   },
   "plugins": [
     {
       "name": "costory",
       "source": "costory",
-      "description": "FinOps agent plugin: connects the hosted Costory MCP and adds skills for cost-change investigation, querying, virtual dimensions, dashboards, reports (DIGEST) and recipes.",
+      "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
       "category": "productivity",
       "homepage": "https://costory.io",
       "repository": "https://github.com/costory-io/costory-finops-mcp-skills",

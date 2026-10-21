@@ -1,4 +1,4 @@
-# Costory FinOps MCP: build a FinOps agent on Claude, Cursor, or any LLM
+# Costory FinOps MCP: the FinOps agent your team builds on, in Claude, Cursor or any MCP client
 
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-io.costory%2Ffinops-blue)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.costory/finops)
 [![Claude connector](https://img.shields.io/badge/Claude-connector-d97757)](https://claude.ai/directory/connectors/costory)
@@ -7,11 +7,15 @@
 [![Costory Finops Mcp Skills on AI Agents Listing](https://aiagentslisting.com/costory-finops-mcp-skills/badge.svg?claim=b4cf4c826fe986336f9907b6e40e0a21)](https://aiagentslisting.com/mcp/costory-finops-mcp-skills)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](./LICENSE)
 
-**Costory is the cost-data layer for a FinOps agent.** It ingests and normalizes cloud, Kubernetes, SaaS, and AI
-spend (AWS, GCP, Azure, Snowflake, Datadog, OpenAI, Anthropic), allocates it to teams, products, and features, and
-exposes it through a hosted [Model Context Protocol](https://modelcontextprotocol.io) server. Claude, Cursor,
-VS Code, Codex, Gemini CLI, Dust, or your own agent then investigates, explains, and optimizes spend with
-structured tool calls instead of raw billing lines.
+Costory is the FinOps agent your team builds on. Claude plus a single provider's MCP works for one person and one cloud. It breaks when you add more providers, more people, and more tools to maintain.
+
+- **Multiple providers:** AWS, GCP, Azure, LLM APIs and data clouds normalized and allocated to teams and features in one model, including allocation from telemetry (Kubernetes, Datadog, dbt).
+- **Multiple users:** one hosted setup with OAuth, per-user access and enterprise SSO, instead of local credentials and prompts per person.
+- **Maintained for you:** tools, skills and connectors kept up to date by Costory, so reorgs and new services don't break your agent.
+
+Your agent finds savings, explains every change in spend and issues recommendations that your coding agent can implement. It works in Claude, Cursor and any MCP client, plus Slack. Customers include Alan, Deezer, Delivery Hero, Voodoo and Pennylane.
+
+**Pricing:** Starter from $300/month, flat: unlimited users and data sources, and a fair use that 80% of customers never outgrow. Nothing is ever cut off, and agents connected through the MCP use no AI credits. 30-day free trial.
 
 This repository is the open part: the **agent skills and plugin packaging** (Claude Code, Codex, Cursor) that teach
 an agent how to run FinOps workflows on top of the Costory MCP tools.
@@ -20,13 +24,6 @@ an agent how to run FinOps workflows on top of the Costory MCP tools.
 - **Auth:** OAuth 2.1 in the browser. No IAM credentials, no Docker, no local server
 - **Docs:** [docs.costory.io/features/mcp](https://docs.costory.io/features/mcp)
 - **Registry name:** `io.costory/finops` on the [official MCP Registry](https://registry.modelcontextprotocol.io)
-
-### Why a cost layer for a FinOps agent?
-
-A provider billing MCP returns line items for one cloud. That works for a single account. On a real stack
-(several clouds, shared Kubernetes clusters, many teams) the agent also needs to know who owns which spend, how
-shared and untagged cost is split, and what changed when the bill moved. Costory maintains that context, so the
-agent starts from allocated, correlated data.
 
 ### What engineers ask it
 
@@ -47,7 +44,7 @@ agent starts from allocated, correlated data.
 One click adds `https://app-api.costory.io/mcp` to VS Code or Cursor; the OAuth login opens in the browser on first use.
 Cursor deeplink, if you prefer to paste it: `cursor://anysphere.cursor-deeplink/mcp/install?name=costory&config=eyJ1cmwiOiJodHRwczovL2FwcC1hcGkuY29zdG9yeS5pby9tY3AifQ%3D%3D`
 
-You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). A 30-day trial is available.
+You need a Costory workspace with [billing data connected](https://docs.costory.io/get-started/welcome). Starter from $300/month, flat; 30-day free trial.
 
 **Claude Desktop / Claude Code / Cursor / VS Code:** add a custom connector pointing at `https://app-api.costory.io/mcp`, then complete the OAuth login in the browser window that opens. Per-client walkthroughs with screenshots are in the [MCP docs](https://docs.costory.io/features/mcp).
 

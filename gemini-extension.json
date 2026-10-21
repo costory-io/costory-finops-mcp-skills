@@ -1,7 +1,7 @@
 {
   "name": "costory-finops",
-  "version": "0.12.5",
-  "description": "FinOps agent for Gemini CLI: hosted Costory MCP with allocated AWS, GCP, Azure, Kubernetes, SaaS and AI cost (OAuth).",
+  "version": "0.12.6",
+  "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
   "mcpServers": {
     "costory": {
       "httpUrl": "https://app-api.costory.io/mcp"
