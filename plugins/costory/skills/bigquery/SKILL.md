@@ -130,11 +130,12 @@ If they want this as Costory dimensions, **ask the Costory team** — do not inv
 ```text
 logical  = active_logical * 0.02 + long_term_logical * 0.01
 physical = active_physical * 0.04 + long_term_physical * 0.02
-           + (time_travel_physical + fail_safe_physical) * 0.04
-churn    = (time_travel_physical + fail_safe_physical) / active_physical
+           + fail_safe_physical * 0.04
+churn    = (time_travel_physical + fail_safe_physical)
+           / (active_physical - time_travel_physical)
 ```
 
-US multi-region list prices — change them before trusting $. Include time travel + fail-safe or the forecast is a lie.
+US multi-region list prices — change them before trusting $. Include time travel + fail-safe or the forecast is a lie. `active_physical_bytes` **already includes** time-travel bytes (Google docs, `TABLE_STORAGE`), so add only fail-safe on top; subtract time travel to get the table's own active bytes.
 
 - `physical < 0.8 * logical` and `churn < 0.3` → `GOOD_CANDIDATE`
 - Saves on paper but `churn >= 0.3` → `SAVES_ON_PAPER_BUT_CHURNY`

@@ -1,7 +1,7 @@
 {
   "name": "costory",
   "displayName": "Costory FinOps Agent",
-  "version": "0.12.6",
+  "version": "0.12.7",
   "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
   "author": {
     "name": "Costory",
