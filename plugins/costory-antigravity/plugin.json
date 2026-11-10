@@ -1,0 +1,39 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "costory",
+  "displayName": "Costory FinOps Agent",
+  "version": "0.12.7",
+  "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
+  "logo": "assets/logo.png",
+  "suggestedPrompts": [
+    "Why did our cloud bill change last week, and were there deploys in the same window?",
+    "What is our allocated spend across cloud, AI and data this month, by team?",
+    "Show the top cost drivers for the last 30 days and explain the largest increases."
+  ],
+  "author": {
+    "name": "Costory",
+    "email": "engineering@costory.io",
+    "url": "https://www.costory.io"
+  },
+  "homepage": "https://docs.costory.io/features/mcp",
+  "repository": "https://github.com/costory-io/costory-finops-mcp-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "finops",
+    "finops-agent",
+    "finops-mcp",
+    "cloud-cost",
+    "cost-allocation",
+    "aws",
+    "gcp",
+    "azure",
+    "kubernetes",
+    "llm-cost",
+    "bigquery",
+    "cost-change-investigation",
+    "virtual-dimensions",
+    "recipes",
+    "mcp",
+    "costory"
+  ]
+}
