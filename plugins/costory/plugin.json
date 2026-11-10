@@ -1,0 +1,43 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "costory",
+  "version": "0.12.7",
+  "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
+  "author": {
+    "name": "Costory",
+    "url": "https://www.costory.io",
+    "email": "engineering@costory.io"
+  },
+  "homepage": "https://docs.costory.io/features/mcp",
+  "repository": "https://github.com/costory-io/costory-finops-mcp-skills",
+  "license": "Apache-2.0",
+  "keywords": [
+    "finops",
+    "finops-agent",
+    "finops-mcp",
+    "cloud-cost",
+    "cost-allocation",
+    "aws",
+    "gcp",
+    "azure",
+    "kubernetes",
+    "llm-cost",
+    "bigquery",
+    "cost-change-investigation",
+    "virtual-dimensions",
+    "dashboards",
+    "reports",
+    "recipes",
+    "mcp",
+    "costory"
+  ],
+  "extensions": {
+    "com.nousresearch.hermes": {
+      "servers": {
+        "costory": {
+          "trust": "untrusted"
+        }
+      }
+    }
+  }
+}
