@@ -5,11 +5,9 @@ description: "Use when creating, previewing, updating, scheduling, or exploring 
 
 # Reports
 
-**Skill body version 0.5.3.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
+**Skill body version 0.5.4.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
-A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`.
-
-> **Temporary compatibility:** the deprecated top-level `context` alias is accepted during migration, but always generate `reportContext`. Never send both.
+A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`. `get` returns it as `reportContext`.
 
 **Load this skill first** for any report creation, DIGEST preview, substantial update, or delivery conversation.
 
@@ -157,7 +155,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 
 ## Workflow: Update
 
-`get` (report id) → preview if DIGEST content changes → `update_report`.
+`get` (report id) → read `reportContext` → preview if DIGEST content changes → `update_report`.
 
 - Patch `reportContext` alone to change the report-wide period / groupBy / filter / currency without rewriting widgets.
 - Pass `widgets` only when replacing the widget list (wholesale replace). The field is always the `widgets` **array** — a singular `widget` key is silently ignored.
@@ -453,7 +451,7 @@ The conversation rules live in **Must-follow rules** above. These are the shape 
 - Do not use `query` + `compare` as a substitute for Explain’s DIGEST preview on the first answer
 - Do not rebuild DIGEST movers as explorer tables or a canvas before presenting preview fields
 - Do not schedule a weekly `LAST_WEEK` report for Monday (`weekday: 1`) — cost data is ~2 days late; use Tuesday (`weekday: 2`) with `LAST_WEEK`, or keep Monday and switch to `TRAILING_7_DAYS`
-- Do not generate the deprecated `context` alias or send it together with `reportContext`
+- Do not send a top-level `context` object. Shared settings belong in `reportContext`
 
 ## Related skills
 
