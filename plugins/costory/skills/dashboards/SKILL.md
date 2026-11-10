@@ -7,7 +7,7 @@ description: "Use when creating or extending Costory dashboards, generating inte
 
 A **DashboardV2** has a shared **`dashboardContext`** input (global theme) and **widgets** that inherit it by default. Each widget is either a **chart** (Advanced Explorer queries + `chartType`) or a **text block** (`type: "text"`, `textContent`).
 
-**Context-first rule:** define the full `dashboardContext` **before** listing widgets. Widgets should contain **only overrides** — never duplicate what already lives in `dashboardContext`. If two or more widgets share the same period, `groupBy`, metric, currency, or filter scope, extract that shared value to `dashboardContext` first.
+**Context-first rule:** define the full `dashboardContext` **before** listing widgets. Widgets should contain **only overrides** — never duplicate what already lives in `dashboardContext`. If two or more widgets share the same period, `groupBy`, metric, currency, or filter scope, extract that shared value to `dashboardContext` first. `get` returns those shared settings as `dashboardContext`.
 
 ## When to Trigger
 
@@ -324,7 +324,7 @@ Build **5–8** widgets that answer different questions:
 ## Workflow B — Extend an existing dashboard
 
 1. `search` → dashboard id
-2. `get` → read `context` and each widget's `queryConfig`
+2. `get` → read `dashboardContext` and each widget's `queryConfig`
 3. `update_dashboard` with `op: "add"` (or `replace` / `remove`) — new widgets omit fields that match the dashboard context, especially the period and common `groupBy`
 4. Response includes `inheritedContext` — use it to know what widgets can omit
 5. Include the returned URL in your reply
@@ -348,7 +348,7 @@ Build **5–8** widgets that answer different questions:
 ## Workflow C — Copy a widget to another dashboard
 
 1. `get` on the source dashboard → note `x`, `y`, `w`, `h` and the widget's effective query (resolved `queryConfig`)
-2. `get` on the target dashboard → read its `context`
+2. `get` on the target dashboard → read its `dashboardContext`
 3. `update_dashboard` on the target with `op: "add"`:
    - Pass `x`, `y`, `w`, `h` to preserve layout
    - Rebuild queries using **overrides only** relative to the **target** dashboard context — do not copy inherited metricId/currency/period/filter fields that the target already provides
@@ -358,7 +358,7 @@ Build **5–8** widgets that answer different questions:
 Change the shared context through the `dashboardContext` input (global filter, period, `groupBy`, `metricId`, `currency`, `scopeId`) **without** recreating the dashboard or rewriting widgets.
 
 1. `search` → dashboard id (optional if already known)
-2. `get` → read current `context` / `conditionsCel`
+2. `get` → read current `dashboardContext`, including `conditionsCel`
 3. `update_dashboard` with a **partial** `dashboardContext` patch — omit fields you want to keep
 4. Response includes updated `inheritedContext`; `applied` is `[]` when no widget ops were passed
 5. Include the returned URL in your reply

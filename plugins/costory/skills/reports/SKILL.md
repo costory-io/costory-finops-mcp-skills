@@ -7,7 +7,7 @@ description: "Use when creating, previewing, updating, scheduling, or exploring 
 
 **Skill body version 0.5.4.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
-A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`.
+A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`. `get` returns it as `reportContext`.
 
 **Load this skill first** for any report creation, DIGEST preview, substantial update, or delivery conversation.
 
@@ -155,7 +155,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 
 ## Workflow: Update
 
-`get` (report id) → preview if DIGEST content changes → `update_report`.
+`get` (report id) → read `reportContext` → preview if DIGEST content changes → `update_report`.
 
 - Patch `reportContext` alone to change the report-wide period / groupBy / filter / currency without rewriting widgets.
 - Pass `widgets` only when replacing the widget list (wholesale replace). The field is always the `widgets` **array** — a singular `widget` key is silently ignored.
