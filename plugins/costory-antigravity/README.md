@@ -1,19 +1,19 @@
 # Costory FinOps Agent
 
-FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.
+FinOps harness MCP for platform teams. Every cloud, data and LLM bill normalized in BigQuery and allocated to your teams. Read-only cloud access. Starter from $300/month, 30-day free trial.
 
-This plugin connects Antigravity to Costory's hosted FinOps MCP at `https://app-api.costory.io/mcp` (Streamable HTTP, browser OAuth, SSO available). No IAM keys, Docker, or local MCP process.
+This plugin connects Antigravity to Costory's hosted FinOps MCP at `https://app-api.costory.io/mcp` (Streamable HTTP, browser OAuth; enterprise SSO on Costory Team and above). No IAM keys, Docker, or local MCP process.
 
 ## What you get
 
 - The Costory MCP tools, available after you sign in with your Costory account in the browser.
 - Five skills for common FinOps jobs: `query`, `cost-change-investigation`, `virtual-dimensions`, `recipes`, and `bigquery`.
 
-Costory recommends optimizations and never implements them. Some tools can write to your Costory workspace (alerts, reports, allocation rules, archives). Preview those first and confirm with your team before applying them.
+Costory recommends optimizations; your coding agent or your team implements them. It never gets write access to your cloud accounts. Some tools write to your Costory workspace only (alerts, reports, dashboards, events, allocation rules, archives). Preview those first and confirm with your team before applying them. Costory does not promise a savings percentage.
 
 ## Requirements
 
-A Costory workspace with billing data connected. 30-day free trial, no credit card.
+A Costory workspace with billing data connected. Starter from $300/month, every skill and the MCP included. 30-day free trial, no credit card. See [plans](https://docs.costory.io/get-started/plans).
 
 ## Example prompts
 
@@ -25,6 +25,6 @@ A Costory workspace with billing data connected. 30-day free trial, no credit ca
 
 support@costory.io · [Documentation](https://docs.costory.io/features/mcp) · [Privacy](https://www.costory.io/privacy) · [Terms](https://www.costory.io/terms)
 
-Customers include Alan, Deezer, Delivery Hero, Voodoo and Pennylane.
+Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 
 License: Apache-2.0.
