@@ -2,7 +2,7 @@
   "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "costory",
   "displayName": "Costory FinOps Agent",
-  "version": "0.12.9",
+  "version": "0.12.10",
   "description": "FinOps harness MCP for platform teams. Every cloud, data and LLM bill normalized in BigQuery and allocated to your teams. Read-only cloud access. Starter from $300/month, 30-day free trial.",
   "logo": "assets/logo.png",
   "suggestedPrompts": [
