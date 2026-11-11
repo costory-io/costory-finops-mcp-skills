@@ -13,7 +13,7 @@ Costory recommends optimizations; your coding agent or your team implements them
 
 ## Requirements
 
-A Costory workspace with billing data connected. Starter from $300/month, every skill and the MCP included. 30-day free trial, no credit card. See [plans](https://docs.costory.io/get-started/plans).
+A Costory workspace with billing data connected. Starter from $300/month, every skill and the MCP included. App usage (queries, reports, alerts) and Ask Costory have a fair use: you see it in the app, get a warning at 70%, and nothing is ever cut off. Starter fits 80% of our customers. Agents connected through the MCP use no Ask Costory credits. 30-day free trial, no credit card. See [plans](https://docs.costory.io/get-started/plans).
 
 ## Example prompts
 
