@@ -107,4 +107,4 @@ Include `summaryMarkdown` only when `display: "summary"`.
 
 **Brief:** *"One-shot DIGEST preview on [scope] for [period], tree [root → …], AI [tree / summary / deep], present preview fields in chat [+ NOW to X if asked]."*
 
-**→ Hand off to `reports` (Explain)** — owns preview → optional NOW.
+**→ Hand off to `reports` (via `get_skill` `skillId: "reports"`) (Explain)** — owns preview → optional NOW.

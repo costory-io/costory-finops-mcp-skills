@@ -71,4 +71,4 @@ Frozen: `conditionsCel` = `cos_marketplace_purchase == true` (non-negotiable); `
 
 **Brief:** *"Monthly marketplace-only report: trend by invoice issuer over ~12 months + top-10 vendors last month, delivered to [channel]."*
 
-**→ Hand off to `reports` (Schedule).**
+**→ Hand off to `reports` (via `get_skill` `skillId: "reports"`) (Schedule).**

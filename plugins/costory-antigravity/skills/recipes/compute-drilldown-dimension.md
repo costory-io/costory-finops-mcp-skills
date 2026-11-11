@@ -12,7 +12,7 @@
 4. `suggest_groupby` with the planned period + same `filterCel` as `[COMPUTE_CEL]`
 5. Present top 3–5 dimensions in plain language (what question each answers) → user picks `[GROUP_BY]`
 6. `query` sample breakdown with skeleton below
-7. Optional next: hand off to `dashboards` / `reports` / deeper `filterCel` + another `suggest_groupby`
+7. Optional next: hand off to `dashboards` / `reports` (load with `get_skill`) / deeper `filterCel` + another `suggest_groupby`
 
 ## Payload skeleton
 
@@ -63,8 +63,8 @@ Frozen: always run `suggest_groupby` **scoped to compute** (empty org-wide sugge
 
 - **SCOPE** = compute filter; **SPLIT** = the drill-down dimension — don't put the service list in `groupBy`.
 - Common useful axes (when suggested): instance family / type, region, account / project, environment VDIM, purchase option — still confirm against tool output.
-- If they already know the axis and want a standing view → `dashboards` or `reports`, not this card.
+- If they already know the axis and want a standing view → `dashboards` or `reports` (load with `get_skill`), not this card.
 
 **Brief:** *"Compute drill-down: scope [COMPUTE_CEL], suggested axes […], sample on [GROUP_BY] for [period]."*
 
-**→ Hand off to `query`** (Workflow C). After they pick an axis for a standing view → `dashboards` or `reports`.
+**→ Hand off to `query`** (Workflow C). After they pick an axis for a standing view → `dashboards` or `reports` (load with `get_skill`).

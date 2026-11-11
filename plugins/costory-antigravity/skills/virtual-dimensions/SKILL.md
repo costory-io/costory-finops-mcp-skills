@@ -3,6 +3,8 @@ name: virtual-dimensions
 description: "Use when creating, editing, previewing, or publishing Costory virtual dimensions (custom cost axes) with ordered CEL rules, leftover buckets, overlap/shadowing checks, or telemetry split-by-usage allocations. Call get_skill with skillId \"virtual-dimensions\" before create_virtual_dimension_draft or update_virtual_dimension_draft."
 ---
 
+> **Antigravity bundle:** the `dashboards` and `reports` skills are not shipped in this plugin. When this skill hands off to them, load them with the Costory MCP `get_skill` tool (`skillId: "dashboards"` or `skillId: "reports"`).
+
 # Virtual Dimensions
 
 A **virtual dimension** is a custom cost axis (e.g. "Environment", "Team", "Product line") built from **ordered rules**. Each rule has:

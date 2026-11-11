@@ -72,4 +72,4 @@ Frozen: `groupBy` = `cos_charge_category`; TOP_FLOP `topN`/`flopN` **10**; share
 
 **Brief:** *"Monthly charge-category report [scoped to …]: 12-month trend + last-month top/flop 10, to [channel]."*
 
-**→ Hand off to `reports` (Schedule).**
+**→ Hand off to `reports` (via `get_skill` `skillId: "reports"`) (Schedule).**

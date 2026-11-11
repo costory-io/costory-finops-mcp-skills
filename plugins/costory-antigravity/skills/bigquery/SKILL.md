@@ -3,6 +3,8 @@ name: bigquery
 description: "Use when the user asks about BigQuery costs, SKUs, on-demand Analysis vs capacity slots/editions, leftover on-demand, physical vs logical storage, time travel or fail-safe, streaming ingest, load/import jobs consuming a reservation, dbt or job labels, slot cost reallocation, dataset/table storage allocation, or unlabeled expensive queries. Call get_skill with skillId \"bigquery\" before investigating BigQuery spend or cloning the [BigQuery] dashboard. Not for GCP spend-based CUDs (recipes gcp-spend-cud)."
 ---
 
+> **Antigravity bundle:** the `dashboards` and `reports` skills are not shipped in this plugin. When this skill hands off to them, load them with the Costory MCP `get_skill` tool (`skillId: "dashboards"` or `skillId: "reports"`).
+
 # BigQuery
 
 Invoice SKUs first. Bytes scanned, slot-ms, and table storage are **not on the bill**. Teach slots vs on-demand, open **[BigQuery] BigQuery Dashboard**, then allocate or optimize.

@@ -3,6 +3,8 @@ name: recipes
 description: "Use when a user states a FinOps *outcome* rather than a tool. Route to one recipe card, then hand off: bill jump → explain-period-change (DIGEST preview); clicked chart slice / explain this bar → explain-chart-slice; marketplace → marketplace-spend; K8s namespace → namespace-cost; credits runway → provider-credits; GCP spend CUD leftover → gcp-spend-cud; BigQuery warehouse → bigquery; YTD credits → credits-ytd-explore; weekly env+service pulse → service-cost-weekly; tag coverage → untagged-coverage; exec env report → env-costs-cto; explore Prod vs R&D → prod-vs-rnd-explore; build Prod/R&D VDIM → prod-vs-rnd-vdim; reallocate by external metric → reallocate-by-external-metric; budget vs actual daily → budget-vs-actual-dashboard; EC2 +10% alert → ec2-cost-spike-alert; compute drill-down → compute-drilldown-dimension. Skeletons in recipes; HOW in reports/dashboards/virtual-dimensions/query/bigquery."
 ---
 
+> **Antigravity bundle:** the `dashboards` and `reports` skills are not shipped in this plugin. When this skill hands off to them, load them with the Costory MCP `get_skill` tool (`skillId: "dashboards"` or `skillId: "reports"`).
+
 # Recipes
 
 A **recipe** is a ready-made design for a common FinOps tracking goal — scope, split, period, widgets, delivery — as a **payload skeleton**, then a **hand off** to the mechanics skill (`reports`, `dashboards`, `virtual-dimensions`, `query`). Recipes never restate full delivery safety or live schema edge cases; fill placeholders after confirm, then build with the mechanics skill.

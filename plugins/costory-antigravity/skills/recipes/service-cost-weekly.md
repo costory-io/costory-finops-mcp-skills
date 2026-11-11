@@ -80,4 +80,4 @@ Frozen: shared `LAST_WEEK` (GRAPH overrides to `TRAILING_14_WEEKS` for the trend
 
 **Brief:** *"Weekly pulse: graph by [env|sub-account] + DIGEST [root] → service with display summary, every [weekday] to [Slack channel]."*
 
-**→ Hand off to `dashboards` (interactive graph, optional) and/or `reports` (Schedule).**
+**→ Hand off to `dashboards` (via `get_skill` `skillId: "dashboards"`) (interactive graph, optional) and/or `reports` (via `get_skill` `skillId: "reports"`) (Schedule).**

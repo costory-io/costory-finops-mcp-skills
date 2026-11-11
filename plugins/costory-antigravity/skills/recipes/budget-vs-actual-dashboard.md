@@ -117,4 +117,4 @@ Frozen: `budgetId` = **`budgetVersionId` from `get`** (never parent id from `sea
 
 **Brief:** *"Daily budget-vs-actual dashboard on [budget name] ([budgetVersionId]), [MTD|YTD][, scoped], cumulated cost + budget [, + utilization]."*
 
-**→ Hand off to `dashboards`** (create). For ad-hoc numbers only → `query` Workflow F.
+**→ Hand off to `dashboards` (via `get_skill` `skillId: "dashboards"`)** (create). For ad-hoc numbers only → `query` Workflow F.

@@ -146,4 +146,4 @@ Frozen: metric is formula `a / b` (not raw `cost`); `groupBy` = `cos_service_nam
 
 **Brief:** *"Coverage = [tag field] present / in-scope cost (excl. […]), by service: trend + top/flop, [cadence] to [channel] — formula validated in query first."*
 
-**→ Hand off to `query` (validate formula) → `reports` (Schedule).**
+**→ Hand off to `query` (validate formula) → `reports` (via `get_skill` `skillId: "reports"`) (Schedule).**

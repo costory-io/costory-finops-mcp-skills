@@ -73,4 +73,4 @@ Frozen: `groupBy` = `cos_namespace_reallocated`; `conditionsCel` = `cos_namespac
 
 **Brief:** *"Weekly namespace cost: 14-week trend + last-week top/flop 10, scoped to reallocated namespaces, every [weekday] to [channel]."*
 
-**→ Hand off to `reports` (Schedule).**
+**→ Hand off to `reports` (via `get_skill` `skillId: "reports"`) (Schedule).**

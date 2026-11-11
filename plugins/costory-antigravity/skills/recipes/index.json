@@ -3,119 +3,119 @@
         "id": "1",
         "name": "Weekly Environment Costs",
         "prompt": "Schedule a report to track cost by environment for leadership.",
-        "path": "plugins/costory/skills/recipes/env-costs-cto.md",
+        "path": "plugins/costory-antigravity/skills/recipes/env-costs-cto.md",
         "category": "reports"
     },
     {
         "id": "2",
         "name": "Explain change",
         "prompt": "Explain the changes in spend with last month.",
-        "path": "plugins/costory/skills/recipes/explain-period-change.md",
+        "path": "plugins/costory-antigravity/skills/recipes/explain-period-change.md",
         "category": "explore"
     },
     {
         "id": "3",
         "name": "Marketplace spend report",
         "prompt": "Schedule a report to track marketplace spend by vendor.",
-        "path": "plugins/costory/skills/recipes/marketplace-spend.md",
+        "path": "plugins/costory-antigravity/skills/recipes/marketplace-spend.md",
         "category": "reports"
     },
     {
         "id": "4",
         "name": "K8S report",
         "prompt": "Schedule a report to track Kubernetes cost per namespace.",
-        "path": "plugins/costory/skills/recipes/namespace-cost.md",
+        "path": "plugins/costory-antigravity/skills/recipes/namespace-cost.md",
         "category": "reports"
     },
     {
         "id": "5",
         "name": "Provider credits report",
         "prompt": "Track provider credits and discounts runway.",
-        "path": "plugins/costory/skills/recipes/provider-credits.md",
+        "path": "plugins/costory-antigravity/skills/recipes/provider-credits.md",
         "category": "reports"
     },
     {
         "id": "6",
         "name": "Reallocate costs External metric",
         "prompt": "Reallocate shared cost by an external metric.",
-        "path": "plugins/costory/skills/recipes/reallocate-by-external-metric.md",
+        "path": "plugins/costory-antigravity/skills/recipes/reallocate-by-external-metric.md",
         "category": "dimension"
     },
     {
         "id": "7",
         "name": "Weekly services pulse",
         "prompt": "Schedule a weekly eng pulse report: cost by environment and service.",
-        "path": "plugins/costory/skills/recipes/service-cost-weekly.md",
+        "path": "plugins/costory-antigravity/skills/recipes/service-cost-weekly.md",
         "category": "reports"
     },
     {
         "id": "8",
         "name": "Monitor Tag Coverage",
         "prompt": "Measure tag coverage and untagged spend.",
-        "path": "plugins/costory/skills/recipes/untagged-coverage.md",
+        "path": "plugins/costory-antigravity/skills/recipes/untagged-coverage.md",
         "category": "reports"
     },
     {
         "id": "9",
         "name": "Explain to me my Prod vs R&D costs",
         "prompt": "Explain to me my Prod vs R&D costs ?",
-        "path": "plugins/costory/skills/recipes/prod-vs-rnd-explore.md",
+        "path": "plugins/costory-antigravity/skills/recipes/prod-vs-rnd-explore.md",
         "category": "explore"
     },
     {
         "id": "10",
         "name": "Follow my budget vs actual per day",
         "prompt": "Generate me a dashboard to follow budget vs actual per day ?",
-        "path": "plugins/costory/skills/recipes/budget-vs-actual-dashboard.md",
+        "path": "plugins/costory-antigravity/skills/recipes/budget-vs-actual-dashboard.md",
         "category": "budget"
     },
     {
         "id": "11",
         "name": "Credits Received",
         "prompt": "How much credits did we receive this year ?",
-        "path": "plugins/costory/skills/recipes/credits-ytd-explore.md",
+        "path": "plugins/costory-antigravity/skills/recipes/credits-ytd-explore.md",
         "category": "explore"
     },
     {
         "id": "12",
         "name": "Alert me if EC2 +10% spike",
         "prompt": "Warn me if cost of AmazonEC2 increases by more than 10% compared to the trailing 7 days.",
-        "path": "plugins/costory/skills/recipes/ec2-cost-spike-alert.md",
+        "path": "plugins/costory-antigravity/skills/recipes/ec2-cost-spike-alert.md",
         "category": "alerts"
     },
     {
         "id": "13",
         "name": "Build my first virtual dimension: Env",
         "prompt": "Can you help me build a virtual dimension to split my production from R&D costs ?",
-        "path": "plugins/costory/skills/recipes/prod-vs-rnd-vdim.md",
+        "path": "plugins/costory-antigravity/skills/recipes/prod-vs-rnd-vdim.md",
         "category": "dimension"
     },
     {
         "id": "14",
         "name": "What dimension can i use to drill down compute costs ?",
         "prompt": "What dimension can i use to drill down compute costs ?",
-        "path": "plugins/costory/skills/recipes/compute-drilldown-dimension.md",
+        "path": "plugins/costory-antigravity/skills/recipes/compute-drilldown-dimension.md",
         "category": "dimension"
     },
     {
         "id": "15",
         "name": "GCP spend-based CUD",
         "prompt": "Explain GCP spend-based commitments and how to use the GCP Spend-Based Commitments dashboard.",
-        "path": "plugins/costory/skills/recipes/gcp-spend-cud.md",
+        "path": "plugins/costory-antigravity/skills/recipes/gcp-spend-cud.md",
         "category": "explore"
     },
     {
         "id": "16",
         "name": "BigQuery warehouse",
         "prompt": "Explain our BigQuery costs and how to use the BigQuery dashboard.",
-        "path": "plugins/costory/skills/recipes/bigquery.md",
+        "path": "plugins/costory-antigravity/skills/recipes/bigquery.md",
         "category": "explore"
     },
     {
         "id": "17",
         "name": "Explain this chart slice",
         "prompt": "Explain this bar and how this slice evolved.",
-        "path": "plugins/costory/skills/recipes/explain-chart-slice.md",
+        "path": "plugins/costory-antigravity/skills/recipes/explain-chart-slice.md",
         "category": "explore"
     }
 ]

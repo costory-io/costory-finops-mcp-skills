@@ -3,6 +3,8 @@ name: query
 description: "Use when exploring Costory cost, usage, metric, formula, budget, or external-metric data with the query tool — scope vs split (filterCel / groupBy), explorer PoP comparison, CEL discovery, unit economics, budgets. Not for one-shot \"what changed last month\" change trees — those use recipes explain-period-change / reports Explain (DIGEST preview). Call get_skill with skillId \"query\" before non-trivial query work."
 ---
 
+> **Antigravity bundle:** the `dashboards` and `reports` skills are not shipped in this plugin. When this skill hands off to them, load them with the Costory MCP `get_skill` tool (`skillId: "dashboards"` or `skillId: "reports"`).
+
 # Query
 
 `query` is the unified Costory explorer for **cost**, **usage**, **saved metrics**, **external metrics**, **formulas**, and **budgets**. Supporting tools discover dimensions, pick a groupBy, resolve metric IDs, and suggest next steps — call them before guessing field names.

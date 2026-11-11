@@ -64,4 +64,4 @@ Frozen: two named buckets **Production** and **R&D** unless the user wants more 
 
 **Brief:** *"VDIM [name] → Production / R&D from [strategy]; leftover [n]% after preview; publish [yes/no] → bqName […]."*
 
-**→ Hand off to `virtual-dimensions`**. Next: `query` (`prod-vs-rnd-explore`) or `reports` (`env-costs-cto`).
+**→ Hand off to `virtual-dimensions`**. Next: `query` (`prod-vs-rnd-explore`) or `reports` (via `get_skill` `skillId: "reports"`) (`env-costs-cto`).

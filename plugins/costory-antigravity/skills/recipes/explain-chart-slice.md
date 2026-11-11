@@ -106,4 +106,4 @@ Frozen: tool name is `query` (not `queryCost`). `[METRIC]` defaults to `cost`. D
 
 **Brief:** *"Explain [DIMENSION]=[SLICE] ([formatted value]) on [METRIC] for [PERIOD]; diff + time series under [SLICE_CEL]; optional usage correlation; dashboard only after they agree."*
 
-**→ Hand off to `query`** (Workflow B for the diff, Workflow A/C for the series and split, Workflow D for usage). **→ Hand off to `dashboards`** only after they confirm a board.
+**→ Hand off to `query`** (Workflow B for the diff, Workflow A/C for the series and split, Workflow D for usage). **→ Hand off to `dashboards` (via `get_skill` `skillId: "dashboards"`)** only after they confirm a board.

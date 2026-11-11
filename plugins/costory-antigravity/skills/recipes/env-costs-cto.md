@@ -77,4 +77,4 @@ Frozen: `groupBy` = published `env` **`bqName`** (never draft display name); TOP
 
 **Brief:** *"Monthly exec env report on published `env` ([bqName]): top-10 last month (no flop) [, + 12-month graph], [scope], to [channel]."*
 
-**→ Hand off to `virtual-dimensions` (build `env`) → `reports` (Schedule).**
+**→ Hand off to `virtual-dimensions` (build `env`) → `reports` (via `get_skill` `skillId: "reports"`) (Schedule).**
