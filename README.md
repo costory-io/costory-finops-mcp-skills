@@ -1,4 +1,4 @@
-# Costory FinOps MCP: the FinOps agent your team builds on, in Claude, Cursor or any MCP client
+# Costory FinOps MCP: the FinOps harness for platform teams, in Claude, Cursor or any MCP client
 
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-io.costory%2Ffinops-blue)](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.costory/finops)
 [![Claude connector](https://img.shields.io/badge/Claude-connector-d97757)](https://claude.ai/directory/connectors/costory)
@@ -7,15 +7,26 @@
 [![Costory Finops Mcp Skills on AI Agents Listing](https://aiagentslisting.com/costory-finops-mcp-skills/badge.svg?claim=b4cf4c826fe986336f9907b6e40e0a21)](https://aiagentslisting.com/mcp/costory-finops-mcp-skills)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green.svg)](./LICENSE)
 
-Costory is the FinOps agent your team builds on. Claude plus a single provider's MCP works for one person and one cloud. It breaks when you add more providers, more people, and more tools to maintain.
+Costory is built by data engineers. Every bill (AWS, Google Cloud, Azure, Oracle Cloud, Snowflake, Databricks, Datadog, OpenAI, Anthropic and more) is normalized into one model on BigQuery and joined with your context: telemetry, CI, dbt, product events and business metrics. One model for every provider is what keeps the price flat. See [supported providers](https://docs.costory.io/setup/billing).
 
-- **Multiple providers:** AWS, GCP, Azure, LLM APIs and data clouds normalized and allocated to teams and features in one model, including allocation from telemetry (Kubernetes, Datadog, dbt).
-- **Multiple users:** one hosted setup with OAuth, per-user access and enterprise SSO, instead of local credentials and prompts per person.
-- **Maintained for you:** tools, skills and connectors kept up to date by Costory, so reorgs and new services don't break your agent.
+One person curious about cost? Ask Claude and DIY. A whole org that needs the same number? Use Costory.
 
-Your agent finds savings, explains every change in spend and issues recommendations that your coding agent can implement. It works in Claude, Cursor and any MCP client, plus Slack. Customers include Alan, Deezer, Delivery Hero, Voodoo and Pennylane.
+### Why platform teams use it
 
-**Pricing:** Starter from $300/month, flat: unlimited users and data sources, and a fair use that 80% of customers never outgrow. Nothing is ever cut off, and agents connected through the MCP use no AI credits. 30-day free trial.
+1. **Allocation that holds in a large org.** [Enrichments](https://docs.costory.io/features/tagging/enrichments) (beta) are YAML lookup files you keep in git: one stable key, such as a component, fills team, cost center or product columns. Entries are dated, so a reorg never rewrites last quarter, and [shared costs](https://docs.costory.io/features/tagging/shared-cost-allocation) can be split by real usage. Reviewed in a PR, published through the API or Terraform.
+2. **Everything included, at a flat price.** Unlimited users and data sources, every skill and the MCP in every [plan](https://docs.costory.io/get-started/plans). Starter from $300/month. Pay more only when you use more. Never a % of your bill. 30-day free trial, no credit card.
+3. **The FinOps harness.** An agent with skills, your company context and loops to monitor, investigate, report and recommend. The [hosted MCP server](https://docs.costory.io/features/mcp) and the skills in this repo let Claude, Cursor or any MCP client explain a cost change, build a report or create an alert. It also answers in Slack.
+4. **Open by default.** [Public API](https://docs.costory.io/api-reference/overview) (OpenAPI), [export of allocated data to BigQuery](https://docs.costory.io/setup/destinations/bigquery) and other destinations, skills published here as markdown. No lock-in.
+
+### What Costory does not do
+
+- It reads billing and usage exports and never gets write access to your cloud accounts. MCP actions create Costory objects only: alerts, reports, dashboards and events.
+- It recommends optimizations, for example rightsize an instance group or partition a table. Your coding agent or your team implements them. It never changes your code or infrastructure and never buys commitments.
+- It does not promise a savings percentage.
+
+Enterprise SSO (SAML, OIDC) is on Team and above. Starter uses auto-join by company domain. See [identity and access](https://docs.costory.io/docs/sso-access-control).
+
+Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 
 This repository is the open part: the **agent skills and plugin packaging** (Claude Code, Codex, Cursor) that teach
 an agent how to run FinOps workflows on top of the Costory MCP tools.

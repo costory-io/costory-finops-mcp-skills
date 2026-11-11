@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "costory",
-  "version": "0.12.8",
-  "description": "FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.",
+  "version": "0.12.9",
+  "description": "FinOps harness MCP for platform teams. Every cloud, data and LLM bill normalized in BigQuery and allocated to your teams. Read-only cloud access. Starter from $300/month, 30-day free trial.",
   "author": {
     "name": "Costory",
     "url": "https://www.costory.io",
@@ -11,6 +11,7 @@
   "keywords": [
     "finops",
     "finops agent",
+    "finops harness",
     "cloud cost",
     "cloud costs",
     "aws cost",
