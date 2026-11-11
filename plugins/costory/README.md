@@ -4,7 +4,7 @@ This plugin connects Claude Code, Codex, or Cursor to the hosted [Costory FinOps
 
 Costory is the FinOps harness for platform teams. Every cloud, data and LLM bill is [normalized into one model on BigQuery](https://docs.costory.io/setup/billing) and allocated to your teams, with [Enrichments](https://docs.costory.io/features/tagging/enrichments) (beta) and virtual dimensions you keep in git. The agent explains every change in spend and issues recommendations that your coding agent or your team implements. It works in Claude, Cursor and any MCP client, plus Slack. Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 
-What it does not do: it never gets write access to your cloud accounts (MCP actions create Costory objects only: alerts, reports, dashboards and events), never changes your code or infrastructure, never buys commitments and does not promise a savings percentage.
+What it does not do: it never gets write access to your cloud accounts (MCP actions create Costory objects only: virtual dimensions, alerts, reports, dashboards and events), never changes your code or infrastructure, never buys commitments and does not promise a savings percentage.
 
 The plugin ships two things:
 

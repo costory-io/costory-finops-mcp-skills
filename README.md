@@ -20,7 +20,7 @@ One person curious about cost? Ask Claude and DIY. A whole org that needs the sa
 
 ### What Costory does not do
 
-- It reads billing and usage exports and never gets write access to your cloud accounts. MCP actions create Costory objects only: alerts, reports, dashboards and events.
+- It reads billing and usage exports and never gets write access to your cloud accounts. MCP actions create Costory objects only: virtual dimensions, alerts, reports, dashboards and events.
 - It recommends optimizations, for example rightsize an instance group or partition a table. Your coding agent or your team implements them. It never changes your code or infrastructure and never buys commitments.
 - It does not promise a savings percentage.
 
