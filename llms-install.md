@@ -1,6 +1,6 @@
 # Installing the Costory FinOps MCP server
 
-FinOps agent MCP: one allocated view of cloud, AI and data costs across providers, shared by your whole team with SSO. Starter $300/mo, 30-day free trial.
+FinOps harness MCP for platform teams. Every cloud, data and LLM bill normalized in BigQuery and allocated to your teams. Read-only cloud access. Starter from $300/month, 30-day free trial.
 
 Costory is a hosted remote MCP server. Do not clone, build or run anything from this repository.
 

@@ -2,13 +2,9 @@
 
 This plugin connects Claude Code, Codex, or Cursor to the hosted [Costory FinOps MCP](https://docs.costory.io/features/mcp) (`https://app-api.costory.io/mcp`, OAuth).
 
-Costory is the FinOps agent your team builds on. Claude plus a single provider's MCP works for one person and one cloud. It breaks when you add more providers, more people, and more tools to maintain.
+Costory is the FinOps harness for platform teams. Every cloud, data and LLM bill is [normalized into one model on BigQuery](https://docs.costory.io/setup/billing) and allocated to your teams, with [Enrichments](https://docs.costory.io/features/tagging/enrichments) (beta) and virtual dimensions you keep in git. The agent explains every change in spend and issues recommendations that your coding agent or your team implements. It works in Claude, Cursor and any MCP client, plus Slack. Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 
-- **Multiple providers:** AWS, GCP, Azure, LLM APIs and data clouds normalized and allocated to teams and features in one model, including allocation from telemetry (Kubernetes, Datadog, dbt).
-- **Multiple users:** one hosted setup with OAuth, per-user access and enterprise SSO, instead of local credentials and prompts per person.
-- **Maintained for you:** tools, skills and connectors kept up to date by Costory, so reorgs and new services don't break your agent.
-
-Your agent finds savings, explains every change in spend and issues recommendations that your coding agent can implement. It works in Claude, Cursor and any MCP client, plus Slack. Customers include Alan, Deezer, Delivery Hero, Voodoo and Pennylane.
+What it does not do: it never gets write access to your cloud accounts (MCP actions create Costory objects only: virtual dimensions, alerts, reports, dashboards and events), never changes your code or infrastructure, never buys commitments and does not promise a savings percentage.
 
 The plugin ships two things:
 
@@ -19,7 +15,7 @@ The plugin ships two things:
 
 A Costory workspace with billing data connected.
 
-**Pricing:** Starter from $300/month, flat: unlimited users and data sources, and a fair use that 80% of customers never outgrow. Nothing is ever cut off, and agents connected through the MCP use no AI credits. 30-day free trial.
+**Pricing:** Starter from $300/month, flat: unlimited users and data sources, every skill and the MCP. Pay more only when you use more. Never a % of your bill. App usage (queries, reports, alerts) and Ask Costory have a fair use: you see it in the app, get a warning at 70%, and nothing is ever cut off. Starter fits 80% of our customers. Agents connected through the MCP use no Ask Costory credits. 30-day free trial. Enterprise SSO (SAML, OIDC) is on Team and above ([plans](https://docs.costory.io/get-started/plans)).
 
 No IAM credentials, Docker, or local server are needed.
 
