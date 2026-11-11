@@ -16,7 +16,7 @@ Or clone the repo and use **Import power from a folder** on `powers/costory`.
 
 Requires a Costory workspace with billing data connected.
 
-**Pricing:** Starter from $300/month, flat: unlimited users and data sources, every skill and the MCP. Pay more only when you use more. Never a % of your bill. App usage (queries, reports, alerts) and Ask Costory have a fair use: you see it in the app, get a warning at 70%, and nothing is ever cut off. Starter fits 80% of our customers. Agents connected through the MCP use no Ask Costory credits. 30-day free trial. Enterprise SSO (SAML, OIDC) is on Team and above ([plans](https://docs.costory.io/get-started/plans)).
+**Pricing:** Starter from $300/month, flat: unlimited users and data sources, every skill and the MCP. Pay more only when you use more. Never a % of your bill. App usage (queries, reports, alerts) and Ask Costory have a fair use. You see it in the app, get a warning at 70%, and nothing is ever cut off. Starter fits 80% of our customers. Fair use per plan: Standard (Starter), 3x (Team), 6x (Business), 10x+ (Custom). Above the limit: slowed, never cut off. Agents connected through the MCP use no Ask Costory credits. 30-day free trial. Enterprise SSO (SAML, OIDC) is on Team and above ([plans](https://docs.costory.io/get-started/plans)).
 
 ## Support
 
