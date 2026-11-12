@@ -1,6 +1,6 @@
 # Costory FinOps Agent
 
-FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to the tool you have. Read-only. Starter from $300/month, 30-day free trial.
+FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.
 
 Moving from another FinOps tool? Try it [next to the tool you have](https://www.costory.io/switch). Asked to build one? [Build on Costory](https://www.costory.io/build-vs-buy), not from scratch.
 

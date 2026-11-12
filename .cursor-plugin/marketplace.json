@@ -5,7 +5,7 @@
     "email": "support@costory.io"
   },
   "metadata": {
-    "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to the tool you have. Read-only. Starter from $300/month, 30-day free trial.",
+    "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.",
     "version": "0.12.11",
     "pluginRoot": "plugins"
   },
@@ -13,7 +13,7 @@
     {
       "name": "costory",
       "source": "costory",
-      "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to the tool you have. Read-only. Starter from $300/month, 30-day free trial.",
+      "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.",
       "category": "productivity",
       "homepage": "https://costory.io",
       "repository": "https://github.com/costory-io/costory-finops-mcp-skills",

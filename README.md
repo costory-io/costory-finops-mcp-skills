@@ -20,7 +20,7 @@ One person curious about cost? Ask Claude and DIY. A whole org that needs the sa
 
 ### Two ways teams come to Costory
 
-Moving from another FinOps tool? Costory reads billing exports directly from each provider, read-only, so it runs alongside your current tool for the 30-day trial. Allocation rules are YAML in git: reviewed in a PR, managed with Terraform. Starter from $300/month, never a % of your bill. See [moving from another tool](https://www.costory.io/switch).
+Moving from another FinOps tool? Costory reads billing exports directly from each provider, read-only, so it runs alongside your current tool for the 30-day trial. Enrichment rules are YAML in git: reviewed in a PR, managed with Terraform. Starter from $300/month, never a % of your bill. See [moving from another tool](https://www.costory.io/switch).
 
 Asked to build one? One engineer with Claude and a billing API gets a useful dashboard in an afternoon. That part is free, and we recommend it. A tool the whole team can trust takes weeks, then maintenance forever. We built that part. You keep control: YAML, formulas, the API, Terraform, and export to your own warehouse. See [build vs buy](https://www.costory.io/build-vs-buy).
 

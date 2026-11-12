@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "costory",
   "version": "0.12.11",
-  "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to the tool you have. Read-only. Starter from $300/month, 30-day free trial.",
+  "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.",
   "author": {
     "name": "Costory",
     "url": "https://www.costory.io",

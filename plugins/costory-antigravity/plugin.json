@@ -3,7 +3,7 @@
   "name": "costory",
   "displayName": "Costory FinOps Agent",
   "version": "0.12.11",
-  "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to the tool you have. Read-only. Starter from $300/month, 30-day free trial.",
+  "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.",
   "logo": "assets/logo.png",
   "suggestedPrompts": [
     "Why did our cloud bill change last week, and were there deploys in the same window?",
