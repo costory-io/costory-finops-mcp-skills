@@ -18,8 +18,6 @@ One person curious about cost? Ask Claude and DIY. A whole org that needs the sa
 3. **The FinOps harness.** An agent with skills, your company context and loops to monitor, investigate, report and recommend. The [hosted MCP server](https://docs.costory.io/features/mcp) and the skills in this repo let Claude, Cursor or any MCP client explain a cost change, build a report or create an alert. It also answers in Slack. Loops are [Scouts](https://www.costory.io/finops-harness): assign one to your reports and alerts, give it instructions in plain text, and it adds the cause, the owner and the next step to every delivery. Costory runs it.
 4. **Open by default.** [Public API](https://docs.costory.io/api-reference/overview), [export of allocated data to BigQuery](https://docs.costory.io/setup/destinations/bigquery) and other destinations, skills published here as markdown. No lock-in.
 
-### Two ways teams come to Costory
-
 Moving from another FinOps tool? Costory reads billing exports directly from each provider, read-only, so it runs alongside your current tool for the 30-day trial. Enrichment rules are YAML in git: reviewed in a PR, managed with Terraform. Starter from $300/month, never a % of your bill. See [moving from another tool](https://www.costory.io/switch).
 
 Asked to build one? One engineer with Claude and a billing API gets a useful dashboard in an afternoon. That part is free, and we recommend it. A tool the whole team can trust takes weeks, then maintenance forever. We built that part. You keep control: YAML, formulas, the API, Terraform, and export to your own warehouse. See [build vs buy](https://www.costory.io/build-vs-buy).
