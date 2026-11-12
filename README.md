@@ -9,6 +9,8 @@
 
 Costory is built by data engineers. Every bill (AWS, Google Cloud, Azure, Oracle Cloud, Snowflake, Databricks, Datadog, OpenAI, Anthropic and more) is normalized into one model on BigQuery and joined with your context: telemetry, CI, dbt, product events and business metrics. One model for every provider is what keeps the price flat. See [supported providers](https://docs.costory.io/setup/billing).
 
+How Costory works, in five ideas: https://docs.costory.io/get-started/concepts
+
 One person curious about cost? Ask Claude and DIY. A whole org that needs the same number? Use Costory.
 
 ### Why platform teams use it
@@ -36,6 +38,7 @@ Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 This repository is the open part: the **agent skills and plugin packaging** (Claude Code, Codex, Cursor) that teach
 an agent how to run FinOps workflows on top of the Costory MCP tools.
 
+- **Concepts:** [docs.costory.io/get-started/concepts](https://docs.costory.io/get-started/concepts)
 - **Endpoint:** `https://app-api.costory.io/mcp` (streamable HTTP)
 - **Auth:** OAuth 2.1 in the browser. No IAM credentials, no Docker, no local server
 - **Docs:** [docs.costory.io/features/mcp](https://docs.costory.io/features/mcp)
@@ -217,7 +220,7 @@ See [AGENTS.md](./AGENTS.md) for layout rules, version bumps, and validation. Us
 
 ## Support
 
-support@costory.io · [Documentation](https://docs.costory.io/features/mcp) · [Privacy Policy](https://www.costory.io/privacy) · [Terms](https://www.costory.io/terms)
+support@costory.io · [Concepts](https://docs.costory.io/get-started/concepts) · [Documentation](https://docs.costory.io/features/mcp) · [Privacy Policy](https://www.costory.io/privacy) · [Terms](https://www.costory.io/terms)
 
 ## License
 

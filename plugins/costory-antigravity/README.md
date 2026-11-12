@@ -2,6 +2,8 @@
 
 FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.
 
+How Costory works, in five ideas: https://docs.costory.io/get-started/concepts
+
 Moving from another FinOps tool? Try it [next to the tool you have](https://www.costory.io/switch). Asked to build one? [Build on Costory](https://www.costory.io/build-vs-buy), not from scratch.
 
 This plugin connects Antigravity to Costory's hosted FinOps MCP at `https://app-api.costory.io/mcp` (Streamable HTTP, browser OAuth; enterprise SSO on Costory Team and above). No IAM keys, Docker, or local MCP process.
@@ -25,7 +27,7 @@ A Costory workspace with billing data connected. Starter from $300/month, every 
 
 ## Support
 
-support@costory.io · [Documentation](https://docs.costory.io/features/mcp) · [Privacy](https://www.costory.io/privacy) · [Terms](https://www.costory.io/terms)
+support@costory.io · [Concepts](https://docs.costory.io/get-started/concepts) · [Documentation](https://docs.costory.io/features/mcp) · [Privacy](https://www.costory.io/privacy) · [Terms](https://www.costory.io/terms)
 
 Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 
