@@ -15,16 +15,23 @@ One person curious about cost? Ask Claude and DIY. A whole org that needs the sa
 
 1. **Allocation that holds in a large org.** [Enrichments](https://docs.costory.io/features/tagging/enrichments) are YAML lookup files you keep in git: one stable key, such as a component, fills team, cost center or product columns. Entries are dated, so a reorg never rewrites last quarter, and [shared costs](https://docs.costory.io/features/tagging/shared-cost-allocation) can be split by real usage. Reviewed in a PR, published through the API or Terraform.
 2. **Everything included, at a flat price.** Unlimited users and data sources, every skill and the MCP in every [plan](https://docs.costory.io/get-started/plans). Starter from $300/month. Pay more only when you use more. Never a % of your bill. App usage (queries, reports, alerts) and Ask Costory have a fair use. You see it in the app, get a warning at 70%, and nothing is ever cut off. Starter fits 80% of our customers. Fair use per plan: Standard (Starter), 3x (Team), 6x (Business), 10x+ (Custom). Above the limit: slowed, never cut off. Agents connected through the MCP use no Ask Costory credits. 30-day free trial, no credit card.
-3. **The FinOps harness.** An agent with skills, your company context and loops to monitor, investigate, report and recommend. The [hosted MCP server](https://docs.costory.io/features/mcp) and the skills in this repo let Claude, Cursor or any MCP client explain a cost change, build a report or create an alert. It also answers in Slack. Loops are [Scouts](https://www.costory.io/blog/october-release-2026): a markdown file that says what to read, what to summarize and when to ping. Costory runs it.
+3. **The FinOps harness.** An agent with skills, your company context and loops to monitor, investigate, report and recommend. The [hosted MCP server](https://docs.costory.io/features/mcp) and the skills in this repo let Claude, Cursor or any MCP client explain a cost change, build a report or create an alert. It also answers in Slack. Loops are [Scouts](https://www.costory.io/finops-harness): assign one to your reports and alerts, give it instructions in plain text, and it adds the cause, the owner and the next step to every delivery. Costory runs it.
 4. **Open by default.** [Public API](https://docs.costory.io/api-reference/overview), [export of allocated data to BigQuery](https://docs.costory.io/setup/destinations/bigquery) and other destinations, skills published here as markdown. No lock-in.
+
+### Two ways teams come to Costory
+
+Moving from another FinOps tool? Costory reads billing exports directly from each provider, read-only, so it runs alongside your current tool for the 30-day trial. Enrichment rules are YAML in git: reviewed in a PR, managed with Terraform. Starter from $300/month, never a % of your bill. See [moving from another tool](https://www.costory.io/switch).
+
+Asked to build one? One engineer with Claude and a billing API gets a useful dashboard in an afternoon. That part is free, and we recommend it. A tool the whole team can trust takes weeks, then maintenance forever. We built that part. You keep control: YAML, formulas, the API, Terraform, and export to your own warehouse. See [build vs buy](https://www.costory.io/build-vs-buy).
 
 ### What Costory does not do
 
 - It reads billing and usage exports and never gets write access to your cloud accounts. MCP actions create Costory objects only: virtual dimensions, alerts, reports, dashboards and events.
-- It recommends optimizations, for example rightsize an instance group or partition a table. Your coding agent or your team implements them. It never changes your code or infrastructure and never buys commitments.
-- It does not promise a savings percentage.
+- It recommends optimizations, for example rightsize an instance group or partition a table. Your coding agent or your team implements them. It never changes your code or infrastructure, never applies automated rightsizing, and never buys Reserved Instances or Savings Plans.
+- It does not promise a savings percentage. Recommendations come with an impact estimate from your own usage.
+- It never charges a percentage of your bill.
 
-Enterprise SSO (SAML, OIDC) is on Team and above. Starter uses auto-join by company domain. See [identity and access](https://docs.costory.io/docs/sso-access-control).
+Domain auto-join on every plan; enterprise SSO from Team. See [identity and access](https://docs.costory.io/docs/sso-access-control).
 
 Customers include Pennylane, Alan, Deezer, Delivery Hero and Voodoo.
 

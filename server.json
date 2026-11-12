@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.costory/finops",
   "title": "Costory FinOps MCP",
-  "description": "FinOps harness MCP: cloud, data and LLM bills normalized and allocated to teams. Cloud read-only.",
-  "version": "1.0.4",
+  "description": "FinOps harness MCP: allocated cloud, data and LLM bills. Build on it or switch. Cloud read-only.",
+  "version": "1.0.5",
   "websiteUrl": "https://docs.costory.io/features/mcp",
   "repository": {
     "url": "https://github.com/costory-io/costory-finops-mcp-skills",
