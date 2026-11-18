@@ -5,7 +5,7 @@ description: "Use when creating, previewing, updating, scheduling, or exploring 
 
 # Reports
 
-**Skill body version 0.5.4.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
+**Skill body version 0.5.5.** Workflows here are **named** — Schedule, Explain, Update, Run, Explore. Older bodies lettered them A–E, and other Costory surfaces used a different letter order. If you are holding a lettered routing table for reports, it is stale: route by the names in this body and ignore the letters.
 
 A **report** has a shared **`reportContext`** input (global theme) and **widgets** that inherit it by default. It delivers those widgets (chart snapshot, PDF, top/flop, text, or **DIGEST** cost-change tree) to one or more destinations (Slack, Teams, email). Same mental model as dashboards: shared context + per-widget overrides. `create_report`, `update_report`, and `preview_report_widget` all take the same report-level `reportContext`. `get` returns it as `reportContext`.
 
@@ -13,7 +13,7 @@ A **report** has a shared **`reportContext`** input (global theme) and **widgets
 
 ## Must-follow rules
 
-Everything below this section is detail. These eight are the contract:
+Everything below this section is detail. These nine are the contract:
 
 1. **Ask before build (Schedule / delivery).** Do not pick widgets, call `preview_report_widget`, or call `create_report` until the design is confirmed. Never silently default to a graph or an AI summary on Schedule.
 2. **Explain exception — preview-first DIGEST.** For one-shot *"what changed / explain last month"* (Explain workflow or `explain-period-change` recipe), **defaulting to DIGEST chat preview is required.** Do not wait for a full design questionnaire; do not substitute `query` + `compare` for the first answer.
@@ -23,6 +23,7 @@ Everything below this section is detail. These eight are the contract:
 6. **Confirm delivery.** Both `NOW` and `SCHEDULED` need explicit confirmation before `create_report`. `UNSCHEDULED` does not.
 7. **`datePreset`, never frozen dates,** on `SCHEDULED` reports.
 8. **Cost data is ~2 days late.** Prefer a **Tuesday** weekly send (`weekday: 2`) when the period is `LAST_WEEK` (a completed calendar week). If the report must land earlier (e.g. Monday), use `TRAILING_7_DAYS` instead of `LAST_WEEK` so the window is not a half-empty calendar week.
+9. **Scout path — do not ask DIGEST AI.** If the user's goal is creating a scout, attaching a scout, or creating a report/alert *because a scout needs one*, do not offer `display: "summary"` or `enableAiInvestigation`. Leave DIGEST at tree-only defaults. The scout is the explanation layer. Only honor those knobs if the user independently asked for an executive narrative or per-node investigation. Do not strip `display: "summary"` from an existing report when attaching a scout.
 
 ## Routing
 
@@ -32,6 +33,7 @@ Everything below this section is detail. These eight are the contract:
 | "I want to share FinOps information with my team" (recurring or channel delivery) | **Schedule** |
 | "I need to explain last month's cost" / "what changed last month and why" | **Explain** (NOW + DIGEST) |
 | Update an existing report | **Update** |
+| Create a scout / attach a scout / create a report because a scout needs one | **Schedule** or **Update** — skip DIGEST AI (must-follow 9) |
 | Run / retry / transfer / archive | **Run** |
 | Explore a delivered DIGEST execution | **Explore** |
 
@@ -91,7 +93,7 @@ Fill only what is still missing — keep it conversational:
 
 1. **Scope** — whole org, `scopeId` from `list_teams`, and/or `conditionsCel`
 2. **Split / hierarchy** — if DIGEST is in the mix: confirm root + deeper levels, or run `suggest_groupby` and propose a tree in plain language
-3. **Optional AI** (DIGEST only) — ask explicitly: executive narrative (`display: "summary"`) and/or per-node investigation (`enableAiInvestigation: true`); both slower; default tree-only (`display: "tree"`, investigation off)
+3. **Optional AI** (DIGEST only) — ask explicitly: executive narrative (`display: "summary"`) and/or per-node investigation (`enableAiInvestigation: true`); both slower; default tree-only (`display: "tree"`, investigation off). **Skip this question on the scout path** (must-follow 9) — the scout writes the explanation.
 4. **Cadence details** — WEEKLY needs `weekday` (0 = Sunday … 6 = Saturday); set `firstRunAt` (ISO-8601 UTC); use presets that roll forward (`LAST_WEEK`, `TRAILING_7_DAYS`, `LAST_MONTH`, …). Refuse frozen `from`/`to` on SCHEDULED reports. **Data lag:** billing/cost data is typically ~2 days behind. For a calendar-week pulse, default `weekday: 2` (Tuesday) with `LAST_WEEK`. If they insist on Monday (or another early weekday), switch the period to `TRAILING_7_DAYS` — do not pair Monday + `LAST_WEEK` (that full week still has incomplete late days).
 5. **Currency / metric** — usually `cost` + org currency from `get_context`
 
@@ -160,6 +162,7 @@ Do not skip to a graph-only report for this trigger — the core ask is explanat
 - Patch `reportContext` alone to change the report-wide period / groupBy / filter / currency without rewriting widgets.
 - Pass `widgets` only when replacing the widget list (wholesale replace). The field is always the `widgets` **array** — a singular `widget` key is silently ignored.
 - New widgets follow the same inheritance rules: omit fields that match `reportContext`.
+- Attaching a scout (`scout` param) does not require DIGEST AI — skip the opt-in question (must-follow 9). Leave existing `display: "summary"` unchanged.
 
 ## Workflow: Run — run, retry, transfer, archive
 
@@ -239,7 +242,7 @@ Analysis presets (map intent → fields; do not invent other knobs):
 
 - **Offer narrative** when they want a written overview of what changed and why (exec / stakeholder read). Set `display: "summary"`.
 - **Offer investigation** only when they want per-node AI explanations under the tree — warn it is noticeably slower. Set `enableAiInvestigation: true`. Prefer `display: "summary"` with it so the narrative can ground on those findings; do not ask a second tree-vs-summary question once deep investigation is chosen.
-- **Say the trade-off out loud** before enabling either. Ask plainly: *"Tree-only (faster), an AI executive summary, or deep per-node investigation (slowest)?"*
+- **Say the trade-off out loud** before enabling either. Ask plainly: *"Tree-only (faster), an AI executive summary, or deep per-node investigation (slowest)?"* **Skip this question on the scout path** (must-follow 9).
 - **Default to tree-only** unless they opt in. Never invent a separate AI widget or fake a summary via TEXT.
 - Only DIGEST produces `summaryMarkdown` — never claim one from GRAPH_SNAPSHOT, TOP_FLOP, TEXT, or DASHBOARD_PDF.
 

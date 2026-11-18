@@ -74,7 +74,7 @@ use that slug directly.
 Several Costory tools write to the workspace. Always preview first and get an explicit "yes" before the write:
 
 - `publish_virtual_dimension`: only after `preview_virtual_dimension_draft` (and `virtual_dimension_overlap_matrix` when rules may overlap) and an explicit request to go live. Get approval on the rules themselves, not just the strategy.
-- `create_report` with delivery `NOW` or `SCHEDULED`: confirm the design, the channel type (Slack, Teams or email) and the destination first. Call `list_available_destinations` only after the user names the channel type. Use `datePreset` on scheduled reports.
+- `create_report` with delivery `NOW` or `SCHEDULED`: confirm the design, the channel type (Slack, Teams or email) and the destination first. Call `list_available_destinations` only after the user names the channel type. Use `datePreset` on scheduled reports. When the user is creating or attaching a scout, do not offer DIGEST `display: "summary"` / `enableAiInvestigation` — the scout is the explanation layer.
 - `create_alert`: show the `preview_alert` result first.
 - `create_dashboard` / `update_dashboard`: put the shared period, scope and group-by in `dashboardContext`, not on every widget.
 - `create_event` / `update_event`: confirm the annotation text and date.
