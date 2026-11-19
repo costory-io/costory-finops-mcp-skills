@@ -13,7 +13,7 @@ What it does not do: it never gets write access to your cloud accounts (MCP acti
 The plugin ships two things:
 
 - **The MCP connection** (`.mcp.json`), so the Costory tools are available right after install. Your client opens a browser window for the OAuth login on first use.
-- **Seven skills** that sequence those tools for common FinOps jobs: `cost-change-investigation`, `query`, `virtual-dimensions`, `dashboards`, `reports`, `bigquery`, and `recipes`.
+- **Nine skills** that sequence those tools for common FinOps jobs: `cost-change-investigation`, `query`, `virtual-dimensions`, `dashboards`, `reports`, `bigquery`, `recipes`, `scout-explanation`, and `scout-explanation-critique`.
 
 ## Requirements
 
