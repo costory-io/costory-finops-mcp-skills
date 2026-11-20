@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "FinOps harness MCP for platform teams. Bills normalized in BigQuery and allocated to teams. Build on it, or try it next to your tool. Read-only on cloud. Starter from $300/month, 30-day free trial.",
-    "version": "0.12.11"
+    "version": "0.13.0"
   },
   "plugins": [
     {

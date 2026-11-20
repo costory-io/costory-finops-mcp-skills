@@ -140,6 +140,8 @@ Skills are the workflow layer: each one encodes how to sequence the tools above 
 | `dashboards` | Create or extend dashboards with context-first widget inheritance and overview generation |
 | `reports` | Scheduled Slack, Teams, and email reports, and preview-first DIGEST to explain last month's cost |
 | `recipes` | Ready-made tracking designs matched to an outcome, then handed off to the skills above to build |
+| `scout-explanation` | Scout explanation skill: the follow-up that explains a frozen report or alert |
+| `scout-explanation-critique` | Tool-free review of a scout explanation draft, with separate message and event verdicts |
 
 Recipes currently cover BigQuery warehouse routing, GCP spend-based CUDs, budget-vs-actual dashboards, EC2 spike alerts, prod-vs-R&D splits, untagged coverage, marketplace spend, provider credits, namespace cost, compute drilldowns, and period-change explanation. See [`plugins/costory/skills/recipes/`](./plugins/costory/skills/recipes/).
 
@@ -168,7 +170,7 @@ codex plugin marketplace add costory-io/costory-finops-mcp-skills
 codex plugin add costory@costory
 ```
 
-**Skills only, any agent ([skills.sh](https://skills.sh)):** installs the seven skills into Claude Code, Cursor,
+**Skills only, any agent ([skills.sh](https://skills.sh)):** installs the nine skills into Claude Code, Cursor,
 Codex and other agents that read Agent Skills. Connect the MCP separately (see above).
 
 ```bash
@@ -201,6 +203,8 @@ plugins/costory/
     dashboards/SKILL.md
     reports/SKILL.md
     recipes/SKILL.md  + recipe library
+    scout-explanation/SKILL.md
+    scout-explanation-critique/SKILL.md
 ```
 
 ## Serving skills over MCP (`get_skill`)

@@ -19,7 +19,7 @@ Notes:
 - **No `.codex-plugin/` directory.** Codex consumes the same `.claude-plugin/marketplace.json`.
 - **No `skills[]` array in marketplace.json.** Skills are auto-discovered from the plugin's `skills/` directory.
 - **`powers/costory/`** is the Kiro power. Its single skill (`costory-finops`) is a condensed skill that points to the MCP `get_skill` ids; it is not served by `get_skill` and is not listed in `skills.json`. When you change tool names, safety rules, or the multi-organization rule in a skill, update `powers/costory/skills/costory-finops/SKILL.md` too, and keep `powers/costory/plugin.json` `version` in step with the other manifests.
-- **`skills.json`** maps Costory MCP `skillId` values (`bigquery`, `virtual-dimensions`, `dashboards`, `reports`, `query`, `recipes`) to on-disk paths so the backend can load markdown without hardcoding content.
+- **`skills.json`** maps Costory MCP `skillId` values (`bigquery`, `virtual-dimensions`, `dashboards`, `reports`, `query`, `recipes`, `scout-explanation`, `scout-explanation-critique`) to on-disk paths so the backend can load markdown without hardcoding content.
 
 ## Skill ID mapping (Costory MCP)
 
@@ -33,6 +33,8 @@ Notes:
 | `reports` |
 | `query` |
 | `recipes` |
+| `scout-explanation` |
+| `scout-explanation-critique` |
 
 When Costory `get_skill` is wired to this repo, resolve via `skills.json`. Return the **body** of `SKILL.md` (optionally strip YAML frontmatter).
 

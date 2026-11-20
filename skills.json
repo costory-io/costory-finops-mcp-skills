@@ -1,5 +1,5 @@
 {
-  "version": "0.12.11",
+  "version": "0.13.0",
   "skills": {
     "bigquery": {
       "id": "bigquery",
@@ -42,6 +42,18 @@
       "name": "query",
       "path": "plugins/costory/skills/query/SKILL.md",
       "description": "Explore Costory cost, usage, metric, formula, budget, and external-metric data. Explorer PoP only — hand off change-tree \"what changed\" asks to explain-period-change / reports Explain."
+    },
+    "scout-explanation": {
+      "id": "scout-explanation",
+      "name": "scout-explanation",
+      "path": "plugins/costory/skills/scout-explanation/SKILL.md",
+      "description": "Scout explanation skill: investigate a frozen report or alert and write one short follow-up."
+    },
+    "scout-explanation-critique": {
+      "id": "scout-explanation-critique",
+      "name": "scout-explanation-critique",
+      "path": "plugins/costory/skills/scout-explanation-critique/SKILL.md",
+      "description": "Review a scout explanation draft against the supplied context, with separate message and event verdicts."
     }
   }
 }
